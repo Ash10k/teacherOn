@@ -7,4 +7,9 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
     </style>
+    <style name="mydialog" >
+        <item name="android:windowBackground">@color/white</item>
+
+    </style>
+
 </resources>

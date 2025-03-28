@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +29,12 @@ public class ViewListUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int re=getIntent().getIntExtra("reqID",0);
+                int subid=getIntent().getIntExtra("subjectId",0);
                 intent = new Intent(ViewListUp.this,  RecommndedAct.class);
                 intent.putExtra("reqID",re);
+                intent.putExtra("subjectId",subid);
+                //Toast.makeText(ViewListUp.this, "putting:"+re, Toast.LENGTH_SHORT).show();
+
                 startActivity(intent);
 
 

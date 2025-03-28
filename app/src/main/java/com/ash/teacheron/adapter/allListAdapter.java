@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -83,7 +84,9 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
                 Context context = holder.itemView.getContext();
                 intent = new Intent(context,  ViewListUp.class);
                 intent.putExtra("reqID",filteredList.get(position).id);
+                intent.putExtra("subjectId",filteredList.get(position).subjectId);
                 context.startActivity(intent);
+              //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
 
             }
         });

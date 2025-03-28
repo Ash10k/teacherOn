@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
         new_Email =  findViewById(R.id.email);
         new_Password =  findViewById(R.id.password);
         signuplink=findViewById(R.id.signuplink);
-        loginstudent=findViewById(R.id.loginstudent);
+       // loginstudent=findViewById(R.id.loginstudent);
         context =Login.this;
         networkLoader = new NetworkLoader();
         login.setOnClickListener(new View.OnClickListener() {
@@ -117,11 +117,6 @@ public class Login extends AppCompatActivity {
 
             }
         });
-        loginstudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Login.this,StudentLogin.class));
-            }
-        });
+
     }
 }

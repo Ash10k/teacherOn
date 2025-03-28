@@ -9,4 +9,7 @@
     </style>
 
     <style name="Theme.TeacherOn" parent="Base.Theme.TeacherOn" />
+    <style name="mydialog" >
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 </resources>
