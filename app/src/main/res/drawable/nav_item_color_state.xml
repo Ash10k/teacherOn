@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+ >
+    <item android:state_selected="true"  android:color="#5e1b85" app:itemBackground="@drawable/circle"/>
+
+    <item android:state_selected="false" android:color="#363535"/>
+</selector>
