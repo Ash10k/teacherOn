@@ -22,6 +22,10 @@ public class recommendedRequest {
     @SerializedName("location")
     public String location;
 
+    @SerializedName("student_meta_id")
+    public String student_meta_id;
+
+
     public recommendedRequest(String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location) {
         this.requirement_id = requirement_id;
         this.subject_id = subject_id;
@@ -29,5 +33,9 @@ public class recommendedRequest {
         this.from_level_id = from_level_id;
         this.to_level_id = to_level_id;
         this.location = location;
+    }
+
+    public recommendedRequest(String student_meta_id) {
+        this.student_meta_id = student_meta_id;
     }
 }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/form_m_list_fragment_nsvMain"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    tools:context=".Single_chat_room">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/show_more"
+            android:background="@drawable/ic_baseline_more_vert_24"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_below="@id/show_more"
+            android:layout_above="@id/btm"
+            android:layout_height="fill_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+                <!--  <ListView
+                      android:layout_width="0dp"
+                      android:layout_weight="0.5"
+                      android:layout_height="match_parent"
+                      android:id="@+id/listview23"
+                      android:layout_above="@id/btm"
+                      android:divider="@android:color/transparent"/>-->
+
+
+                <!--  <ListView
+                      android:layout_width="wrap_content"
+                      android:listSelector="@android:color/transparent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/listview"
+
+                      android:layout_above="@id/btm"
+                      android:divider="@android:color/transparent"/>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:divider="@android:color/transparent">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/btm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:gravity="bottom">
+
+            <EditText
+                android:id="@+id/message_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toLeftOf="@id/send"
+                android:background="@drawable/border_only"
+
+                android:hint="Type a message"
+                android:padding="10dp" />
+
+            <TextView
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+
+                android:padding="10dp"
+                android:text="Send"
+                android:textColor="@color/purple_200"
+                android:textSize="@dimen/sp12" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</androidx.core.widget.NestedScrollView>

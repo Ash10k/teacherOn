@@ -2,26 +2,20 @@ package com.ash.teacheron;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.ash.teacheron.ui.dashboard.DashboardFragment;
 import com.ash.teacheron.ui.home.HomeFragment;
-import com.ash.teacheron.ui.notifications.NotificationsFragment;
+import com.ash.teacheron.ui.message.MessageFragment;
 import com.ash.teacheron.ui.profile.Profile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import android.view.MenuItem;
+
 import androidx.appcompat.widget.Toolbar;
 public class BothBottomAndSideNavigation extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -56,10 +50,14 @@ public class BothBottomAndSideNavigation extends AppCompatActivity {
             Fragment selectedFragment = null;
             if (item.getItemId() == R.id.navigation_home) {
                 selectedFragment = new HomeFragment();
-            } else if (item.getItemId() == R.id.navigation_profile) {
+            }
+            else if (item.getItemId() == R.id.navigation_dashboard) {
+                selectedFragment = new DashboardFragment();
+            }
+            else if (item.getItemId() == R.id.navigation_profile) {
                 selectedFragment = new Profile();
             } else if (item.getItemId() == R.id.navigation_notifications) {
-                selectedFragment = new NotificationsFragment();
+                selectedFragment = new MessageFragment();
             }
 
             if (selectedFragment != null) {

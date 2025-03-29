@@ -1,6 +1,10 @@
 package com.ash.teacheron.retrofit.api;
 
 
+import com.ash.teacheron.retrofit.model.ChatResponseDataModel;
+import com.ash.teacheron.retrofit.model.ChatResponseDataModel1;
+import com.ash.teacheron.retrofit.model.PostNewMessage_response;
+import com.ash.teacheron.retrofit.model.SendPostMsg;
 import com.ash.teacheron.retrofit.model.appOptionsResponse;
 import com.ash.teacheron.retrofit.model.languageResponse;
 import com.ash.teacheron.retrofit.model.loginRequest;
@@ -31,6 +35,8 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface AuthAPI {
 
@@ -147,6 +153,26 @@ public interface AuthAPI {
             @Header("Authorization") String token,
             @Body recommendedRequest request
     );
+
+    @Headers("Content-Type: application/json")
+    @POST("search-teacher")
+    Call<recommendedTeacherResponse> searchTeacher(
+            @Header("Authorization") String token,
+            @Body recommendedRequest request
+    );
+
+    @Headers({"Accept: application/json"})
+    @POST("get-all-distinct-chat-users")
+    Call<ChatResponseDataModel> get_chat_room(@Header("Authorization")String token,  @Body recommendedRequest request );
+
+
+    @Headers({"Accept: application/json"})
+    @POST("get-distinct-sender-for-post")
+    Call<ChatResponseDataModel> get_chat_message(@Header("Authorization")String token ,  @Body  recommendedRequest req );
+
+    @Headers({"Accept: application/json"})
+    @POST("send-message-for-post")
+    Call<PostNewMessage_response> post_chat_message(@Header("Authorization")String token ,   @Body SendPostMsg loginSendAPIModel );
 
 
 

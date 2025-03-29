@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Single_chat_room"
+            android:exported="false" />
+        <activity
             android:name=".RecommndedAct"
             android:exported="false" />
         <activity

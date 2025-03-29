@@ -2,6 +2,7 @@ package com.ash.teacheron;
 
 import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,7 +72,7 @@ public class RecommndedAct extends AppCompatActivity {
         networkLoader = new NetworkLoader();
         requirement_id= String.valueOf(getIntent().getIntExtra("reqID",0));
         subject_id= String.valueOf(getIntent().getIntExtra("subjectId",0));
-       // Toast.makeText(this, ""+requirement_id, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, ""+requirement_id, Toast.LENGTH_SHORT).show();
         beneficiary_list= findViewById(R.id.beneficiary_list);
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(RecommndedAct.this);
         userId= String.valueOf(sharedPrefLocal.getUserId());
@@ -94,6 +95,15 @@ public class RecommndedAct extends AppCompatActivity {
                             if (instruction==1)
                             {
                                 showDetails(item);
+                            }
+                            if (instruction==2)
+                            {
+                                Intent intent=new Intent(RecommndedAct.this,Single_chat_room.class);
+                                intent.putExtra("receiver",item.id);
+                                intent.putExtra("sender",Integer.parseInt(requirement_id));
+                               // Toast.makeText(RecommndedAct.this, "sending sender: "+requirement_id, Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+
                             }
                         }
                     });

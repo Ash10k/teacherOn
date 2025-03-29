@@ -51,35 +51,50 @@ public class recommendedTeacherListAdapter extends RecyclerView.Adapter<recommen
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.tv1.setText(filteredList.get(position).name );
-        holder.tv2.setText( filteredList.get(position).location);
-        Glide.with(holder.itemView.getContext())
-                .load(filteredList.get(position).profileImageUrl)
-                .placeholder(R.drawable.baseline_account_circle_24) // Show default image while loading
-                .error(R.drawable.baseline_account_circle_24) // Show default image if loading fails
-                .into(holder.profile_image);
+        try{
+            holder.tv1.setText(filteredList.get(position).name );
+            holder.tv2.setText( filteredList.get(position).location);
+            Glide.with(holder.itemView.getContext())
+                    .load(filteredList.get(position).profileImageUrl)
+                    .placeholder(R.drawable.baseline_account_circle_24) // Show default image while loading
+                    .error(R.drawable.baseline_account_circle_24) // Show default image if loading fails
+                    .into(holder.profile_image);
 
-//        holder.tv3.setText( filteredList.get(position).teacherDetail.feeAmount+" "+filteredList.get(position).teacherDetail.feeSchedule);
-        holder.tv4.setText(filteredList.get(position).teacherSubject.get(0).optionSubject.title);
-        holder.tv_subject.setText(filteredList.get(position).teacherSubject.get(0).optionSubject.title);
-        holder.tv_description.setText(filteredList.get(position).teacherMeta.speciality);
+            //        holder.tv3.setText( filteredList.get(position).teacherDetail.feeAmount+" "+filteredList.get(position).teacherDetail.feeSchedule);
+            if (filteredList.get(position).teacherSubject!=null)
+            {
+                holder.tv4.setText(filteredList.get(position).teacherSubject.get(0).optionSubject.title);
+                holder.tv_subject.setText(filteredList.get(position).teacherSubject.get(0).optionSubject.title);
+
+            }
+            if (filteredList.get(position).teacherMeta!=null)
+            {
+                holder.tv_description.setText(filteredList.get(position).teacherMeta.speciality);
+            }
 
 
-        holder.openView.setOnClickListener(new View.OnClickListener()
+
+            holder.openView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(filteredList.get(position), 1);
+                }
+            });
+
+            holder.openEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(filteredList.get(position), 2);
+                }
+            });
+
+
+        }
+        catch (Exception e)
         {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(filteredList.get(position), 1);
-            }
-        });
-
-        holder.openEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(filteredList.get(position), 2);
-            }
-        });
-
+            e.printStackTrace();
+        }
 
 
     }

@@ -5,10 +5,230 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.Profile">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+      <ScrollView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/white"
+          android:fillViewport="true">
 
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="200dp">
+
+                  <TextView
+                      android:id="@+id/title"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Account Details"
+                      android:textSize="18sp"
+                      android:textColor="@color/black"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginTop="20dp" />
+
+                  <ImageView
+                      android:id="@+id/close_btn"
+                      android:layout_width="30dp"
+                      android:layout_height="30dp"
+                      android:visibility="gone"
+                      android:src="@drawable/baseline_edit_square_24"
+                      android:layout_alignParentEnd="true"
+                      android:layout_margin="15dp" />
+
+
+                  <de.hdodenhof.circleimageview.CircleImageView
+                      android:id="@+id/profile_image"
+                      android:layout_width="100dp"
+                      android:layout_height="100dp"
+                      android:src="@drawable/baseline_account_circle_24"
+                      android:scaleType="centerCrop"
+                      android:layout_centerInParent="true"
+                      />
+              </RelativeLayout>
+
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center"
+                  android:padding="16dp">
+
+                  <TextView
+                      android:id="@+id/teacher_name"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Teacher q"
+                      android:textSize="20sp"
+                      android:textStyle="bold"
+                      android:textColor="@color/black" />
+
+                  <TextView
+                      android:id="@+id/teacher_location"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Chandigarh"
+                      android:textSize="16sp"
+                      android:textColor="@color/greydark" />
+
+                  <View
+                      android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:background="@color/greydark"
+                      android:layout_marginTop="10dp" />
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:gravity="center"
+                      android:layout_marginTop="10dp">
+
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Part Time"
+                          android:textSize="14sp"
+                          android:textColor="@color/black"
+                          android:layout_weight="1"
+                          android:gravity="center" />
+
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Total experience: 7 yr."
+                          android:textSize="14sp"
+                          android:textColor="@color/black"
+                          android:layout_weight="1"
+                          android:gravity="center" />
+                  </LinearLayout>
+
+                  <TextView
+                      android:id="@+id/fee_details"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="5000.00 / Weekly"
+                      android:textSize="18sp"
+                      android:textStyle="bold"
+                      android:textColor="@color/black"
+                      android:gravity="center"
+                      android:layout_marginTop="5dp" />
+              </LinearLayout>
+
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:padding="16dp">
+
+                  <TextView
+                      android:text="Email"
+                      android:textStyle="bold"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="14sp" />
+
+                  <TextView
+                      android:id="@+id/teacher_email"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="teacher1@test.com"
+                      android:textSize="16sp"
+                      android:textColor="@color/black"
+                      android:layout_marginBottom="10dp" />
+
+                  <TextView
+                      android:text="Phone"
+                      android:textStyle="bold"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="14sp" />
+
+                  <TextView
+                      android:id="@+id/teacher_phone"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Not Available"
+                      android:textSize="16sp"
+                      android:textColor="@color/black"
+                      android:layout_marginBottom="10dp" />
+
+                  <TextView
+                      android:text="Gender"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:textSize="14sp" />
+
+                  <TextView
+                      android:id="@+id/teacher_gender"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Not Available"
+                      android:textSize="16sp"
+                      android:textColor="@color/black"
+                      android:layout_marginBottom="10dp" />
+
+                  <TextView
+                      android:text="I am"
+                      android:textStyle="bold"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="14sp" />
+
+                  <TextView
+                      android:id="@+id/teacher_role"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Teacher"
+                      android:textSize="16sp"
+                      android:textColor="@color/black"
+                      android:layout_marginBottom="10dp" />
+
+                  <TextView
+                      android:text="DOB"
+                      android:textStyle="bold"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="14sp" />
+
+                  <TextView
+                      android:id="@+id/teacher_dob"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Not Available"
+                      android:textSize="16sp"
+                      android:textColor="@color/black"
+                      android:layout_marginBottom="10dp" />
+
+                  <TextView
+                      android:text="Fee Details"
+                      android:textStyle="bold"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="14sp" />
+
+                  <EditText
+                      android:id="@+id/fee_details_input"
+                      android:layout_width="match_parent"
+                      android:layout_height="80dp"
+                      android:background="@drawable/input_bg"
+                      android:hint="Enter fee details"
+                      android:padding="10dp"
+                      android:gravity="top"
+                      android:textSize="16sp"
+                      android:layout_marginBottom="10dp" />
+
+
+
+
+              </LinearLayout>
+          </LinearLayout>
+      </ScrollView>
 </FrameLayout>
