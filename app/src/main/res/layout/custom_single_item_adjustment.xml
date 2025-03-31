@@ -8,6 +8,7 @@
     <RelativeLayout
         android:id="@+id/prd_background"
         android:layout_width="match_parent"
+        android:layout_margin="15dp"
         android:layout_height="wrap_content">
 
         <TextView

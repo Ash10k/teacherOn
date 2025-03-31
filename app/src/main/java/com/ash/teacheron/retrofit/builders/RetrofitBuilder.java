@@ -13,7 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitBuilder
 {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://3.94.123.180/api/";
+    //private static final String BASE_URL = "http://3.94.123.180/api/";
+    private static final String BASE_URL = "http://18.207.152.170/api/";
+
 
 
     public static Retrofit build()

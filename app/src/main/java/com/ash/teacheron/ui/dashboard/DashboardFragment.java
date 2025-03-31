@@ -4,6 +4,7 @@ import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,15 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,15 +40,22 @@ import com.ash.teacheron.adapter.subjectView_adapter;
 import com.ash.teacheron.commonComponents.NetworkLoader;
 import com.ash.teacheron.commonComponents.SharedPrefLocal;
 import com.ash.teacheron.databinding.FragmentDashboardBinding;
+import com.ash.teacheron.retrofit.api.AuthAPI;
+import com.ash.teacheron.retrofit.builders.RetrofitBuilder;
 import com.ash.teacheron.retrofit.model.ErrorData;
+import com.ash.teacheron.retrofit.model.appOptionsResponse;
 import com.ash.teacheron.retrofit.model.recommendedTeacherResponse;
 import com.ash.teacheron.viewmodel.studentVM.RecommendedRequirement;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardFragment extends Fragment {
 
@@ -63,6 +74,15 @@ public class DashboardFragment extends Fragment {
     private CircleImageView profileImage;
     private ImageView closeBtn;
     CardView openViewSub,educt,tchingpr;
+
+    RecommendedRequirement viewModel;
+
+    CardView openall,onlineopen,homeopen,searchv;
+    ImageView im1,im2,im3;
+    TextView tv1,tv2,tv3;
+    private List<appOptionsResponse.Subject> subjectsList = new ArrayList<>();
+    private List<appOptionsResponse.Level> levelsList = new ArrayList<>();
+    private Spinner subjectSpinner, fromLevelSpinner;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_dashboard, container, false);
@@ -74,66 +94,97 @@ public class DashboardFragment extends Fragment {
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(getContext());
         userId= String.valueOf(sharedPrefLocal.getUserId());
         token=  sharedPrefLocal.getSessionId();
-        RecommendedRequirement viewModel = new ViewModelProvider(getActivity()).get(RecommendedRequirement.class);
-        networkLoader.showLoadingDialog(getContext());
-        viewModel.searchTeacher( token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location).observe(getActivity(), new Observer<recommendedTeacherResponse>() {
+        viewModel = new ViewModelProvider(getActivity()).get(RecommendedRequirement.class);
+
+        subjectSpinner = fragmentView.findViewById(R.id.subjectSpinner);
+        fromLevelSpinner = fragmentView.findViewById(R.id.fromLevelSpinner);
+        openall=fragmentView.findViewById(R.id.openall);
+        onlineopen=fragmentView.findViewById(R.id.onlineopen);
+        homeopen=fragmentView.findViewById(R.id.homeopen);
+
+        im1=fragmentView.findViewById(R.id.im1);
+        im2=fragmentView.findViewById(R.id.im2);
+        im3=fragmentView.findViewById(R.id.im3);
+
+        tv1=fragmentView.findViewById(R.id.tv1);
+        tv2=fragmentView.findViewById(R.id.txt2);
+        tv3=fragmentView.findViewById(R.id.txt3);
+
+        searchv=fragmentView.findViewById(R.id.searchv);
+
+        get_edu_journey();
+        openall.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(recommendedTeacherResponse loginResponse) {
-                if (loginResponse != null) {
-                    Log.d("framg", "" + new Gson().toJson(loginResponse));
-                    adapter = new recommendedTeacherListAdapter(getContext(),loginResponse.data.dataList);
-                    beneficiary_list.setHasFixedSize(true);
-                    beneficiary_list.setAdapter(adapter);
-                    beneficiary_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                    adapter.notifyDataSetChanged();
-                    adapter.onclickList(new recommendedTeacherListAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(recommendedTeacherResponse.TutorRequest item, int instruction) {
-                            if (instruction==1)
-                            {
-                                showDetails(item);
-                            }
-                            if (instruction==2)
-                            {
-                                Intent intent=new Intent(getContext(), Single_chat_room.class);
-                                intent.putExtra("receiver",item.id);
-                                intent.putExtra("sender",Integer.parseInt(requirement_id));
-                                // Toast.makeText(getContext(), "sending sender: "+requirement_id, Toast.LENGTH_SHORT).show();
-                                startActivity(intent);
+            public void onClick(View view) {
 
-                            }
-                        }
-                    });
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue)));
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
 
+                tv1.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+                tv2.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
+                tv3.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
 
-                } else {
-                    // Handle null response here if needed
-                    //Toast.makeText(getContext(), SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                }
+                Glide.with(requireContext()).load(R.drawable.baseline_content_paste_search_24_white).into(im1);
+                Glide.with(requireContext()).load(R.drawable.baseline_computer_24_blue).into(im2);
+                Glide.with(requireContext()).load(R.drawable.baseline_home_24_blue).into(im3);
 
-                networkLoader.dismissLoadingDialog();
 
             }
         });
-        viewModel.getErrorMessage().observe(getActivity(), new Observer<ErrorData>() {
+
+        onlineopen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(ErrorData errorData) {
-                // Display error message
-                try{
-                    Toast.makeText(getContext(), SERVER_ERROR, Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
 
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue)));
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
 
-                }
-                Log.d("Error", errorData.getMessage());
-                networkLoader.dismissLoadingDialog();
+                tv2.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+                tv3.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
+                tv1.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
+
+
+                Glide.with(requireContext()).load(R.drawable.baseline_content_paste_search_24).into(im1);
+                Glide.with(requireContext()).load(R.drawable.baseline_computer_24_white).into(im2);
+                Glide.with(requireContext()).load(R.drawable.baseline_home_24_blue).into(im3);
+
+
             }
         });
 
-        
+        homeopen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue)));
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
+
+                tv3.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+                tv2.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
+                tv1.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
+
+                Glide.with(requireContext()).load(R.drawable.baseline_content_paste_search_24).into(im1);
+                Glide.with(requireContext()).load(R.drawable.baseline_computer_24_blue).into(im2);
+                Glide.with(requireContext()).load(R.drawable.baseline_home_24_white).into(im3);
+
+            }
+        });
+
+        searchv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int subjectIndex = subjectSpinner.getSelectedItemPosition();
+                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                subject_id= String.valueOf(subjectsList.get(subjectIndex).id);
+                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                searchthisData();
+            }
+        });
+        searchthisData();
         return fragmentView;
     }
 
@@ -283,5 +334,143 @@ public class DashboardFragment extends Fragment {
     }
     private String getSafeString(String value) {
         return value != null ? value : "";
+    }
+
+    void searchthisData()
+    {
+        networkLoader.showLoadingDialog(getContext());
+        viewModel.searchTeacher( token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location).observe(getActivity(), new Observer<recommendedTeacherResponse>() {
+            @Override
+            public void onChanged(recommendedTeacherResponse loginResponse) {
+                if (loginResponse != null) {
+                    Log.d("framg", "" + new Gson().toJson(loginResponse));
+                    adapter = new recommendedTeacherListAdapter(getContext(),loginResponse.data.dataList);
+                    beneficiary_list.setHasFixedSize(true);
+                    beneficiary_list.setAdapter(adapter);
+                    beneficiary_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                    adapter.notifyDataSetChanged();
+                    adapter.onclickList(new recommendedTeacherListAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(recommendedTeacherResponse.TutorRequest item, int instruction) {
+                            if (instruction==1)
+                            {
+                                showDetails(item);
+                            }
+                            if (instruction==2)
+                            {
+                                Intent intent=new Intent(getContext(), Single_chat_room.class);
+                                intent.putExtra("receiver",item.id);
+                                intent.putExtra("sender",Integer.parseInt(requirement_id));
+                                // Toast.makeText(getContext(), "sending sender: "+requirement_id, Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+
+                            }
+                        }
+                    });
+
+
+                } else {
+                    // Handle null response here if needed
+                    //Toast.makeText(getContext(), SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                }
+
+                networkLoader.dismissLoadingDialog();
+
+            }
+        });
+        viewModel.getErrorMessage().observe(getActivity(), new Observer<ErrorData>() {
+            @Override
+            public void onChanged(ErrorData errorData) {
+                // Display error message
+                try{
+                    Toast.makeText(getContext(), SERVER_ERROR, Toast.LENGTH_SHORT).show();
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+
+                }
+                Log.d("Error", errorData.getMessage());
+                networkLoader.dismissLoadingDialog();
+            }
+        });
+
+    }
+
+    private boolean get_edu_journey() {
+        // tried_username_pass(user, pass);
+        try {
+
+
+            networkLoader.showLoadingDialog(getContext());
+            AuthAPI SendData = RetrofitBuilder.build().create(AuthAPI.class);
+            // String first_name, String last_name, String email, String password_confirmation, String password
+            Call<appOptionsResponse> myCall = SendData.getAppOptions("Bearer " + token);
+            myCall.enqueue(new Callback<appOptionsResponse>() {
+                @Override
+                public void onResponse(Call<appOptionsResponse> call, Response<appOptionsResponse> response) {
+
+                    if (response.isSuccessful()) {
+
+                        if ((response.body().status).equals("success")) {
+                            networkLoader.dismissLoadingDialog();
+                            subjectsList = response.body().data.subjects;
+                            levelsList = response.body().data.levels;
+                            setupSpinners();
+
+                        } else {
+
+                            Toast.makeText(getContext(), "" + response.body().message, Toast.LENGTH_SHORT).show();
+                            networkLoader.dismissLoadingDialog();
+
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Server Error" + response.raw(), Toast.LENGTH_LONG).show();
+                        Log.d("TAG", "onResponse: error body is here response is not successful " + response.raw());
+                        networkLoader.dismissLoadingDialog();
+                        // educationlist.setVisibility(View.INVISIBLE);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<appOptionsResponse> call, Throwable t) {
+                    Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace();
+                    networkLoader.dismissLoadingDialog();
+                }
+            });
+        } catch (Exception exception) {
+            Toast.makeText(getContext(), "Some thing wrong", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        return true;
+    }
+    private List<String> getSubjectNames() {
+        List<String> names = new ArrayList<>();
+        for (appOptionsResponse.Subject subject : subjectsList) {
+            names.add(subject.title);
+        }
+        return names;
+    }
+
+    private List<String> getLevelNames() {
+        List<String> names = new ArrayList<>();
+        for (appOptionsResponse.Level level : levelsList) {
+            names.add(level.title);
+        }
+        return names;
+    }
+
+    private void setupSpinners() {
+        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getSubjectNames());
+        subjectSpinner.setAdapter(subjectAdapter);
+
+        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getLevelNames());
+        fromLevelSpinner.setAdapter(levelAdapter);
+
     }
 }

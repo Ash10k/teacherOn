@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ash.teacheron.commonComponents.SharedPrefLocal;
 import com.ash.teacheron.retrofit.model.ErrorData;
 import com.ash.teacheron.retrofit.model.teaacherModel.registerResponse;
 import com.ash.teacheron.viewmodel.registerVM.RegisterVModel;
@@ -68,6 +69,7 @@ public class Register extends AppCompatActivity {
     AlertDialog mydialog;
     DatePickerDialog datePickerDialog;
     RelativeLayout requesttutor;
+    LinearLayout alrdylogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class Register extends AppCompatActivity {
         postalcode= findViewById(R.id.postalcode);
         Spinner genderSpinner = findViewById(R.id.choosegender);
         requesttutor=findViewById(R.id.requesttutor);
-
+        alrdylogin=findViewById(R.id.alrdylogin);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.gender_options, android.R.layout.simple_spinner_item);
 
@@ -130,10 +132,10 @@ public class Register extends AppCompatActivity {
                         public void onChanged(registerResponse reResponse) {
                             if (reResponse != null) {
                                 Log.d("framg", "" + new Gson().toJson(reResponse));
-                                /* SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(Register.this);
-                                sharedPrefLocal.setUserId(reResponse.currentUser.id);
-                                sharedPrefLocal.setSessionId("Bearer "+reResponse.session_token);
-                                ;*/
+                                SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(Register.this);
+                                sharedPrefLocal.setUserId(reResponse.data.id);
+                                //sharedPrefLocal.setSessionId("Bearer "+reResponse.session_token);
+
 
                                 Intent intent=new Intent(Register.this,RegisterTeachStep2.class);
                                 startActivity(intent);
@@ -181,7 +183,14 @@ public class Register extends AppCompatActivity {
                 startActivity(new Intent(Register.this, StudentRegisterStep1.class));
             }
         });
-        
+
+        alrdylogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(Register.this,Login.class));
+            }
+        });
     }
 
     @SuppressLint("Range")

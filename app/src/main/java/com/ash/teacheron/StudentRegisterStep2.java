@@ -100,7 +100,7 @@ public class StudentRegisterStep2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_register_step2);
         selectedImg = findViewById(R.id.selectedImg);
-         ;
+
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(StudentRegisterStep2.this);
         user_id= String.valueOf(sharedPrefLocal.getUserId());
         password=sharedPrefLocal.getUserPassword();
@@ -167,7 +167,7 @@ public class StudentRegisterStep2 extends AppCompatActivity {
                                 sharedPrefLocal.setProfileImage(loginResponse.data.profileImage);
 
                                 Toast.makeText(StudentRegisterStep2.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(StudentRegisterStep2.this,BottomNav.class);
+                                Intent intent=new Intent(StudentRegisterStep2.this,BothBottomAndSideNavigation.class);
                                 startActivity(intent);
                             } else {
                                 // Handle null response here if needed

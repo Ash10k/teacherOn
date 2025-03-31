@@ -102,7 +102,7 @@ public class StudentRegisterStep1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                startActivity(new Intent(StudentRegisterStep1.this,StudentLogin.class));
+                startActivity(new Intent(StudentRegisterStep1.this,Login.class));
             }
         });
 
@@ -110,8 +110,6 @@ public class StudentRegisterStep1 extends AppCompatActivity {
         savestep2=findViewById(R.id.registerbtn);
         subjectSpinner = findViewById(R.id.subjectSpinner);
         fromLevelSpinner = findViewById(R.id.fromLevelSpinner);
-
-
 
 
         networkLoader = new NetworkLoader();

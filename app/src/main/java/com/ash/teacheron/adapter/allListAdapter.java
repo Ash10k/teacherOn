@@ -2,6 +2,7 @@ package com.ash.teacheron.adapter;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -15,11 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ash.teacheron.AddNewRequirement;
+import com.ash.teacheron.BothBottomAndSideNavigation;
+import com.ash.teacheron.MainActivity;
 import com.ash.teacheron.R;
+import com.ash.teacheron.RecommndedAct;
 import com.ash.teacheron.ViewListUp;
+import com.ash.teacheron.commonComponents.SharedPrefLocal;
 import com.ash.teacheron.retrofit.model.requirementResponse;
 
 import java.util.ArrayList;
@@ -79,14 +86,61 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
 
         holder.openView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent intent;
                 Context context = holder.itemView.getContext();
-                intent = new Intent(context,  ViewListUp.class);
+                intent = new Intent(context,  RecommndedAct.class);
                 intent.putExtra("reqID",filteredList.get(position).id);
                 intent.putExtra("subjectId",filteredList.get(position).subjectId);
                 context.startActivity(intent);
               //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        holder.openEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                Context context = holder.itemView.getContext();
+                intent = new Intent(context,  AddNewRequirement.class);
+                intent.putExtra("reqID",filteredList.get(position).id);
+                intent.putExtra("subjectId",filteredList.get(position).subjectId);
+                context.startActivity(intent);
+                //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        holder.openClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 //showDeleteDialog();
+
+                //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(holder.itemView.getContext())
+                        .setTitle("Delete post requirement")
+                        .setMessage("Do you want to delete this post?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try{
+                                    filteredList.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                                catch (Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        })
+                        .setNegativeButton("No", null) // Dismiss dialog on "No"
+                        .show();
+
 
             }
         });

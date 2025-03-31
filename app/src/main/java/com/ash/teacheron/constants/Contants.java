@@ -25,4 +25,17 @@ public class Contants {
     public static final String KEY_USER_NAME = "username";
     public static final String KEY_USER_DISPLAY_NAME = "displayname";
     public static final String KEY_USER_PROFILPIC = "profilepic";
+
+    public static final String KEY_USER_PHONE = "Phone";
+    public static final String KEY_USER_TYPE = "usertype";
+
+    public static final String KEY_USER_LOCATION = "location";
+    public static final String KEY_USER_DOB = "dob";
+    public static final String KEY_USER_FEEDETAIL = "feedetails";
+    public static final String KEY_USER_FEEAMOUNT = "fee_amount";
+    public static final String KEY_USER_EXPE = "total_experience";
+    public static final String KEY_USER_ASSOCIA = "interested_association";
+    public static final String KEY_USER_SCHEDULE = "fee_schedule";
+
+
 }

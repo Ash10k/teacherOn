@@ -4,6 +4,7 @@ import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,7 +40,10 @@ import com.ash.teacheron.adapter.recommendedTeacherListAdapter;
 import com.ash.teacheron.adapter.subjectView_adapter;
 import com.ash.teacheron.commonComponents.NetworkLoader;
 import com.ash.teacheron.commonComponents.SharedPrefLocal;
+import com.ash.teacheron.retrofit.api.AuthAPI;
+import com.ash.teacheron.retrofit.builders.RetrofitBuilder;
 import com.ash.teacheron.retrofit.model.ErrorData;
+import com.ash.teacheron.retrofit.model.appOptionsResponse;
 import com.ash.teacheron.retrofit.model.recommendedTeacherResponse;
 import com.ash.teacheron.viewmodel.studentVM.RecommendedRequirement;
 import com.ash.teacheron.viewmodel.studentVM.listRequirement;
@@ -48,6 +54,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecommndedAct extends AppCompatActivity {
 
@@ -57,7 +66,7 @@ public class RecommndedAct extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     RecyclerView beneficiary_list;
     recommendedTeacherListAdapter adapter;
-    String requirement_id="0",   subject_id="0",   subject="0",   from_level_id="0",   to_level_id="0" ,location="0";
+    String TAG, requirement_id="0",   subject_id="0",   subject="0",   from_level_id="0",   to_level_id="0" ,location="0";
 
     private TextView teacherName, teacherLocation, teacherExperience, teacherFee, teacherEmail,
             teacherPhone, teacherGender, teacherRole, teacherDOB, teacherTravel, teacherAvailability;
@@ -65,6 +74,14 @@ public class RecommndedAct extends AppCompatActivity {
     private CircleImageView profileImage;
     private ImageView closeBtn;
     CardView openViewSub,educt,tchingpr;
+
+    private List<appOptionsResponse.Subject> subjectsList = new ArrayList<>();
+    private List<appOptionsResponse.Level> levelsList = new ArrayList<>();
+    CardView openall,onlineopen,homeopen,searchv;
+    ImageView im1,im2,im3;
+    TextView tv1,tv2,tv3;
+    private Spinner subjectSpinner, fromLevelSpinner;
+    RecommendedRequirement viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,65 +94,105 @@ public class RecommndedAct extends AppCompatActivity {
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(RecommndedAct.this);
         userId= String.valueOf(sharedPrefLocal.getUserId());
         token=  sharedPrefLocal.getSessionId();
-        RecommendedRequirement viewModel = new ViewModelProvider(RecommndedAct.this).get(RecommendedRequirement.class);
-        networkLoader.showLoadingDialog(RecommndedAct.this);
-        viewModel.startLogin( token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location).observe(RecommndedAct.this, new Observer<recommendedTeacherResponse>() {
+        viewModel = new ViewModelProvider(RecommndedAct.this).get(RecommendedRequirement.class);
+
+
+
+        subjectSpinner =  findViewById(R.id.subjectSpinner);
+        fromLevelSpinner =  findViewById(R.id.fromLevelSpinner);
+        get_edu_journey();
+        openall= findViewById(R.id.openall);
+        onlineopen= findViewById(R.id.onlineopen);
+        homeopen= findViewById(R.id.homeopen);
+
+        im1= findViewById(R.id.im1);
+        im2= findViewById(R.id.im2);
+        im3= findViewById(R.id.im3);
+
+        tv1= findViewById(R.id.tv1);
+        tv2= findViewById(R.id.txt2);
+        tv3= findViewById(R.id.txt3);
+
+        searchv= findViewById(R.id.searchv);
+
+
+        openall.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(recommendedTeacherResponse loginResponse) {
-                if (loginResponse != null) {
-                    Log.d("framg", "" + new Gson().toJson(loginResponse));
-                    adapter = new recommendedTeacherListAdapter(RecommndedAct.this,loginResponse.data.dataList);
-                    beneficiary_list.setHasFixedSize(true);
-                    beneficiary_list.setAdapter(adapter);
-                    beneficiary_list.setLayoutManager(new LinearLayoutManager(RecommndedAct.this, LinearLayoutManager.VERTICAL, false));
-                    adapter.notifyDataSetChanged();
-                    adapter.onclickList(new recommendedTeacherListAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(recommendedTeacherResponse.TutorRequest item, int instruction) {
-                            if (instruction==1)
-                            {
-                                showDetails(item);
-                            }
-                            if (instruction==2)
-                            {
-                                Intent intent=new Intent(RecommndedAct.this,Single_chat_room.class);
-                                intent.putExtra("receiver",item.id);
-                                intent.putExtra("sender",Integer.parseInt(requirement_id));
-                               // Toast.makeText(RecommndedAct.this, "sending sender: "+requirement_id, Toast.LENGTH_SHORT).show();
-                                startActivity(intent);
+            public void onClick(View view) {
 
-                            }
-                        }
-                    });
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.blue)));
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.lightBlue)));
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.lightBlue)));
 
+                tv1.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.white));
+                tv2.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.greydark));
+                tv3.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.greydark));
 
-                } else {
-                    // Handle null response here if needed
-                    //Toast.makeText(RecommndedAct.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                }
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_content_paste_search_24_white).into(im1);
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_computer_24_blue).into(im2);
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_home_24_blue).into(im3);
 
-                networkLoader.dismissLoadingDialog();
 
             }
         });
-        viewModel.getErrorMessage().observe(RecommndedAct.this, new Observer<ErrorData>() {
+
+        onlineopen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(ErrorData errorData) {
-                // Display error message
-                try{
-                    Toast.makeText(RecommndedAct.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
 
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.blue)));
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.lightBlue)));
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.lightBlue)));
 
-                }
-                Log.d("Error", errorData.getMessage());
-                networkLoader.dismissLoadingDialog();
+                tv2.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.white));
+                tv3.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.greydark));
+                tv1.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.greydark));
+
+
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_content_paste_search_24).into(im1);
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_computer_24_white).into(im2);
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_home_24_blue).into(im3);
+
+
             }
         });
 
+        homeopen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.blue)));
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.lightBlue)));
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor( RecommndedAct.this, R.color.lightBlue)));
+
+                tv3.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.white));
+                tv2.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.greydark));
+                tv1.setTextColor(ContextCompat.getColor( RecommndedAct.this, R.color.greydark));
+
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_content_paste_search_24).into(im1);
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_computer_24_blue).into(im2);
+                Glide.with( RecommndedAct.this).load(R.drawable.baseline_home_24_white).into(im3);
+
+
+
+            }
+        });
+
+        searchv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int subjectIndex = subjectSpinner.getSelectedItemPosition();
+                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                subject_id= String.valueOf(subjectsList.get(subjectIndex).id);
+                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                searchthisData();
+            }
+        });
+
+
+        searchthisData();
+        
     }
 
     void showDetails(recommendedTeacherResponse.TutorRequest teacherObj)
@@ -284,6 +341,145 @@ public class RecommndedAct extends AppCompatActivity {
     }
     private String getSafeString(String value) {
         return value != null ? value : "";
+    }
+
+
+    void searchthisData()
+    {
+        networkLoader.showLoadingDialog(RecommndedAct.this);
+        viewModel.startLogin( token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location).observe(RecommndedAct.this, new Observer<recommendedTeacherResponse>() {
+            @Override
+            public void onChanged(recommendedTeacherResponse loginResponse) {
+                if (loginResponse != null) {
+                    Log.d("framg", "" + new Gson().toJson(loginResponse));
+                    adapter = new recommendedTeacherListAdapter(RecommndedAct.this,loginResponse.data.dataList);
+                    beneficiary_list.setHasFixedSize(true);
+                    beneficiary_list.setAdapter(adapter);
+                    beneficiary_list.setLayoutManager(new LinearLayoutManager(RecommndedAct.this, LinearLayoutManager.VERTICAL, false));
+                    adapter.notifyDataSetChanged();
+                    adapter.onclickList(new recommendedTeacherListAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(recommendedTeacherResponse.TutorRequest item, int instruction) {
+                            if (instruction==1)
+                            {
+                                showDetails(item);
+                            }
+                            if (instruction==2)
+                            {
+                                Intent intent=new Intent(RecommndedAct.this,Single_chat_room.class);
+                                intent.putExtra("receiver",item.id);
+                                intent.putExtra("sender",Integer.parseInt(requirement_id));
+                                // Toast.makeText(RecommndedAct.this, "sending sender: "+requirement_id, Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+
+                            }
+                        }
+                    });
+
+
+                } else {
+                    // Handle null response here if needed
+                    //Toast.makeText(RecommndedAct.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                }
+
+                networkLoader.dismissLoadingDialog();
+
+            }
+        });
+        viewModel.getErrorMessage().observe(RecommndedAct.this, new Observer<ErrorData>() {
+            @Override
+            public void onChanged(ErrorData errorData) {
+                // Display error message
+                try{
+                    Toast.makeText(RecommndedAct.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+
+                }
+                Log.d("Error", errorData.getMessage());
+                networkLoader.dismissLoadingDialog();
+            }
+        });
+
+    }
+
+    private boolean get_edu_journey() {
+        // tried_username_pass(user, pass);
+        try {
+
+
+            networkLoader.showLoadingDialog( RecommndedAct.this);
+            AuthAPI SendData = RetrofitBuilder.build().create(AuthAPI.class);
+            // String first_name, String last_name, String email, String password_confirmation, String password
+            Call<appOptionsResponse> myCall = SendData.getAppOptions("Bearer " + token);
+            myCall.enqueue(new Callback<appOptionsResponse>() {
+                @Override
+                public void onResponse(Call<appOptionsResponse> call, Response<appOptionsResponse> response) {
+
+                    if (response.isSuccessful()) {
+
+                        if ((response.body().status).equals("success")) {
+                            networkLoader.dismissLoadingDialog();
+                            subjectsList = response.body().data.subjects;
+                            levelsList = response.body().data.levels;
+                            setupSpinners();
+
+                        } else {
+
+                            Toast.makeText( RecommndedAct.this, "" + response.body().message, Toast.LENGTH_SHORT).show();
+                            networkLoader.dismissLoadingDialog();
+
+                        }
+                    } else {
+                        Toast.makeText( RecommndedAct.this, "Server Error" + response.raw(), Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "onResponse: error body is here response is not successful " + response.raw());
+                        networkLoader.dismissLoadingDialog();
+                        // educationlist.setVisibility(View.INVISIBLE);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<appOptionsResponse> call, Throwable t) {
+                    Toast.makeText( RecommndedAct.this, "Server Error", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace();
+                    networkLoader.dismissLoadingDialog();
+                }
+            });
+        } catch (Exception exception) {
+            Toast.makeText( RecommndedAct.this, "Some thing wrong", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        return true;
+    }
+    private void setupSpinners() {
+        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(RecommndedAct.this, android.R.layout.simple_spinner_dropdown_item, getSubjectNames());
+        subjectSpinner.setAdapter(subjectAdapter);
+
+        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(RecommndedAct.this, android.R.layout.simple_spinner_dropdown_item, getLevelNames());
+        fromLevelSpinner.setAdapter(levelAdapter);
+
+    }
+
+    private List<String> getSubjectNames() {
+        List<String> names = new ArrayList<>();
+        for (appOptionsResponse.Subject subject : subjectsList) {
+            names.add(subject.title);
+        }
+        return names;
+    }
+
+    private List<String> getLevelNames() {
+        List<String> names = new ArrayList<>();
+        for (appOptionsResponse.Level level : levelsList) {
+            names.add(level.title);
+        }
+        return names;
     }
 
 

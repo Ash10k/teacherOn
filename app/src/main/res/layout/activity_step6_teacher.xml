@@ -140,6 +140,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Fee Amount"
+                        android:inputType="number"
+                        android:digits="1234567890"
                         android:padding="12dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 

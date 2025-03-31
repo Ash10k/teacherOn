@@ -19,7 +19,6 @@ public class recommendedTeacherResponse {
         @SerializedName("data")
         public List<TutorRequest> dataList;
 
-
     }
 
 
@@ -84,6 +83,52 @@ public class recommendedTeacherResponse {
 
         @SerializedName("profile_image_url")
         public String profileImageUrl;
+
+        @SerializedName("tutor_option")
+        public String tutor_option;
+
+        @SerializedName("requirement_type")
+        public String requirement_type;
+
+        @SerializedName("requirements")
+        public String requirements;
+
+
+
+        @SerializedName("travel_limit")
+        public String travel_limit;
+
+
+
+        @SerializedName("budget")
+        public String budget;
+
+        @SerializedName("budget_type")
+        public String budget_type;
+
+
+        @SerializedName("user")
+        public Userin userinobj;
+
+        public class Userin{
+            @SerializedName("id")
+            public String id;
+
+            @SerializedName("name")
+            public String name;
+
+            @SerializedName("phone")
+            public String phone;
+
+            @SerializedName("profile_image_url")
+            public String profile_image_url;
+
+            @SerializedName("email")
+            public String email;
+
+
+        }
+
 
         @SerializedName("teacher_meta")
         public TeacherMeta teacherMeta;

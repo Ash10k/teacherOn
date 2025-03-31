@@ -117,7 +117,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:layout_centerInParent="true"
-                                    android:src="@drawable/email_icon" />
+                                    android:src="@drawable/baseline_email_24" />
 
                             </RelativeLayout>
 
@@ -166,7 +166,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:layout_centerInParent="true"
-                                    android:src="@drawable/password" />
+                                    android:src="@drawable/baseline_password_24grey" />
 
                             </RelativeLayout>
 
@@ -208,6 +208,7 @@
                             android:textSize="17sp"
                             android:fontFamily="@font/dm_sans_bold"
                             android:layout_marginTop="10dp"
+                            android:visibility="gone"
                             android:layout_gravity="end"
                             />
 

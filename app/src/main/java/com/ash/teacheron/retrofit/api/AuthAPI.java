@@ -9,11 +9,13 @@ import com.ash.teacheron.retrofit.model.appOptionsResponse;
 import com.ash.teacheron.retrofit.model.languageResponse;
 import com.ash.teacheron.retrofit.model.loginRequest;
 import com.ash.teacheron.retrofit.model.loginResponse;
+import com.ash.teacheron.retrofit.model.recommendedProfile;
 import com.ash.teacheron.retrofit.model.recommendedRequest;
 import com.ash.teacheron.retrofit.model.recommendedTeacherResponse;
 import com.ash.teacheron.retrofit.model.registerResponseStep2;
 import com.ash.teacheron.retrofit.model.registerResponseStud;
 import com.ash.teacheron.retrofit.model.requirementResponse;
+import com.ash.teacheron.retrofit.model.requirementResponseconnected;
 import com.ash.teacheron.retrofit.model.studentModel.step1student;
 import com.ash.teacheron.retrofit.model.studentModel.step2student;
 import com.ash.teacheron.retrofit.model.teaacherModel.registerRequest;
@@ -141,6 +143,13 @@ public interface AuthAPI {
     );
 
     @Headers("Content-Type: application/json")
+    @POST("student-add-requirement")
+    Call<registerResponseStep2> saveNewReq(
+            @Header("Authorization") String token,
+            @Body step2student request
+    );
+
+    @Headers("Content-Type: application/json")
     @POST("student-requirement-list")
     Call<requirementResponse> getRequirement(
             @Header("Authorization") String token,
@@ -148,8 +157,31 @@ public interface AuthAPI {
     );
 
     @Headers("Content-Type: application/json")
+    @POST("matching-jobs-for-teacher")
+    Call<requirementResponse> getMatchingJob(
+            @Header("Authorization") String token,
+            @Body userRequest request
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("matching-jobs-with-student-poke")
+    Call<requirementResponseconnected> getConnected(
+            @Header("Authorization") String token,
+            @Body userRequest request
+    );
+
+
+
+    @Headers("Content-Type: application/json")
     @POST("matching-teachers-by-requirement")
     Call<recommendedTeacherResponse> getRecommendedTeacher(
+            @Header("Authorization") String token,
+            @Body recommendedRequest request
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("search-requirements?page=1")
+    Call<recommendedTeacherResponse> srchReqm(
             @Header("Authorization") String token,
             @Body recommendedRequest request
     );
@@ -174,6 +206,12 @@ public interface AuthAPI {
     @POST("send-message-for-post")
     Call<PostNewMessage_response> post_chat_message(@Header("Authorization")String token ,   @Body SendPostMsg loginSendAPIModel );
 
+
+    @Headers("Content-Type: application/json")
+    @POST("get-teacher-profile")
+    Call<recommendedProfile> getProfile(
+            @Header("Authorization") String token
+    );
 
 
 }

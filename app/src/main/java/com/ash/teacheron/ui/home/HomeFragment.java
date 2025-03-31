@@ -23,9 +23,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ash.teacheron.AddNewRequirement;
 import com.ash.teacheron.R;
 import com.ash.teacheron.RegisterTeachStep2;
 import com.ash.teacheron.Step3Teacher;
+import com.ash.teacheron.StudentRegisterStep2;
 import com.ash.teacheron.adapter.allListAdapter;
 import com.ash.teacheron.commonComponents.NetworkLoader;
 import com.ash.teacheron.commonComponents.SharedPrefLocal;
@@ -35,6 +37,7 @@ import com.ash.teacheron.retrofit.model.requirementResponse;
 import com.ash.teacheron.retrofit.model.saveResponse;
 import com.ash.teacheron.viewmodel.studentVM.listRequirement;
 import com.ash.teacheron.viewmodel.teacherVM.step2VModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.zip.Inflater;
@@ -47,12 +50,14 @@ public class HomeFragment extends Fragment {
     SharedPreferences sharedPreferences;
     RecyclerView beneficiary_list;
     allListAdapter adapter;
+    FloatingActionButton neepostAdd;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         networkLoader = new NetworkLoader();
         beneficiary_list=fragmentView.findViewById(R.id.beneficiary_list);
+        neepostAdd=fragmentView.findViewById(R.id.neepostAdd);
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(getActivity());
         userId= String.valueOf(sharedPrefLocal.getUserId());
         token=  sharedPrefLocal.getSessionId();
@@ -96,7 +101,13 @@ public class HomeFragment extends Fragment {
                 networkLoader.dismissLoadingDialog();
             }
         });
-
+        neepostAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(), AddNewRequirement.class);
+                startActivity(intent);
+            }
+        });
         return fragmentView;
     }
 

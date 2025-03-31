@@ -29,4 +29,9 @@ public class step2VModelStudent extends AndroidViewModel
         // Assuming you have implemented error handling in the repository
         return repository.getErrorMessage();
     }
+    public LiveData<registerResponseStep2> createPost(String sub,String lev,String user_id, String requirement_type, String tutor_option, String travel_limit, String budget, String budget_type, String gender_preference, String tutor_type, String budget_currency_id, String communicate_language_id, String tutor_from_country_id,String password,String token)
+    {
+        return repository.newDataCreate(  sub,lev,  user_id,   requirement_type,   tutor_option,   travel_limit,   budget,   budget_type,   gender_preference,   tutor_type,   budget_currency_id,   communicate_language_id,   tutor_from_country_id,password,token);
+    }
+
 }

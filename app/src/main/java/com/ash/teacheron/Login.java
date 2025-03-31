@@ -2,6 +2,7 @@ package com.ash.teacheron;
 
 import static com.ash.teacheron.constants.Contants.FAILED_TO_LOGIN;
 import static com.ash.teacheron.constants.Contants.LOGIN_SUCCESSFUL;
+import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 
 import android.content.Context;
 import android.content.Intent;
@@ -73,16 +74,80 @@ public class Login extends AppCompatActivity {
                             if (loginResponse != null) {
                                 Log.d("framg", "" + new Gson().toJson(loginResponse));
                                 SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(Login.this);
-                                sharedPrefLocal.setUserId(loginResponse.data.user.id);
-
+                              /*  sharedPrefLocal.setUserId(loginResponse.data.user.id);
                                 sharedPrefLocal.setUserName(loginResponse.data.user.name);
+                                sharedPrefLocal.setUserEmail(loginResponse.data.user.email);
+                                sharedPrefLocal.setUserType(loginResponse.data.user.userType);
+                                sharedPrefLocal.setUserPhone(loginResponse.data.user.phone);
+                                sharedPrefLocal.setProfileImage(loginResponse.data.user.profileImageUrl);
+
+                                if(loginResponse.data.user.userType.equals("student"))
+                                {
+                                    sharedPrefLocal.setUserLocation(loginResponse.data.user.student_metaDetail.location);
+                                    sharedPrefLocal.setUserDOB(loginResponse.data.user.student_metaDetail.tutor_type);
+                                    sharedPrefLocal.setUserFEEDETAIL(loginResponse.data.user.student_metaDetail.budget_type);
+                                    sharedPrefLocal.setUserFeeAmount(loginResponse.data.user.student_metaDetail.budget);
+                                    sharedPrefLocal.setUserExperience(loginResponse.data.user.student_metaDetail.requirement_type);
+                                    sharedPrefLocal.setUserAssocia(loginResponse.data.user.student_metaDetail.requirement_type);
+                                    sharedPrefLocal.setUserSchedule(loginResponse.data.user.student_metaDetail.tutor_option);
+                                }
+                                else {
+                                    sharedPrefLocal.setUserLocation(loginResponse.data.user.location);
+                                    sharedPrefLocal.setUserDOB(loginResponse.data.user.teacherDetail.availableForOnline);
+                                    sharedPrefLocal.setUserFEEDETAIL(loginResponse.data.user.teacherDetail.feeDetails);
+                                    sharedPrefLocal.setUserFeeAmount(loginResponse.data.user.teacherDetail.feeAmount);
+                                    sharedPrefLocal.setUserExperience(loginResponse.data.user.teacherDetail.totalExperience);
+                                    sharedPrefLocal.setUserAssocia(loginResponse.data.user.teacherDetail.interestedAssociation);
+                                    sharedPrefLocal.setUserSchedule(loginResponse.data.user.teacherDetail.feeSchedule);
+
+                                }*/
+                                //Toast.makeText(context, ""+loginResponse.data.user.name, Toast.LENGTH_SHORT).show();
+                                sharedPrefLocal.setUserId(loginResponse.data.user.id != 0 ? loginResponse.data.user.id : 0);
+                                sharedPrefLocal.setUserName(loginResponse.data.user.name != null ? loginResponse.data.user.name : "");
+                                sharedPrefLocal.setUserEmail(loginResponse.data.user.email != null ? loginResponse.data.user.email : "");
+                                sharedPrefLocal.setUserType(loginResponse.data.user.userType != null ? loginResponse.data.user.userType : "");
+                                sharedPrefLocal.setUserPhone(loginResponse.data.user.phone != null ? loginResponse.data.user.phone : "");
+                                sharedPrefLocal.setProfileImage(loginResponse.data.user.profileImageUrl != null ? loginResponse.data.user.profileImageUrl : "");
+
+                                if ("student".equals(loginResponse.data.user.userType)) {
+                                    if (loginResponse.data.user.student_metaDetail != null) {
+                                        sharedPrefLocal.setUserLocation(loginResponse.data.user.student_metaDetail.location != null ? loginResponse.data.user.student_metaDetail.location : "");
+                                        sharedPrefLocal.setUserDOB(loginResponse.data.user.student_metaDetail.tutor_type != null ? loginResponse.data.user.student_metaDetail.tutor_type : "");
+                                        sharedPrefLocal.setUserFEEDETAIL(loginResponse.data.user.student_metaDetail.budget_type != null ? loginResponse.data.user.student_metaDetail.budget_type : "");
+                                        sharedPrefLocal.setUserFeeAmount(loginResponse.data.user.student_metaDetail.budget != null ? loginResponse.data.user.student_metaDetail.budget : "");
+                                        sharedPrefLocal.setUserExperience(loginResponse.data.user.student_metaDetail.requirement_type != null ? loginResponse.data.user.student_metaDetail.requirement_type : "");
+                                        sharedPrefLocal.setUserAssocia(loginResponse.data.user.student_metaDetail.requirement_type != null ? loginResponse.data.user.student_metaDetail.requirement_type : "");
+                                        sharedPrefLocal.setUserSchedule(loginResponse.data.user.student_metaDetail.tutor_option != null ? loginResponse.data.user.student_metaDetail.tutor_option : "");
+                                    }
+                                } else {
+                                    sharedPrefLocal.setUserLocation(loginResponse.data.user.location != null ? loginResponse.data.user.location : "");
+
+                                    if (loginResponse.data.user.teacherDetail != null) {
+                                        sharedPrefLocal.setUserDOB(loginResponse.data.user.teacherDetail.availableForOnline != null ? loginResponse.data.user.teacherDetail.availableForOnline : "");
+                                        sharedPrefLocal.setUserFEEDETAIL(loginResponse.data.user.teacherDetail.feeDetails != null ? loginResponse.data.user.teacherDetail.feeDetails : "");
+                                        sharedPrefLocal.setUserFeeAmount(loginResponse.data.user.teacherDetail.feeAmount != null ? loginResponse.data.user.teacherDetail.feeAmount : "");
+                                        sharedPrefLocal.setUserExperience(loginResponse.data.user.teacherDetail.totalExperience != null ? loginResponse.data.user.teacherDetail.totalExperience : "");
+                                        sharedPrefLocal.setUserAssocia(loginResponse.data.user.teacherDetail.interestedAssociation != null ? loginResponse.data.user.teacherDetail.interestedAssociation : "");
+                                        sharedPrefLocal.setUserSchedule(loginResponse.data.user.teacherDetail.feeSchedule != null ? loginResponse.data.user.teacherDetail.feeSchedule : "");
+                                    }
+                                }
+
+                                if (loginResponse.data.user.userType.equals("teacher"))
+                                {
+                                     startActivity(new Intent(Login.this, BottomNavTeacher.class));
+                                }
+                                else {
+
+                                    startActivity(new Intent(Login.this, BothBottomAndSideNavigation.class));
+                                }
+
                                 //sharedPrefLocal.setUserDisplay(loginResponse.currentUser.dname);
                                 sharedPrefLocal.setSessionId(""+loginResponse.data.tokenData.accessToken);
-                               // startActivity(new Intent(Login.this, BottomNav.class));
-                               Toast.makeText(context, LOGIN_SUCCESSFUL , Toast.LENGTH_SHORT).show();
+
+                               //Toast.makeText(context, LOGIN_SUCCESSFUL , Toast.LENGTH_SHORT).show();
                             } else {
                                 // Handle null response here if needed
-                                Toast.makeText(context, FAILED_TO_LOGIN, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Invalid credentials or unauthorized access, we are not able to find this email", Toast.LENGTH_SHORT).show();
                             }
 
                             networkLoader.dismissLoadingDialog();
@@ -95,7 +160,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onChanged(ErrorData errorData) {
                             // Display error message
-                            Toast.makeText(context, FAILED_TO_LOGIN, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Invalid credentials or unauthorized access, we are not able to find this email", Toast.LENGTH_SHORT).show();
                             Log.d("Error", errorData.getMessage());
                             networkLoader.dismissLoadingDialog();
                         }

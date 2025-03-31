@@ -115,6 +115,9 @@ public class loginResponse {
 
         @SerializedName("teacher_subject")
         public List<TeacherSubject> teacherSubject;
+
+        @SerializedName("student_meta")
+        public StudentMeta student_metaDetail;
     }
 
     public static class TeacherMeta {
@@ -246,6 +249,39 @@ public class loginResponse {
 
         @SerializedName("updated_at")
         public String updatedAt;
+    }
+
+    public static class StudentMeta{
+
+        @SerializedName("requirements")
+        public String requirements;
+
+        @SerializedName("requirement_type")
+        public String requirement_type;
+
+        @SerializedName("tutor_option")
+        public String tutor_option;
+
+        @SerializedName("travel_limit")
+        public String travel_limit;
+
+        @SerializedName("budget")
+        public String budget;
+
+        @SerializedName("budget_type")
+        public String budget_type;
+
+        @SerializedName("gender_preference")
+        public String gender_preference;
+
+        @SerializedName("tutor_type")
+        public String tutor_type;
+
+        @SerializedName("location")
+        public String location;
+
+
+
     }
 
 

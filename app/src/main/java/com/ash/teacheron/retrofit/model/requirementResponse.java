@@ -21,8 +21,7 @@ public class requirementResponse {
 
 
     }
-
-
+    
     public class TutorRequest {
 
         @SerializedName("id")

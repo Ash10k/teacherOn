@@ -74,7 +74,7 @@ public class Step6Teacher extends AppCompatActivity {
                             Log.d("framg", "" + new Gson().toJson(loginResponse));
 
                             Toast.makeText(Step6Teacher.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(Step6Teacher.this,BottomNav.class);
+                            Intent intent=new Intent(Step6Teacher.this, Login.class);
                             startActivity(intent);
                         } else {
                             // Handle null response here if needed

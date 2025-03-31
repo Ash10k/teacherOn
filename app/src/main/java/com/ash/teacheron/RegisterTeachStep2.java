@@ -71,7 +71,7 @@ public class RegisterTeachStep2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register_teach_step2);
-         ;
+
         addButton = findViewById(R.id.addu);
         savestep2=findViewById(R.id.savestep2);
         subjectSpinner = findViewById(R.id.subjectSpinner);

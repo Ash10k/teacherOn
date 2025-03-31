@@ -35,4 +35,10 @@ public class RecommendedRequirement extends AndroidViewModel
         return repository.getSearchTeacher(  token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location);
     }
 
+    public LiveData<recommendedTeacherResponse> searchReq(  String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location)
+    {
+        return repository.srchreq(  token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location);
+    }
+
+
 }

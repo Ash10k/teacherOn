@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
+    <!--<item
         android:id="@+id/changepassword"
         android:icon="@drawable/baseline_password_24"
-        android:title="Change Password" />
+        android:title="Change Password" />-->
 
     <item
         android:id="@+id/contactus"

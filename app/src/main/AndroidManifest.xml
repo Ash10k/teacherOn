@@ -27,6 +27,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AddNewRequirement"
+            android:exported="false" />
+        <activity
+            android:name=".DemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BottomNavTeacher"
+            android:exported="false" />
+        <activity
             android:name=".Single_chat_room"
             android:exported="false" />
         <activity

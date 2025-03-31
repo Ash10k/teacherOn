@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -32,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(MainActivity.this);
         userId=sharedPrefLocal.getUserId();
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 
         new Handler().postDelayed(new Runnable() {
@@ -42,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
                 if (userId<=0)
                 {
                     startActivity(new Intent(MainActivity.this,Login.class));
-                    finish();
+                   // finish();
                 }
                 else {
-                    startActivity(new Intent(MainActivity.this, BothBottomAndSideNavigation.class));
-                    // startActivity(new Intent(SplashScreen.this, LoginActivity.class));
-                    finish();
+                    if (sharedPrefLocal.getUserType().equals("teacher"))
+                        startActivity(new Intent(MainActivity.this, BottomNavTeacher.class));
+                    else
+                        startActivity(new Intent(MainActivity.this, BothBottomAndSideNavigation.class));
+                   // finish();
                 }
 
 

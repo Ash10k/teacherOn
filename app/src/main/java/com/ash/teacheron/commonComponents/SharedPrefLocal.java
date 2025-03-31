@@ -77,8 +77,19 @@ public class SharedPrefLocal {
         return sharedPreferences.getString(KEY_USER_DISPLAY_NAME, "");  // Default to null if not found
     }
 
+    public String getUserPhone() {
+        return sharedPreferences.getString(KEY_USER_PHONE, "");  // Default to null if not found
+    }
+
+    public String getUserType() {
+        return sharedPreferences.getString(KEY_USER_TYPE, "");  // Default to null if not found
+    }
 
 
+
+    public String getUserProfileImage() {
+        return sharedPreferences.getString(KEY_USER_PROFILPIC, "");  // Default to null if not found
+    }
 
 
     public void setUserEmail(String val) {
@@ -98,5 +109,80 @@ public class SharedPrefLocal {
     public String getUserPassword() {
         return sharedPreferences.getString(KEY_PASSWORD, "");  // Default to null if not found
     }
+
+
+    public void setUserPhone(String val) {
+        editor.putString(KEY_USER_PHONE, val);
+        editor.apply();
+    }
+
+    public void setUserType(String val) {
+        editor.putString(KEY_USER_TYPE, val);
+        editor.apply();
+    }
+
+
+    //new data
+
+    public void setUserLocation(String value) {
+        editor.putString(KEY_USER_LOCATION, value);
+        editor.apply();
+    }
+    public void setUserDOB(String value) {
+        editor.putString(KEY_USER_DOB, value);
+        editor.apply();
+    }
+    public void setUserFEEDETAIL(String value) {
+        editor.putString(KEY_USER_FEEDETAIL, value);
+        editor.apply();
+    }
+    public void setUserFeeAmount(String value) {
+        editor.putString(KEY_USER_FEEAMOUNT, value);
+        editor.apply();
+    }
+    public void setUserExperience(String value) {
+        editor.putString(KEY_USER_EXPE, value);
+        editor.apply();
+    }
+    public void setUserAssocia(String value) {
+        editor.putString(KEY_USER_ASSOCIA, value);
+        editor.apply();
+    }
+
+    public void setUserSchedule(String value) {
+        editor.putString(KEY_USER_SCHEDULE, value);
+        editor.apply();
+    }
+
+
+    public String getUserLocation() {
+        return sharedPreferences.getString(KEY_USER_LOCATION, "");
+    }
+
+    public String getUserDOB() {
+        return sharedPreferences.getString(KEY_USER_DOB, "");
+    }
+
+    public String getUserFEEDETAIL() {
+        return sharedPreferences.getString(KEY_USER_FEEDETAIL, "");
+    }
+
+    public String getUserFeeAmount() {
+        return sharedPreferences.getString(KEY_USER_FEEAMOUNT, "");
+    }
+
+    public String getUserExperience() {
+        return sharedPreferences.getString(KEY_USER_EXPE, "");
+    }
+
+    public String getUserAssocia() {
+        return sharedPreferences.getString(KEY_USER_ASSOCIA, "");
+    }
+
+    public String getUserSchedule() {
+        return sharedPreferences.getString(KEY_USER_SCHEDULE, "");
+    }
+
+
 
 }

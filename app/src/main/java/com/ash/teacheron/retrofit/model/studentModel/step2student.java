@@ -16,6 +16,9 @@ public class step2student {
     @SerializedName("tutor_from_country_id") public String tutor_from_country_id;
     @SerializedName("password") public String password;
 
+    @SerializedName("level_id") public String level_id;
+    @SerializedName("subject_id") public String subject_id;
+
 
     public step2student(String user_id, String requirement_type, String tutor_option, String travel_limit, String budget, String budget_type, String gender_preference, String tutor_type, String budget_currency_id, String communicate_language_id, String tutor_from_country_id,String password) {
         this.user_id = user_id;
@@ -31,4 +34,24 @@ public class step2student {
         this.tutor_from_country_id = tutor_from_country_id;
         this.password=password;
     }
+
+    public step2student(String sub,String lev,String user_id, String requirement_type, String tutor_option, String travel_limit, String budget, String budget_type, String gender_preference, String tutor_type, String budget_currency_id, String communicate_language_id, String tutor_from_country_id,String password) {
+        this.user_id = user_id;
+        this.requirement_type = requirement_type;
+        this.tutor_option = tutor_option;
+        this.travel_limit = travel_limit;
+        this.budget = budget;
+        this.budget_type = budget_type;
+        this.gender_preference = gender_preference;
+        this.tutor_type = tutor_type;
+        this.budget_currency_id = budget_currency_id;
+        this.communicate_language_id = communicate_language_id;
+        this.tutor_from_country_id = tutor_from_country_id;
+        this.password=password;
+        this.subject_id=sub;
+        this.level_id=lev;
+    }
+
+
+
 }
