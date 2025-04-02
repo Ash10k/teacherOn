@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TeacherOn</string>
+    <string name="app_name">Find Your Teacher</string>
     <string name="title_activity_bottom_nav">BottomNav</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Find Tutor</string>

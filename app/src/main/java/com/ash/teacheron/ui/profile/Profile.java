@@ -53,8 +53,8 @@ public class Profile extends Fragment {
             {
                 RequestOptions options = new RequestOptions()
                         .centerCrop()
-                        .placeholder(R.drawable.baseline_image_24)
-                        .error(R.drawable.baseline_image_24);
+                        .placeholder(R.drawable.baseline_account_circle_24)
+                        .error(R.drawable.baseline_account_circle_24);
                 Glide.with(getContext()).load(sharedPrefLocal.getUserProfileImage()).apply(options).into(profile_image);
                 teacher_name.setText(sharedPrefLocal.getUserName());
                 teacher_location.setText(sharedPrefLocal.getUserLocation());

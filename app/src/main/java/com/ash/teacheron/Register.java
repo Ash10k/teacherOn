@@ -20,7 +20,10 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.*;
@@ -39,6 +42,7 @@ import com.ash.teacheron.retrofit.model.ErrorData;
 import com.ash.teacheron.retrofit.model.teaacherModel.registerResponse;
 import com.ash.teacheron.viewmodel.registerVM.RegisterVModel;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -69,19 +73,20 @@ public class Register extends AppCompatActivity {
     AlertDialog mydialog;
     DatePickerDialog datePickerDialog;
     RelativeLayout requesttutor;
-    LinearLayout alrdylogin;
+    LinearLayout alrdylogin,choosedb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register);
-         ;
+
         login =  findViewById(R.id.registerbtn);
         new_Email =  findViewById(R.id.new_Email);
         new_Password =  findViewById(R.id.new_Password);
         phone= findViewById(R.id.phone);
         fname= findViewById(R.id.fname);
         date_choosen= findViewById(R.id.date_choosen);
+        choosedb=findViewById(R.id.choosedb);
         speciality= findViewById(R.id.speciality);
         postalcode= findViewById(R.id.postalcode);
         Spinner genderSpinner = findViewById(R.id.choosegender);
@@ -119,57 +124,58 @@ public class Register extends AppCompatActivity {
                 lnme = date_choosen.getText().toString();
 
 
+
                 if (pass != null && !pass.isEmpty() && mail != null && !mail.isEmpty() &&
                         fnm != null && !fnm.isEmpty() &&
                         lnme != null && !lnme.isEmpty()
                 )
                 {
-                    RegisterVModel viewModel = new ViewModelProvider( Register.this).get(RegisterVModel.class);
-                    networkLoader.showLoadingDialog(Register.this);
-                    viewModel.startRegisterStep1( mail,   pass,   lnme,  fnm,  phone.getText().toString(), "India", "0",   "0",  "teacher",  pstcode,speciality.getText().toString(),   selectedGender).observe( Register.this, new Observer<registerResponse>()
-                    {
-                        @Override
-                        public void onChanged(registerResponse reResponse) {
-                            if (reResponse != null) {
-                                Log.d("framg", "" + new Gson().toJson(reResponse));
-                                SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(Register.this);
-                                sharedPrefLocal.setUserId(reResponse.data.id);
-                                //sharedPrefLocal.setSessionId("Bearer "+reResponse.session_token);
+                    if (pass.length() < 6) {
+                        Toast.makeText(Register.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        RegisterVModel viewModel = new ViewModelProvider( Register.this).get(RegisterVModel.class);
+                        networkLoader.showLoadingDialog(Register.this);
+                        viewModel.startRegisterStep1( mail,   pass,   lnme,  fnm,  phone.getText().toString(), "India", "0",   "0",  "teacher",  pstcode,speciality.getText().toString(),   selectedGender).observe( Register.this, new Observer<registerResponse>()
+                        {
+                            @Override
+                            public void onChanged(registerResponse reResponse) {
+                                if (reResponse != null) {
+                                    Log.d("framg", "" + new Gson().toJson(reResponse));
+                                    SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(Register.this);
+                                    sharedPrefLocal.setUserId(reResponse.data.id);
+                                    //sharedPrefLocal.setSessionId("Bearer "+reResponse.session_token);
+                                    Intent intent=new Intent(Register.this,RegisterTeachStep2.class);
+                                    startActivity(intent);
+                                    Toast.makeText(Register.this, reResponse.message , Toast.LENGTH_SHORT).show();
 
+                                } else {
+                                    // Handle null response here if needed
+                                    Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
+                                }
 
-                                Intent intent=new Intent(Register.this,RegisterTeachStep2.class);
-                                startActivity(intent);
-                                Toast.makeText(Register.this, reResponse.message , Toast.LENGTH_SHORT).show();
+                                networkLoader.dismissLoadingDialog();
 
-                            } else {
-                                // Handle null response here if needed
-                                Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
                             }
-
-                            networkLoader.dismissLoadingDialog();
-
-                        }
-                    });
-                    viewModel.getErrorMessage().observe( Register.this, new Observer<ErrorData>() {
-                        @Override
-                        public void onChanged(ErrorData errorData) {
-                            // Display error message
-                            Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
-                            Log.d("Error", errorData.getMessage());
-                            networkLoader.dismissLoadingDialog();
-                        }
-                    });
-
+                        });
+                        viewModel.getErrorMessage().observe( Register.this, new Observer<ErrorData>() {
+                            @Override
+                            public void onChanged(ErrorData errorData) {
+                                // Display error message
+                                Toast.makeText(Register.this, "Failed to send OTP", Toast.LENGTH_SHORT).show();
+                                Log.d("Error", errorData.getMessage());
+                                networkLoader.dismissLoadingDialog();
+                            }
+                        });
+                    }
                 }
                 else
                     Toast.makeText(Register.this, "Choose all the fields", Toast.LENGTH_SHORT).show();
-
-
             }
         });
 
 
-        date_choosen.setOnClickListener(new View.OnClickListener() {
+        choosedb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 initDatePicker();
@@ -191,6 +197,31 @@ public class Register extends AppCompatActivity {
                 startActivity(new Intent(Register.this,Login.class));
             }
         });
+
+
+        TextInputLayout emailLayout = findViewById(R.id.emailLayout);
+        new_Email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!isValidEmail(s.toString())) {
+                    emailLayout.setError("Invalid email format");
+                } else {
+                    emailLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+
+
     }
 
     @SuppressLint("Range")
@@ -366,5 +397,7 @@ public class Register extends AppCompatActivity {
         datePickerDialog.show();
 
     }
-
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 }

@@ -5,7 +5,10 @@ import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +37,7 @@ import com.ash.teacheron.viewmodel.teacherVM.step2VModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -88,8 +92,27 @@ public class StudentRegisterStep1 extends AppCompatActivity {
         phone=findViewById(R.id.phone);
         ima=findViewById(R.id.iamaa);
 
+        TextInputLayout emailLayout = findViewById(R.id.emailLayout);
+        new_Email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-         ;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!isValidEmail(s.toString())) {
+                    emailLayout.setError("Invalid email format");
+                } else {
+                    emailLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
         asateacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -317,6 +340,8 @@ public class StudentRegisterStep1 extends AppCompatActivity {
         }
         return names;
     }
-
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
 }

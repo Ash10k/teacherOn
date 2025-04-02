@@ -45,25 +45,22 @@
                 android:orientation="horizontal">
 
 
-
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
                     android:id="@+id/requesttutor"
-                    android:background="@drawable/button_border_light"
-                   >
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_border_light">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Request a tutor"
                         android:layout_centerInParent="true"
-                        android:textStyle="bold"
                         android:padding="20dp"
+                        android:text="Request a tutor"
                         android:textColor="@color/black"
-                        />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -72,38 +69,35 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/button_border"
-                    >
+                    android:background="@drawable/button_border">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="As a Teacher"
                         android:layout_centerInParent="true"
-                        android:textStyle="bold"
                         android:padding="20dp"
+                        android:text="As a Teacher"
                         android:textColor="@color/white"
-                        />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
-
-
 
 
             </LinearLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
-
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:id="@+id/emailLayout"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/new_Email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
-                    android:id="@+id/new_Email"
                     android:inputType="textEmailAddress"
                     android:padding="12dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -113,145 +107,165 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
-
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-                android:inputType="textPassword"
-                android:id="@+id/new_Password"
-                android:hint="Password"
-                android:padding="12dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/new_Password"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="12dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
-                android:id="@+id/fname"
-                android:inputType="textPersonName"
-                android:padding="12dp" />
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    android:padding="12dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone"
-                android:id="@+id/phone"
-                android:inputType="phone"
+                android:layout_marginBottom="20dp">
 
-                android:padding="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:padding="12dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/date_choosen"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/choosedb"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="20dp"
-                android:text="Date of birth"
-                android:textColor="@color/black" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/choosegender"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_border"
-                android:padding="12dp" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:hint="Pincode"
-
-                android:id="@+id/postalcode"
-                android:inputType="numberSigned"
-                android:padding="12dp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="I know how to teach well"
-                android:id="@+id/speciality"
-                android:padding="12dp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Continue Button -->
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@color/colorPrimary"
-                android:text="CONTINUE"
-                android:id="@+id/registerbtn"
-                android:textAllCaps="true"
-                android:textColor="#FFFFFF" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_horizontal"
-                android:id="@+id/alrdylogin"
-                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:text="Date of birth"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/date_choosen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text=""
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/choosegender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/edittext_border"
+                android:padding="12dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/postalcode"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:maxLength="6"
+                    android:hint="Pincode"
+                    android:inputType="numberSigned"
+                    android:padding="12dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/speciality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="I know how to teach well"
+                    android:padding="12dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Continue Button -->
+            <Button
+                android:id="@+id/registerbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@color/colorPrimary"
+                android:text="CONTINUE"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF" />
+
+            <LinearLayout
+                android:id="@+id/alrdylogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/dm_sans_bold"
                     android:text="Already have an account?"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/dm_sans_bold"
-                    android:textSize="17sp"
-                    />
+                    android:textSize="17sp" />
+
                 <TextView
                     android:id="@+id/signuplink"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Login"
                     android:fontFamily="@font/dm_sans_bold"
+                    android:text="Login"
                     android:textColor="@color/blue"
-                    android:textSize="17sp"
-                    />
+                    android:textSize="17sp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -4,20 +4,20 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/baseline_business_center_24"
-        android:title="" />
+        android:title="Job matched" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/baseline_content_paste_search_24"
-        android:title="" />
+        android:title="Tutor Job" />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/baseline_message_24"
-        android:title=" " />
+        android:title="Message" />
 
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/baseline_account_circle_24"
-        android:title=" " />
+        android:title="Profile" />
 </menu>

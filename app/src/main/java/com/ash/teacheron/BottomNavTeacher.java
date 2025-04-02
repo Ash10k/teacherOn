@@ -95,7 +95,11 @@ public class BottomNavTeacher extends AppCompatActivity {
             Fragment selectedFragment = null;
             if (item.getItemId() == R.id.nav_about) {
                 //selectedFragment = new AboutFragment();
-                startActivity(new Intent(BottomNavTeacher.this,DemoActivity.class));
+
+                Intent intent=new Intent(BottomNavTeacher.this,DemoActivity.class);
+                intent.putExtra("type",2);
+                startActivity(intent);
+
             } else if (item.getItemId() == R.id.nav_logout) {
                 new AlertDialog.Builder(BottomNavTeacher.this)
                         .setTitle("Logout")
@@ -116,15 +120,21 @@ public class BottomNavTeacher extends AppCompatActivity {
                 return true;
             }
             else if (item.getItemId() == R.id.terms) {
-                startActivity(new Intent(BottomNavTeacher.this,DemoActivity.class));
+                Intent intent=new Intent(BottomNavTeacher.this,DemoActivity.class);
+                intent.putExtra("type",3);
+                startActivity(intent);
                 return true;
             }
             else if (item.getItemId() == R.id.privacypol) {
-                startActivity(new Intent(BottomNavTeacher.this,DemoActivity.class));
+                Intent intent=new Intent(BottomNavTeacher.this,DemoActivity.class);
+                intent.putExtra("type",4);
+                startActivity(intent);
                 return true;
             }
             else if (item.getItemId() == R.id.contactus) {
-                startActivity(new Intent(BottomNavTeacher.this,DemoActivity.class));
+                Intent intent=new Intent(BottomNavTeacher.this,DemoActivity.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
                 return true;
             }
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -45,65 +44,59 @@
                 android:orientation="horizontal">
 
 
-
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/button_border"
-                    >
+                    android:background="@drawable/button_border">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:padding="20dp"
                         android:text="Request a tutor"
-                        android:layout_centerInParent="true"
-                        android:textStyle="bold"
-                        android:padding="20dp"
                         android:textColor="@color/white"
-                        />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/asateacher"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_weight="1"
-                    android:id="@+id/asateacher"
-                    android:background="@drawable/button_border_light"
-                    >
+                    android:background="@drawable/button_border_light">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="As a Teacher"
                         android:layout_centerInParent="true"
-                        android:textStyle="bold"
                         android:padding="20dp"
+                        android:text="As a Teacher"
                         android:textColor="@color/black"
-                        />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
-
-
 
 
             </LinearLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
-
+                android:id="@+id/emailLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/new_Email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
-                    android:id="@+id/new_Email"
                     android:inputType="textEmailAddress"
                     android:padding="12dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -113,33 +106,35 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
-
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                android:layout_width="match_parent"
 
-                    android:inputType="textPassword"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/new_Password"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
                     android:hint="Password"
+                    android:inputType="textPassword"
                     android:padding="12dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
-                    android:id="@+id/fname"
                     android:inputType="textPersonName"
                     android:padding="12dp" />
 
@@ -147,36 +142,34 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone"
-                    android:id="@+id/phone"
                     android:inputType="phone"
-
+                    android:maxLength="10"
                     android:padding="12dp" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/detailsof"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Details of your requirement"
-                    android:id="@+id/detailsof"
                     android:padding="12dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -185,73 +178,75 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="Subject"/>
+                android:text="Subject" />
+
             <Spinner
-                android:layout_width="match_parent"
                 android:id="@+id/subjectSpinner"
-                android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_height="wrap_content"
-                android:text="Level"/>
+                android:layout_marginBottom="20dp"
+                android:text="Level" />
+
             <Spinner
-                android:layout_width="match_parent"
                 android:id="@+id/fromLevelSpinner"
-                android:layout_marginBottom="10dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_height="wrap_content"
-                android:text="I am a"/>
+                android:layout_marginBottom="20dp"
+                android:text="I am a" />
+
             <Spinner
-                android:layout_width="match_parent"
                 android:id="@+id/iamaa"
-                android:layout_marginBottom="10dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
 
             <!-- Continue Button -->
             <Button
+                android:id="@+id/registerbtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@color/colorPrimary"
                 android:text="CONTINUE"
-                android:id="@+id/registerbtn"
                 android:textAllCaps="true"
                 android:textColor="#FFFFFF" />
 
             <LinearLayout
+                android:id="@+id/openstudlogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerVertical="true"
-                android:id="@+id/openstudlogin"
-                android:gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/dm_sans_bold"
                     android:text="Already have an account?"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/dm_sans_bold"
-                    android:textSize="17sp"
-                    />
+                    android:textSize="17sp" />
+
                 <TextView
                     android:id="@+id/signuplink"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Login"
                     android:fontFamily="@font/dm_sans_bold"
+                    android:text="Login"
                     android:textColor="@color/blue"
-                    android:textSize="17sp"
-                    />
+                    android:textSize="17sp" />
             </LinearLayout>
 
         </LinearLayout>
