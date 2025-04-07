@@ -10,19 +10,24 @@ import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -75,7 +80,7 @@ public class AddNewRequirement extends AppCompatActivity {
 
     ImageView selectedImg;
     private Spinner degreeTypeSpinner, monthStartSpinner, yearStartSpinner, monthEndSpinner, yearEndSpinner, associationSpinner, gndrpref, typesrates;
-    private TextInputEditText degreeNameInput, budgtinp;
+    private TextInputEditText degreeNameInput, budgtinp,detailsrequi,loctiio;
     private Button savestep2;
     private ChipGroup chipGroup;
 
@@ -95,7 +100,7 @@ public class AddNewRequirement extends AppCompatActivity {
     private Uri camuri;
     File imageFile;
     MultipartBody.Part imagePart;
-    String password, user_id, requirement_type, tutor_option, travel_limit, budget, budget_type, gender_preference, tutor_type, budget_currency_id, communicate_language_id, tutor_from_country_id;
+    String details,lo, user_id, requirement_type, tutor_option, travel_limit, budget, budget_type, gender_preference, tutor_type, budget_currency_id, communicate_language_id, tutor_from_country_id;
 
     private List<appOptionsResponse.Subject> subjectsListActual = new ArrayList<>();
     private List<appOptionsResponse.Level> levelsList = new ArrayList<>();
@@ -114,7 +119,7 @@ public class AddNewRequirement extends AppCompatActivity {
         subjectSpinner = findViewById(R.id.subjectSpinner);
         fromLevelSpinner = findViewById(R.id.fromLevelSpinner);
 
-        selectedImg = findViewById(R.id.selectedImg);
+       // selectedImg = findViewById(R.id.selectedImg);
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(AddNewRequirement.this);
         user_id = String.valueOf(sharedPrefLocal.getUserId());
         //password=sharedPrefLocal.getSessionId();
@@ -128,10 +133,12 @@ public class AddNewRequirement extends AppCompatActivity {
         yearEndSpinner = findViewById(R.id.yearend);
         associationSpinner = findViewById(R.id.association);
         // addButton = findViewById(R.id.addButton);
+
         savestep2 = findViewById(R.id.savestep2);
         chipGroup = findViewById(R.id.chipGroup);
         gndrpref = findViewById(R.id.gndrpref);
-
+        detailsrequi=findViewById(R.id.detailsrequi);
+        loctiio=findViewById(R.id.loctiio);
         loadDummyData();
         networkLoader = new NetworkLoader();
         getLanguage();
@@ -144,7 +151,8 @@ public class AddNewRequirement extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                details=detailsrequi.getText().toString().trim();
+                lo=loctiio.getText().toString().trim();
                 budget = budgtinp.getText().toString().trim();
                 travel_limit = degreeNameInput.getText().toString().trim();
 
@@ -175,7 +183,7 @@ public class AddNewRequirement extends AppCompatActivity {
                     String subject_id = String.valueOf(subjectsList.get(subjectIndex2).id);
                     String from_level_id = String.valueOf(levelsList.get(fromLevelIndex).id);
 
-                    viewModel.createPost(subject_id, from_level_id, user_id, requirement_type, tutor_option, travel_limit, budget, budget_type, gender_preference, tutor_type, budget_currency_id, communicate_language_id, tutor_from_country_id, password, token).observe(AddNewRequirement.this, new Observer<registerResponseStep2>() {
+                    viewModel.createPost(subject_id, from_level_id, user_id, requirement_type, tutor_option, travel_limit, budget, budget_type, gender_preference, tutor_type, budget_currency_id, communicate_language_id, tutor_from_country_id, details, token,lo).observe(AddNewRequirement.this, new Observer<registerResponseStep2>() {
                         @Override
                         public void onChanged(registerResponseStep2 loginResponse) {
                             if (loginResponse != null) {
@@ -212,7 +220,7 @@ public class AddNewRequirement extends AppCompatActivity {
             }
         });
 
-        selectedImg.setOnClickListener(new View.OnClickListener() {
+        /*selectedImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage(21);
@@ -222,7 +230,7 @@ public class AddNewRequirement extends AppCompatActivity {
             Toast.makeText(AddNewRequirement.this, "Please give permission", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(AddNewRequirement.this, new String[]{Manifest.permission.CAMERA, MANAGE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION}, 101);
             // Log.d(TAG, "onCreate: request code" + requestCode);
-        }
+        }*/
     }
 
     private void loadDummyData() {
@@ -412,6 +420,20 @@ public class AddNewRequirement extends AppCompatActivity {
         ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, getCountryNames());
         yearEndSpinner.setAdapter(countryAdapter);
 
+        List<String> countryNames = getCountryNames();
+        int defaultPosition = countryNames.indexOf("India"); // Find index of "India"
+        if (defaultPosition != -1) {
+            yearEndSpinner.setSelection(defaultPosition); // Set selection if found
+        }
+
+
+        List<String> currencyNames = getCurrencyNames();
+        int defaultPositionCurr = currencyNames.indexOf("Indian Rupee"); // Find index of "Indian Rupee"
+        if (defaultPositionCurr != -1) {
+            monthEndSpinner.setSelection(defaultPositionCurr); // Set selection if found
+        }
+
+
     }
 
     private List<String> getSubjectNames() {
@@ -484,8 +506,8 @@ public class AddNewRequirement extends AppCompatActivity {
 
                 RequestOptions options = new RequestOptions()
                         .centerCrop()
-                        .placeholder(R.drawable.baseline_image_24)
-                        .error(R.drawable.baseline_image_24);
+                        .placeholder(R.drawable.baseline_account_circle_24)
+                        .error(R.drawable.baseline_account_circle_24);
                 Glide.with(AddNewRequirement.this).load(bitmap).apply(options).into(selectedImg);
 
 
@@ -590,7 +612,7 @@ public class AddNewRequirement extends AppCompatActivity {
             RequestBody user_idRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userId));
             MultipartBody.Part uidPart = MultipartBody.Part.createFormData("user_id", null, user_idRequestBody);
             SendData = RetrofitBuilder.build().create(AuthAPI.class);
-            Call<saveResponse> call = SendData.saveImageStudent(uidPart, imagePart);
+            Call<saveResponse> call = SendData.saveImageStudent(token,uidPart, imagePart);
             call.enqueue(new Callback<saveResponse>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
@@ -702,5 +724,26 @@ public class AddNewRequirement extends AppCompatActivity {
         fromLevelSpinner.setAdapter(levelAdapter);
 
     }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof TextInputEditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
 
 }

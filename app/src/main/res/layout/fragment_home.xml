@@ -7,28 +7,36 @@
     android:background="@color/white"
     tools:context=".ui.home.HomeFragment">
 
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/neepostAdd"
-        android:id="@+id/beneficiary_list"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:text="My Requirement"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/sp18"
+        android:layout_marginBottom="2dp"
+        android:id="@+id/mk"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/beneficiary_list"
+        android:layout_below="@id/mk"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/neepostAdd" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/neepostAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:tint="@color/white"
-        android:id="@+id/neepostAdd"
-        app:backgroundTintMode="add"
-        app:backgroundTint="@color/blue"
         android:foregroundTint="@color/white"
         android:src="@drawable/baseline_add_24_white"
-        />
+        android:tint="@color/white"
+        app:backgroundTint="@color/blue"
+        app:backgroundTintMode="add" />
 
 </RelativeLayout>

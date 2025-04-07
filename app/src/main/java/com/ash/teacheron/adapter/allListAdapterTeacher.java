@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -84,7 +85,6 @@ public class allListAdapterTeacher extends RecyclerView.Adapter<allListAdapterTe
                 intent.putExtra("subjectId",filteredList.get(position).subjectId);
                 context.startActivity(intent);*/
               //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
-
                 listener.onItemClick(filteredList.get(position), 1);
             }
         });

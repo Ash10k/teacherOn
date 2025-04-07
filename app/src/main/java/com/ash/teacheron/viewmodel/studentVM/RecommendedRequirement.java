@@ -30,14 +30,14 @@ public class RecommendedRequirement extends AndroidViewModel
         // Assuming you have implemented error handling in the repository
         return repository.getErrorMessage();
     }
-    public LiveData<recommendedTeacherResponse> searchTeacher(  String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location)
+    public LiveData<recommendedTeacherResponse> searchTeacher(  String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location,int page)
     {
-        return repository.getSearchTeacher(  token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location);
+        return repository.getSearchTeacher(  token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location,page);
     }
 
-    public LiveData<recommendedTeacherResponse> searchReq(  String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location)
+    public LiveData<recommendedTeacherResponse> searchReq(  String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location,int page)
     {
-        return repository.srchreq(  token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location);
+        return repository.srchreq(  token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location,page);
     }
 
 

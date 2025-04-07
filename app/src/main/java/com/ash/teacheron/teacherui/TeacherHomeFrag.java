@@ -48,7 +48,7 @@ public class TeacherHomeFrag extends Fragment {
     allListAdapterTeacherconnected adapter2;
     listRequirement viewModel;
     CardView openconnectedjb, openmatchingjb;
-    TextView matchedj, connj;
+    TextView matchedj, connj,nodatashow;
     AlertDialog detailsDialog;
 
     private TextView teacherName, teacherLocation, teacherExperience, teacherFee, teacherEmail,
@@ -72,7 +72,7 @@ public class TeacherHomeFrag extends Fragment {
         openconnectedjb = fragmentView.findViewById(R.id.openconnectedjb);
         matchedj = fragmentView.findViewById(R.id.matchedj);
         connj = fragmentView.findViewById(R.id.connj);
-
+        nodatashow=fragmentView.findViewById(R.id.nodatashow);
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(requireContext());
         userId = String.valueOf(sharedPrefLocal.getUserId());
         token = sharedPrefLocal.getSessionId();
@@ -136,6 +136,14 @@ public class TeacherHomeFrag extends Fragment {
                         }
                     }
                 });
+                try {
+                    if (loginResponse.data.dataList.size()==0)
+                    {
+                        nodatashow.setVisibility(View.VISIBLE);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
 
 
             }
@@ -154,6 +162,15 @@ public class TeacherHomeFrag extends Fragment {
                         }
                     }
                 });
+
+                try {
+                    if (loginResponse.dataList.size()==0)
+                    {
+                        nodatashow.setVisibility(View.VISIBLE);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
 
             }
             networkLoader.dismissLoadingDialog();
@@ -198,7 +215,7 @@ public class TeacherHomeFrag extends Fragment {
         closeBtn = view.findViewById(R.id.close_btn);
         teacherName.setText(getSafeString(teacherObj.user.name));
         teacherLocation.setText(getSafeString(teacherObj.location));
-        teacherEmail.setText(getSafeString(teacherObj.user.email));
+        teacherEmail.setText(maskEmail(getSafeString(teacherObj.user.email)));
         teacherGender.setText(getSafeString(teacherObj.tutorOption));
         teacherFee.setText(getSafeString(teacherObj.budget) + " / " + getSafeString(teacherObj.budgetType));
         teacherExperience.setText("Requirement" + getSafeString(teacherObj.requirements));
@@ -254,7 +271,7 @@ public class TeacherHomeFrag extends Fragment {
         closeBtn = view.findViewById(R.id.close_btn);
         teacherName.setText(getSafeString(teacherObj.user.name));
         teacherLocation.setText(getSafeString(teacherObj.location));
-        teacherEmail.setText(getSafeString(teacherObj.user.email));
+        teacherEmail.setText(maskEmail(getSafeString(teacherObj.user.email)));
         teacherGender.setText(getSafeString(teacherObj.tutorOption));
         teacherFee.setText(getSafeString(teacherObj.budget) + " / " + getSafeString(teacherObj.budgetType));
         teacherExperience.setText("Requirement" + getSafeString(teacherObj.requirements));
@@ -283,5 +300,12 @@ public class TeacherHomeFrag extends Fragment {
         return value != null ? value : "";
     }
 
+
+    private String maskEmail(String email) {
+        if (email == null || !email.contains("@")) return "N/A";
+        String[] parts = email.split("@");
+        if (parts[0].length() < 2) return "****@" + parts[1]; // In case of short usernames
+        return parts[0].substring(0, 2) + "****@" + parts[1];
+    }
 
 }

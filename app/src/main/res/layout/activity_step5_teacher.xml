@@ -170,6 +170,8 @@
                         <Spinner
                             android:id="@+id/monthstart"
                             android:layout_width="match_parent"
+                            android:background="@drawable/border_only"
+                            android:layout_margin="5dp"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
@@ -189,6 +191,8 @@
                         <Spinner
                             android:id="@+id/yearstart"
                             android:layout_width="match_parent"
+                            android:background="@drawable/border_only"
+                            android:layout_margin="5dp"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
@@ -217,6 +221,8 @@
                         <Spinner
                             android:id="@+id/monthend"
                             android:layout_width="match_parent"
+                            android:background="@drawable/border_only"
+                            android:layout_margin="5dp"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
@@ -236,6 +242,8 @@
                         <Spinner
                             android:id="@+id/yearend"
                             android:layout_width="match_parent"
+                            android:background="@drawable/border_only"
+                            android:layout_margin="5dp"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
@@ -265,6 +273,8 @@
                         <Spinner
                             android:id="@+id/association"
                             android:layout_width="match_parent"
+                            android:background="@drawable/border_only"
+                            android:layout_margin="5dp"
                             android:layout_height="wrap_content" />
 
                     </LinearLayout>
@@ -294,6 +304,8 @@
                         <Spinner
                             android:id="@+id/parttm"
                             android:layout_width="match_parent"
+                            android:background="@drawable/border_only"
+                            android:layout_margin="5dp"
                             android:layout_height="wrap_content" />
 
                     </LinearLayout>

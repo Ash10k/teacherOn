@@ -15,15 +15,22 @@ public class ChatResponseDataModel {
 
     @SerializedName("data")
     @Expose
-    public List<ChatUser> data;
+    public Datam Dataout;
+
+    public class Datam{
+        @SerializedName("data")
+        @Expose
+        public List<ChatUser> data;
+    }
+
+
+
 
     public String getStatus() {
         return status;
     }
 
-    public List<ChatUser> getData() {
-        return data;
-    }
+
 
     public static class ChatUser {
         @SerializedName("id")
@@ -50,9 +57,27 @@ public class ChatResponseDataModel {
         @Expose
         public Map<String, Object> metaDetails;
 
+        @SerializedName("message")
+        @Expose
+        public String message;
+
         @SerializedName("recent_message")
         @Expose
         public String recentMessage;
+
+
+        @SerializedName("created_at")
+        @Expose
+        public String created_at;
+
+        @SerializedName("sender_name")
+        @Expose
+        public String sender_name;
+
+        @SerializedName("receiver_name")
+        @Expose
+        public String receiver_name;
+
 
         @SerializedName("recent_message_human_time")
         @Expose

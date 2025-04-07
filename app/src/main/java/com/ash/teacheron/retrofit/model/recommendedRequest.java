@@ -25,17 +25,31 @@ public class recommendedRequest {
     @SerializedName("student_meta_id")
     public String student_meta_id;
 
+    @SerializedName("page")
+    public int page;
 
-    public recommendedRequest(String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location) {
+    @SerializedName("other_user_id")
+    public String other_user_id;
+
+
+
+    public recommendedRequest(String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location,int page) {
         this.requirement_id = requirement_id;
         this.subject_id = subject_id;
         this.subject = subject;
         this.from_level_id = from_level_id;
         this.to_level_id = to_level_id;
         this.location = location;
+        this.page=page;
     }
 
     public recommendedRequest(String student_meta_id) {
         this.student_meta_id = student_meta_id;
+    }
+
+    public recommendedRequest(String other_user_id, String student_meta_id, int page) {
+        this.other_user_id = other_user_id;
+        this.student_meta_id = student_meta_id;
+        this.page = page;
     }
 }

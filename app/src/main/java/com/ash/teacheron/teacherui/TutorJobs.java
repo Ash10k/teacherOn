@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -25,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,14 +64,14 @@ public class TutorJobs extends Fragment {
 
 
     View fragmentView;
-    AlertDialog detailsDialog,subjectDialog,certiDialog,experDialog;
+    AlertDialog detailsDialog,subjectDialog,certiDialog,experDialog,levelDialog;
     String option = "",userId,token,TAG="TutorJobs.java";
     NetworkLoader networkLoader;
     SharedPreferences sharedPreferences;
     RecyclerView beneficiary_list;
     teacherrecommendedTeacherListAdapter adapter;
     String requirement_id="",   subject_id="",   subject="",   from_level_id="",   to_level_id="" ,location="";
-    private Spinner subjectSpinner, fromLevelSpinner;
+    private Spinner subjectSpinner, fromLevelSpinner,toLevelSpinner;
     private TextView teacherName, teacherLocation, teacherExperience, teacherFee, teacherEmail,
             teacherPhone, teacherGender, teacherRole, teacherDOB, teacherTravel, teacherAvailability;
     private EditText feeDetailsInput;
@@ -81,6 +83,18 @@ public class TutorJobs extends Fragment {
     CardView openall,onlineopen,homeopen,searchv;
     ImageView im1,im2,im3;
     TextView tv1,tv2,tv3;
+    LinearLayout tvopenLevel;
+    CardView resetclose,applylevelfilter;
+    TextView lvlname;
+    RecommendedRequirement viewModel;
+
+
+    int currentPage = 1;
+    int lastPage = 1;
+    boolean isLoading = false;
+    List<recommendedTeacherResponse.TutorRequest> allData = new ArrayList<>();
+
+
     public TutorJobs() {
         // Required empty public constructor
     }
@@ -92,12 +106,15 @@ public class TutorJobs extends Fragment {
                              Bundle savedInstanceState) {
         fragmentView=inflater.inflate(R.layout.fragment_tutor_jobs, container, false);
         networkLoader = new NetworkLoader();
+        viewModel = new ViewModelProvider(getActivity()).get(RecommendedRequirement.class);
       //  requirement_id= String.valueOf(getActivity().getIntent().getIntExtra("reqID",0));
       //  subject_id= String.valueOf(getActivity().getIntent().getIntExtra("subjectId",0));
 
-
+        lvlname=fragmentView.findViewById(R.id.lvlname);
         subjectSpinner = fragmentView.findViewById(R.id.subjectSpinner);
-        fromLevelSpinner = fragmentView.findViewById(R.id.fromLevelSpinner);
+        tvopenLevel=fragmentView.findViewById(R.id.tvopenLevel);
+       // fromLevelSpinner = fragmentView.findViewById(R.id.fromLevelSpinner);
+        //toLevelSpinner = fragmentView.findViewById(R.id.toLevelSpinner);
         // Toast.makeText(this, ""+requirement_id, Toast.LENGTH_SHORT).show();
         get_edu_journey();
         beneficiary_list=fragmentView. findViewById(R.id.beneficiary_list);
@@ -105,7 +122,7 @@ public class TutorJobs extends Fragment {
         userId= String.valueOf(sharedPrefLocal.getUserId());
         token=  sharedPrefLocal.getSessionId();
 
-        searchthisData();
+        searchthisData(1);
 
         openall=fragmentView.findViewById(R.id.openall);
         onlineopen=fragmentView.findViewById(R.id.onlineopen);
@@ -138,7 +155,7 @@ public class TutorJobs extends Fragment {
                 Glide.with(requireContext()).load(R.drawable.baseline_computer_24_blue).into(im2);
                 Glide.with(requireContext()).load(R.drawable.baseline_home_24_blue).into(im3);
 
-
+                searchthisData(1);
             }
         });
 
@@ -159,7 +176,7 @@ public class TutorJobs extends Fragment {
                 Glide.with(requireContext()).load(R.drawable.baseline_computer_24_white).into(im2);
                 Glide.with(requireContext()).load(R.drawable.baseline_home_24_blue).into(im3);
 
-
+                searchthisData(1);
             }
         });
 
@@ -179,7 +196,7 @@ public class TutorJobs extends Fragment {
                 Glide.with(requireContext()).load(R.drawable.baseline_computer_24_blue).into(im2);
                 Glide.with(requireContext()).load(R.drawable.baseline_home_24_white).into(im3);
 
-
+                searchthisData(1);
 
             }
         });
@@ -189,12 +206,43 @@ public class TutorJobs extends Fragment {
             public void onClick(View view) {
 
                 int subjectIndex = subjectSpinner.getSelectedItemPosition();
-                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
                 subject_id= String.valueOf(subjectsList.get(subjectIndex).id);
+                /*int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
                 from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
-                searchthisData();
+                int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
+                to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);*/
+                searchthisData(1);
             }
         });
+
+        tvopenLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openLevelDialog();
+            }
+        });
+
+
+        beneficiary_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) { // only when scrolling up
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if (!isLoading && currentPage < lastPage) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                && firstVisibleItemPosition >= 0) {
+                            searchthisData(currentPage + 1);
+                        }
+                    }
+                }
+            }
+        });
+
         return fragmentView;
     }
 
@@ -231,7 +279,7 @@ public class TutorJobs extends Fragment {
         closeBtn = view.findViewById(R.id.close_btn);
         teacherName.setText(getSafeString(teacherObj.userinobj.name));
         teacherLocation.setText(getSafeString(teacherObj.location));
-        teacherEmail.setText(getSafeString(teacherObj.userinobj.email));
+        teacherEmail.setText(maskEmail(getSafeString(teacherObj.userinobj.email)));
         teacherGender.setText(getSafeString(teacherObj.tutor_option));
         teacherFee.setText(getSafeString(teacherObj.budget) + " / " + getSafeString(teacherObj.budget_type));
         teacherExperience.setText("Requirement" + getSafeString(teacherObj.requirements)  );
@@ -318,9 +366,7 @@ public class TutorJobs extends Fragment {
         ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getSubjectNames());
         subjectSpinner.setAdapter(subjectAdapter);
 
-        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getLevelNames());
-        fromLevelSpinner.setAdapter(levelAdapter);
-        
+
     }
 
     private boolean get_edu_journey() {
@@ -390,7 +436,7 @@ public class TutorJobs extends Fragment {
         return names;
     }
 
-    void searchthisData()
+   /* void searchthisData()
     {
         RecommendedRequirement viewModel = new ViewModelProvider(getActivity()).get(RecommendedRequirement.class);
         networkLoader.showLoadingDialog(getActivity());
@@ -453,7 +499,123 @@ public class TutorJobs extends Fragment {
             }
         });
 
+    }*/
+
+
+    void openLevelDialog()
+    {
+        AlertDialog.Builder mybuilder = new AlertDialog.Builder(getContext(), R.style.mydialog);
+        final LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_level, null);
+        mybuilder.setView(view);
+        levelDialog = mybuilder.create();
+
+        Window window = levelDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+
+        applylevelfilter = view.findViewById(R.id.applylevelfilter);
+        resetclose=view.findViewById(R.id.resetclose);
+        fromLevelSpinner = view. findViewById(R.id.fromLevelSpinner);
+        toLevelSpinner = view.findViewById(R.id.toLevelSpinner);
+        resetclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                levelDialog.dismiss();
+            }
+        });
+
+        applylevelfilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
+                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
+                lvlname.setText("Level\n"+levelsList.get(fromLevelIndex).title+ levelsList.get(toLevelIndex).title);
+                levelDialog.dismiss();
+                searchthisData(1);
+
+            }
+        });
+
+
+        setupLevelDialogSpinner();
+
+        levelDialog.show();
+
+
     }
 
+    void setupLevelDialogSpinner()
+    {
+        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getLevelNames());
+        fromLevelSpinner.setAdapter(levelAdapter);
+        toLevelSpinner.setAdapter(levelAdapter);
+    }
+
+
+    void searchthisData(int page) {
+        if (isLoading) return; // prevent multiple triggers
+        isLoading = true;
+        networkLoader.showLoadingDialog(getContext());
+        viewModel.searchReq(token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location, page)
+                .observe(getActivity(), new Observer<recommendedTeacherResponse>() {
+                    @Override
+                    public void onChanged(recommendedTeacherResponse response) {
+                        if (response != null) {
+                            lastPage = response.data.last_page;
+                            currentPage = response.data.current_page;
+
+                            if (page == 1) {
+                                allData.clear();
+                            }
+
+                            allData.addAll(response.data.dataList);
+
+                            if (adapter == null) {
+                                adapter = new teacherrecommendedTeacherListAdapter(getContext(), allData);
+                                beneficiary_list.setHasFixedSize(true);
+                                beneficiary_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                                beneficiary_list.setAdapter(adapter);
+                                adapter.onclickList(new teacherrecommendedTeacherListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(recommendedTeacherResponse.TutorRequest item, int instruction) {
+                                        if (instruction==1)
+                                        {
+                                            showDetails(item);
+                                        }
+                                        if (instruction==2)
+                                        {
+                                            Intent intent=new Intent(getActivity(), Single_chat_room.class);
+                                            intent.putExtra("receiver",Integer.parseInt(item.userinobj.id));
+                                            intent.putExtra("sender",Integer.parseInt(userId));
+                                           // Toast.makeText(getContext(), "receiver: "+item.userinobj.id+" Sender student_meta_id: "+Integer.parseInt(userId), Toast.LENGTH_SHORT).show();
+                                            startActivity(intent);
+
+                                        }
+                                    }
+                                });
+                            } else {
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }
+                        isLoading = false;
+                        networkLoader.dismissLoadingDialog();
+                    }
+                });
+    }
+
+    private String maskEmail(String email) {
+        if (email == null || !email.contains("@")) return "N/A";
+        String[] parts = email.split("@");
+        if (parts[0].length() < 2) return "****@" + parts[1]; // In case of short usernames
+        return parts[0].substring(0, 2) + "****@" + parts[1];
+    }
 
 }

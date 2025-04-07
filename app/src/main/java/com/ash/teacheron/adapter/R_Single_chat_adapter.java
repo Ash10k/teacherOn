@@ -119,7 +119,7 @@ public class R_Single_chat_adapter extends RecyclerView.Adapter<R_Single_chat_ad
             try
             {
 
-                text_label.setText(String.valueOf(item.recentMessage));
+                text_label.setText(String.valueOf(item.message));
 
                 /*if (item.getConverted_state()==1)
                 {
@@ -130,8 +130,8 @@ public class R_Single_chat_adapter extends RecyclerView.Adapter<R_Single_chat_ad
                     text_label.setTextColor(itemView.getContext().getResources().getColor(R.color.black));
                 }*/
               //  more.setVisibility(View.GONE);
-                timestamp.setText(String.valueOf( (item.recentMessageHumanTime)));
-                user_name.setText(String.valueOf(item.name));
+                timestamp.setText(String.valueOf( getFormatedDate(item.created_at)));
+                user_name.setText(String.valueOf(item.sender_name));
             }
             catch (Exception e)
             {

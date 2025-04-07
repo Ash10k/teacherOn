@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class DemoActivity extends AppCompatActivity {
 
-
+    TextView txthd;
     String aboutContent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +26,11 @@ public class DemoActivity extends AppCompatActivity {
             return insets;
         });
         TextView aboutTextView = findViewById(R.id.tvcg);
+        txthd=findViewById(R.id.txthd);
         int type=getIntent().getIntExtra("type",1);
         if (type==2)
         {
+            txthd.setText("About Us");
               aboutContent = "<h2>About Us</h2>" +
                     "<p>Welcome to <b>Find Your Teacher</b>, your trusted platform for finding and connecting with qualified teachers, both online and offline. We believe education is the key to unlocking human potential, and our goal is to make quality learning accessible to everyone.</p>" +
                     "<p>Whether you're a student looking for guidance or a parent searching for the best tutor for your child, we bridge the gap between learners and educators, ensuring a seamless and effective learning experience.</p>" +
@@ -77,6 +79,7 @@ public class DemoActivity extends AppCompatActivity {
 
         if (type==1)
         {
+            txthd.setText("Contact Us");
             aboutContent ="<h3>Contact Us</h3>" +
             "<p>For any queries or concerns regarding this Privacy Policy, please contact us at:</p>" +
                     "<p><b>[Find Your Teacher]</b></p>" +
@@ -87,6 +90,7 @@ public class DemoActivity extends AppCompatActivity {
 
         if (type==3)
         {
+            txthd.setText("Terms And Conditions");
             aboutContent =
                     "<h2>Terms And Conditions</h2>" +
 
@@ -135,6 +139,7 @@ public class DemoActivity extends AppCompatActivity {
 
         if (type==4)
         {
+            txthd.setText("Privacy Policy");
             aboutContent =
                     "<h2>Privacy Policy</h2>" +
 

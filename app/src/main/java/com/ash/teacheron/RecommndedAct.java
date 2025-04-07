@@ -15,12 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -60,7 +62,7 @@ import retrofit2.Response;
 
 public class RecommndedAct extends AppCompatActivity {
 
-    AlertDialog detailsDialog,subjectDialog,certiDialog,experDialog;
+    AlertDialog detailsDialog,subjectDialog,certiDialog,experDialog,levelDialog;
     String option = "",userId,token;
     NetworkLoader networkLoader;
     SharedPreferences sharedPreferences;
@@ -80,8 +82,20 @@ public class RecommndedAct extends AppCompatActivity {
     CardView openall,onlineopen,homeopen,searchv;
     ImageView im1,im2,im3;
     TextView tv1,tv2,tv3;
-    private Spinner subjectSpinner, fromLevelSpinner;
+    private Spinner subjectSpinner, fromLevelSpinner,toLevelSpinner;
     RecommendedRequirement viewModel;
+
+    LinearLayout tvopenLevel;
+    CardView resetclose,applylevelfilter;
+    TextView lvlname;
+
+    int currentPage = 1;
+    int lastPage = 1;
+    boolean isLoading = false;
+    List<recommendedTeacherResponse.TutorRequest> allData = new ArrayList<>();
+
+    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,11 +109,11 @@ public class RecommndedAct extends AppCompatActivity {
         userId= String.valueOf(sharedPrefLocal.getUserId());
         token=  sharedPrefLocal.getSessionId();
         viewModel = new ViewModelProvider(RecommndedAct.this).get(RecommendedRequirement.class);
-
-
+        tvopenLevel=findViewById(R.id.tvopenLevel);
+        lvlname=findViewById(R.id.lvlname);
 
         subjectSpinner =  findViewById(R.id.subjectSpinner);
-        fromLevelSpinner =  findViewById(R.id.fromLevelSpinner);
+
         get_edu_journey();
         openall= findViewById(R.id.openall);
         onlineopen= findViewById(R.id.onlineopen);
@@ -132,7 +146,7 @@ public class RecommndedAct extends AppCompatActivity {
                 Glide.with( RecommndedAct.this).load(R.drawable.baseline_computer_24_blue).into(im2);
                 Glide.with( RecommndedAct.this).load(R.drawable.baseline_home_24_blue).into(im3);
 
-
+                searchthisData(1);
             }
         });
 
@@ -153,7 +167,7 @@ public class RecommndedAct extends AppCompatActivity {
                 Glide.with( RecommndedAct.this).load(R.drawable.baseline_computer_24_white).into(im2);
                 Glide.with( RecommndedAct.this).load(R.drawable.baseline_home_24_blue).into(im3);
 
-
+                searchthisData(1);
             }
         });
 
@@ -174,7 +188,7 @@ public class RecommndedAct extends AppCompatActivity {
                 Glide.with( RecommndedAct.this).load(R.drawable.baseline_home_24_white).into(im3);
 
 
-
+                searchthisData(1);
             }
         });
 
@@ -183,16 +197,42 @@ public class RecommndedAct extends AppCompatActivity {
             public void onClick(View view) {
 
                 int subjectIndex = subjectSpinner.getSelectedItemPosition();
-                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
                 subject_id= String.valueOf(subjectsList.get(subjectIndex).id);
-                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
-                searchthisData();
+
+                searchthisData(1);
             }
         });
 
 
-        searchthisData();
-        
+        searchthisData(1);
+
+        tvopenLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                 openLevelDialog();
+            }
+        });
+
+        beneficiary_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) { // only when scrolling up
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if (!isLoading && currentPage < lastPage) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                && firstVisibleItemPosition >= 0) {
+                            searchthisData(currentPage + 1);
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
     void showDetails(recommendedTeacherResponse.TutorRequest teacherObj)
@@ -230,7 +270,7 @@ public class RecommndedAct extends AppCompatActivity {
         closeBtn = view.findViewById(R.id.close_btn);
         teacherName.setText(getSafeString(teacherObj.name));
         teacherLocation.setText(getSafeString(teacherObj.location));
-        teacherEmail.setText(getSafeString(teacherObj.email));
+        teacherEmail.setText(maskEmail(getSafeString(teacherObj.email)));
         teacherGender.setText(getSafeString(teacherObj.teacherMeta.gender));
         if (teacherObj.teacherDetail!=null)
         {
@@ -344,7 +384,7 @@ public class RecommndedAct extends AppCompatActivity {
     }
 
 
-    void searchthisData()
+    /*void searchthisData()
     {
         networkLoader.showLoadingDialog(RecommndedAct.this);
         viewModel.startLogin( token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location).observe(RecommndedAct.this, new Observer<recommendedTeacherResponse>() {
@@ -404,7 +444,7 @@ public class RecommndedAct extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     private boolean get_edu_journey() {
         // tried_username_pass(user, pass);
@@ -461,8 +501,8 @@ public class RecommndedAct extends AppCompatActivity {
         ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(RecommndedAct.this, android.R.layout.simple_spinner_dropdown_item, getSubjectNames());
         subjectSpinner.setAdapter(subjectAdapter);
 
-        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(RecommndedAct.this, android.R.layout.simple_spinner_dropdown_item, getLevelNames());
-        fromLevelSpinner.setAdapter(levelAdapter);
+
+
 
     }
 
@@ -480,6 +520,117 @@ public class RecommndedAct extends AppCompatActivity {
             names.add(level.title);
         }
         return names;
+    }
+
+
+    void openLevelDialog()
+    {
+        AlertDialog.Builder mybuilder = new AlertDialog.Builder(RecommndedAct.this, R.style.mydialog);
+        final LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_level, null);
+        mybuilder.setView(view);
+        levelDialog = mybuilder.create();
+
+        Window window = levelDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+
+        applylevelfilter = view.findViewById(R.id.applylevelfilter);
+        resetclose=view.findViewById(R.id.resetclose);
+        fromLevelSpinner = view. findViewById(R.id.fromLevelSpinner);
+        toLevelSpinner = view.findViewById(R.id.toLevelSpinner);
+        resetclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                levelDialog.dismiss();
+            }
+        });
+
+        applylevelfilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
+                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
+                levelDialog.dismiss();
+                lvlname.setText("Level\n"+levelsList.get(fromLevelIndex).title+ levelsList.get(toLevelIndex).title);
+                searchthisData(1);
+            }
+        });
+
+
+        setupLevelDialogSpinner();
+
+        levelDialog.show();
+
+
+    }
+
+    void setupLevelDialogSpinner()
+    {
+        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(RecommndedAct.this, android.R.layout.simple_spinner_dropdown_item, getLevelNames());
+        fromLevelSpinner.setAdapter(levelAdapter);
+        toLevelSpinner.setAdapter(levelAdapter);
+    }
+
+
+    void searchthisData(int page) {
+        if (isLoading) return; // prevent multiple triggers
+        isLoading = true;
+        networkLoader.showLoadingDialog(RecommndedAct.this);
+
+        viewModel.searchTeacher(token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location, page)
+                .observe(RecommndedAct.this, new Observer<recommendedTeacherResponse>() {
+                    @Override
+                    public void onChanged(recommendedTeacherResponse response) {
+                        if (response != null) {
+                            lastPage = response.data.last_page;
+                            currentPage = response.data.current_page;
+
+                            if (page == 1) {
+                                allData.clear();
+                            }
+
+                            allData.addAll(response.data.dataList);
+
+                            if (adapter == null) {
+                                adapter = new recommendedTeacherListAdapter(RecommndedAct.this, allData);
+                                beneficiary_list.setHasFixedSize(true);
+                                beneficiary_list.setLayoutManager(new LinearLayoutManager(RecommndedAct.this, LinearLayoutManager.VERTICAL, false));
+                                beneficiary_list.setAdapter(adapter);
+                                adapter.onclickList(new recommendedTeacherListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(recommendedTeacherResponse.TutorRequest item, int instruction) {
+                                        if (instruction == 1) {
+                                            showDetails(item);
+                                        } else if (instruction == 2) {
+                                            Intent intent = new Intent(RecommndedAct.this, Single_chat_room.class);
+                                            intent.putExtra("receiver", item.id);
+                                            intent.putExtra("sender", Integer.parseInt(requirement_id));
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+                            } else {
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }
+                        isLoading = false;
+                        networkLoader.dismissLoadingDialog();
+                    }
+                });
+    }
+    private String maskEmail(String email) {
+        if (email == null || !email.contains("@")) return "N/A";
+        String[] parts = email.split("@");
+        if (parts[0].length() < 2) return "****@" + parts[1]; // In case of short usernames
+        return parts[0].substring(0, 2) + "****@" + parts[1];
     }
 
 

@@ -3,12 +3,16 @@ package com.ash.teacheron.retrofit.api;
 
 import com.ash.teacheron.retrofit.model.ChatResponseDataModel;
 import com.ash.teacheron.retrofit.model.ChatResponseDataModel1;
+import com.ash.teacheron.retrofit.model.ChatResponseDataModelother;
+import com.ash.teacheron.retrofit.model.ContactUsRequest;
 import com.ash.teacheron.retrofit.model.PostNewMessage_response;
 import com.ash.teacheron.retrofit.model.SendPostMsg;
 import com.ash.teacheron.retrofit.model.appOptionsResponse;
+import com.ash.teacheron.retrofit.model.createNewPost;
 import com.ash.teacheron.retrofit.model.languageResponse;
 import com.ash.teacheron.retrofit.model.loginRequest;
 import com.ash.teacheron.retrofit.model.loginResponse;
+import com.ash.teacheron.retrofit.model.passwordResponse;
 import com.ash.teacheron.retrofit.model.recommendedProfile;
 import com.ash.teacheron.retrofit.model.recommendedRequest;
 import com.ash.teacheron.retrofit.model.recommendedTeacherResponse;
@@ -18,6 +22,7 @@ import com.ash.teacheron.retrofit.model.requirementResponse;
 import com.ash.teacheron.retrofit.model.requirementResponseconnected;
 import com.ash.teacheron.retrofit.model.studentModel.step1student;
 import com.ash.teacheron.retrofit.model.studentModel.step2student;
+import com.ash.teacheron.retrofit.model.studentModel.step2studentR;
 import com.ash.teacheron.retrofit.model.teaacherModel.registerRequest;
 import com.ash.teacheron.retrofit.model.teaacherModel.registerResponse;
 import com.ash.teacheron.retrofit.model.saveResponse;
@@ -132,6 +137,7 @@ public interface AuthAPI {
     @Multipart
     @POST("student-register-step-2-upload-image")
     Call<saveResponse> saveImageStudent(
+            @Header("Authorization") String token,
             @Part MultipartBody.Part uidPart,
             @Part MultipartBody.Part image
     );
@@ -139,15 +145,23 @@ public interface AuthAPI {
     @Headers("Content-Type: application/json")
     @POST("student-register-step-2")
     Call<registerResponseStep2> saveStep2Student(
-            @Body step2student request
+            @Body step2studentR request
     );
 
     @Headers("Content-Type: application/json")
     @POST("student-add-requirement")
     Call<registerResponseStep2> saveNewReq(
             @Header("Authorization") String token,
-            @Body step2student request
+            @Body createNewPost request
     );
+
+    @Headers("Content-Type: application/json")
+    @POST("student-edit-requirement")
+    Call<passwordResponse> editPost(
+            @Header("Authorization") String token,
+            @Body createNewPost request
+    );
+
 
     @Headers("Content-Type: application/json")
     @POST("student-requirement-list")
@@ -195,12 +209,18 @@ public interface AuthAPI {
 
     @Headers({"Accept: application/json"})
     @POST("get-all-distinct-chat-users")
-    Call<ChatResponseDataModel> get_chat_room(@Header("Authorization")String token,  @Body recommendedRequest request );
+    Call<ChatResponseDataModelother> get_chat_room(@Header("Authorization")String token, @Body recommendedRequest request );
 
 
-    @Headers({"Accept: application/json"})
+   /* @Headers({"Accept: application/json"})
     @POST("get-distinct-sender-for-post")
     Call<ChatResponseDataModel> get_chat_message(@Header("Authorization")String token ,  @Body  recommendedRequest req );
+*/
+
+   @Headers({"Accept: application/json"})
+   @POST("get-messages-by-user-and-post?page=1")
+   Call<ChatResponseDataModel> get_chat_message(@Header("Authorization")String token ,  @Body  recommendedRequest req );
+
 
     @Headers({"Accept: application/json"})
     @POST("send-message-for-post")
@@ -211,6 +231,63 @@ public interface AuthAPI {
     @POST("get-teacher-profile")
     Call<recommendedProfile> getProfile(
             @Header("Authorization") String token
+    );
+
+
+    @Headers("Content-Type: application/json")
+    @POST("send-contact-email")
+    Call<recommendedProfile> contactUs(
+            @Body ContactUsRequest request
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("forgot-password")
+    Call<recommendedProfile> forgotPass(
+            @Header("Authorization") String token,
+            @Body ContactUsRequest request
+    );
+
+
+
+    @Multipart
+    @POST("update-student-profile")
+    Call<saveResponse> updateStudentPro(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part email,
+            @Part MultipartBody.Part name,
+            @Part MultipartBody.Part phone,
+            @Part MultipartBody.Part location,
+            @Part MultipartBody.Part latitude,
+            @Part MultipartBody.Part longitude,
+            @Part MultipartBody.Part userType
+            );
+
+
+  /*  @Multipart
+    @POST("update-student-profile")
+    Call<saveResponse> updateTeacherPro(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part email,
+            @Part MultipartBody.Part name,
+            @Part MultipartBody.Part phone,
+            @Part MultipartBody.Part location,
+            @Part MultipartBody.Part latitude,
+            @Part MultipartBody.Part longitude,
+            @Part MultipartBody.Part userType
+    );*/
+
+    @Headers("Content-Type: application/json")
+    @POST("teacher-edit-step-1")
+    Call<saveResponse> updateTeacherPro(
+            @Header("Authorization") String token,
+            @Body registerRequest request
+    );
+    @Headers("Content-Type: application/json")
+    @POST("change-password")
+    Call<passwordResponse> resetPass(
+            @Header("Authorization") String token,
+            @Body registerRequest request
+
     );
 
 

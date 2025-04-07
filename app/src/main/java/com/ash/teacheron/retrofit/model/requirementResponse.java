@@ -70,13 +70,13 @@ public class requirementResponse {
         public String longitude;
 
         @SerializedName("budget_currency_id")
-        public Object budgetCurrencyId;
+        public String budgetCurrencyId;
 
         @SerializedName("communicate_language_id")
-        public Object communicateLanguageId;
+        public String communicateLanguageId;
 
         @SerializedName("tutor_from_country_id")
-        public Object tutorFromCountryId;
+        public String tutorFromCountryId;
 
         @SerializedName("created_at")
         public String createdAt;

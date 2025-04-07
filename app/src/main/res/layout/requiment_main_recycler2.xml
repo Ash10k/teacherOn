@@ -79,7 +79,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/baseline_location_pin_24" />
+                    android:src="@drawable/baseline_location_pin_24_blue" />
 
                 <TextView
                     android:id="@+id/location"
@@ -93,7 +93,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/baseline_access_time_24" />
+                    android:src="@drawable/baseline_access_time_24_blue" />
 
                 <TextView
                     android:id="@+id/tv3"
@@ -118,7 +118,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/baseline_library_books_24_grey" />
+                    android:src="@drawable/baseline_library_books_24_blue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/baseline_space_dashboard_24" />
+                    android:src="@drawable/baseline_space_dashboard_24_blue" />
 
                 <TextView
                     android:id="@+id/tv4"
@@ -156,8 +156,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/lightBlue"
-                    app:cardCornerRadius="10dp">
+                    android:backgroundTint="@color/blue"
+                    app:cardCornerRadius="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -167,14 +167,15 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <ImageView
+                      <!--  <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/baseline_remove_red_eye_24" />
+                            android:src="@drawable/baseline_remove_red_eye_24"--> />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/white"
                             android:text="View Details" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -186,8 +187,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/lightBlue"
-                    app:cardCornerRadius="10dp">
+                    android:backgroundTint="@color/blue"
+                    app:cardCornerRadius="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -196,15 +197,16 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <ImageView
+                       <!-- <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/baseline_message_24blue" />
+                            android:src="@drawable/baseline_message_24blue" />-->
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Send Message"
+                            android:textColor="@color/white"
                             android:textAlignment="center" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

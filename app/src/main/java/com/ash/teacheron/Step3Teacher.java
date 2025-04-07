@@ -2,7 +2,9 @@ package com.ash.teacheron;
 
 import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +28,9 @@ import java.util.List;
 import java.util.Set;
 
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -72,36 +76,44 @@ public class Step3Teacher extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                step3VModel viewModel = new ViewModelProvider(Step3Teacher.this).get(step3VModel.class);
-                networkLoader.showLoadingDialog(Step3Teacher.this);
-                viewModel.startLogin(degreeList, userId, token).observe(Step3Teacher.this, new Observer<saveResponse>() {
-                    @Override
-                    public void onChanged(saveResponse loginResponse) {
-                        if (loginResponse != null) {
-                            Log.d("framg", "" + new Gson().toJson(loginResponse));
+                if (degreeList!=null) {
+                    if (degreeList.size() > 0) {
+                        step3VModel viewModel = new ViewModelProvider(Step3Teacher.this).get(step3VModel.class);
+                        networkLoader.showLoadingDialog(Step3Teacher.this);
+                        viewModel.startLogin(degreeList, userId, token).observe(Step3Teacher.this, new Observer<saveResponse>() {
+                            @Override
+                            public void onChanged(saveResponse loginResponse) {
+                                if (loginResponse != null) {
+                                    Log.d("framg", "" + new Gson().toJson(loginResponse));
 
-                            Toast.makeText(Step3Teacher.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(Step3Teacher.this,Step4Teacher.class);
-                            startActivity(intent);
-                        } else {
-                            // Handle null response here if needed
-                            Toast.makeText(Step3Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        }
+                                    Toast.makeText(Step3Teacher.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(Step3Teacher.this,Step4Teacher.class);
+                                    startActivity(intent);
+                                } else {
+                                    // Handle null response here if needed
+                                    Toast.makeText(Step3Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                                }
 
-                        networkLoader.dismissLoadingDialog();
+                                networkLoader.dismissLoadingDialog();
+
+                            }
+                        });
+                        viewModel.getErrorMessage().observe(Step3Teacher.this, new Observer<ErrorData>() {
+                            @Override
+                            public void onChanged(ErrorData errorData) {
+
+                                Toast.makeText(Step3Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                                Log.d("Error", errorData.getMessage());
+                                networkLoader.dismissLoadingDialog();
+                            }
+                        });
 
                     }
-                });
-                viewModel.getErrorMessage().observe(Step3Teacher.this, new Observer<ErrorData>() {
-                    @Override
-                    public void onChanged(ErrorData errorData) {
-
-                        Toast.makeText(Step3Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        Log.d("Error", errorData.getMessage());
-                        networkLoader.dismissLoadingDialog();
+                    else {
+                        Toast.makeText(Step3Teacher.this, "Please add certifications to continue", Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
+                }
+               }
         });
 
     }
@@ -190,4 +202,23 @@ public class Step3Teacher extends AppCompatActivity {
         System.out.println(json);
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof TextInputEditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Post Your Requirement"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Your Location -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Your Location">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Subject -->
+            <TextView android:text="Subject" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/subjectSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Your Level -->
+            <TextView android:text="Your Level" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/fromLevelSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <!-- I Want -->
+            <TextView android:text="I Want" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/degreeTYPESpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Tutor Option -->
+            <TextView android:text="Tutor Option" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/monthstart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Communicate Language -->
+            <TextView android:text="I can communicate with the tutor in" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/yearstart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Travel KM -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="How Much Can You Travel to Tutor (KM)?">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/degreeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Budget -->
+            <TextView android:text="Budget" style="@style/FormLabel" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <Spinner
+                    android:id="@+id/monthend"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp" />
+
+                <Spinner
+                    android:id="@+id/typesrates"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp" />
+            </LinearLayout>
+
+            <!-- Amount -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Enter Amount">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/budget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Gender Preference -->
+            <TextView android:text="Gender Preference" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/gndrpref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- I need someone -->
+            <TextView android:text="I Need Someone" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/association"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Get Tutors From -->
+            <TextView android:text="Get Tutors From" style="@style/FormLabel" />
+            <Spinner
+                android:id="@+id/yearend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Requirement Details -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Details of your requirement"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/savestep2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#1976D2"
+                android:text="POST REQUIREMENT"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:background="@drawable/rounded_button" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

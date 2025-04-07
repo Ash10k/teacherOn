@@ -19,6 +19,13 @@ public class recommendedTeacherResponse {
         @SerializedName("data")
         public List<TutorRequest> dataList;
 
+
+        @SerializedName("current_page")
+        public int current_page;
+
+        @SerializedName("last_page")
+        public int last_page;
+
     }
 
 

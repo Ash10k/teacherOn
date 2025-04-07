@@ -2,6 +2,8 @@ package com.ash.teacheron.ui.message;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +21,14 @@ import androidx.fragment.app.Fragment;
 import com.ash.teacheron.R;
 import com.ash.teacheron.Single_chat_room;
 import com.ash.teacheron.adapter.chat_adapter;
+import com.ash.teacheron.adapter.chat_adapterFragment;
 import com.ash.teacheron.commonComponents.SharedPrefLocal;
 import com.ash.teacheron.retrofit.api.AuthAPI;
 import com.ash.teacheron.retrofit.builders.RetrofitBuilder;
 import com.ash.teacheron.retrofit.model.ChatResponseDataModel;
+import com.ash.teacheron.retrofit.model.ChatResponseDataModelother;
 import com.ash.teacheron.retrofit.model.recommendedRequest;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -45,22 +50,25 @@ public class MessageFragment extends Fragment {
 
     LinearLayout l1;
     SwipeRefreshLayout swipeRefreshLayout;
-    chat_adapter adapter;
+    chat_adapterFragment adapter;
     ListView listView;
-    List<ChatResponseDataModel.ChatUser> list;
+    List<ChatResponseDataModelother.ChatUser> list;
     ImageView icon_group;
     ImageView open_nav;
     int usertype;
     String option = "",userId,token;
+    TextInputEditText searchBox;
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState)
     {
         fragmentView = inflater.inflate(R.layout.fragment_notifications, container, false);
+        //Toast.makeText(getContext(), "inside msg", Toast.LENGTH_SHORT).show();
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(getActivity());
         userId= String.valueOf(sharedPrefLocal.getUserId());
         token=  sharedPrefLocal.getSessionId();
         open_nav=fragmentView.findViewById(R.id.open_nav);
         swipeRefreshLayout=fragmentView.findViewById(R.id.swipeRefreshLayout);
         show=fragmentView.findViewById(R.id.findnot);
+        searchBox=fragmentView.findViewById(R.id.searchBox);
         show.setVisibility(View.INVISIBLE);
 
         swipeRefreshLayout.post(new Runnable() {
@@ -91,6 +99,18 @@ public class MessageFragment extends Fragment {
             }
         });
 
+        searchBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         return fragmentView;
     }
@@ -99,11 +119,11 @@ public class MessageFragment extends Fragment {
 
         swipeRefreshLayout.setRefreshing(true);
 
-        Call<ChatResponseDataModel> myCall = apiInterface.get_chat_room(token,new recommendedRequest(userId));
+        Call<ChatResponseDataModelother> myCall = apiInterface.get_chat_room(token,new recommendedRequest(userId));
         // Log.d(TAG, "claim_new: order:"+ord_ID+"type: "+type+"product"+prods);
-        myCall.enqueue(new Callback<ChatResponseDataModel>() {
+        myCall.enqueue(new Callback<ChatResponseDataModelother>() {
             @Override
-            public void onResponse(Call<ChatResponseDataModel> call, Response<ChatResponseDataModel> response) {
+            public void onResponse(Call<ChatResponseDataModelother> call, Response<ChatResponseDataModelother> response) {
 
                 Log.d(TAG, "res body chat: " + new Gson().toJson(response.body()));
                 if (response.isSuccessful())
@@ -111,7 +131,7 @@ public class MessageFragment extends Fragment {
                     if (response.body().status.equals("success"))
                     {
                         swipeRefreshLayout.setRefreshing(false);
-                        list = response.body().getData();
+                        list = response.body().data;
                         //Collections.reverse(list);
 
                         if (list.size()==0)
@@ -127,7 +147,7 @@ public class MessageFragment extends Fragment {
 
 
                         try{
-                            adapter = new chat_adapter(getContext(), getRecentChat(response.body().getData()));
+                            adapter = new chat_adapterFragment(getContext(), getRecentChat(response.body().data));
                             listView.setAdapter(adapter);
                         }
                         catch(Exception e)
@@ -152,7 +172,7 @@ public class MessageFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ChatResponseDataModel> call, Throwable t)
+            public void onFailure(Call<ChatResponseDataModelother> call, Throwable t)
             {
                 Toast.makeText(getContext(), "Failed to connect to server", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
@@ -163,9 +183,9 @@ public class MessageFragment extends Fragment {
 
     }
 
-    private List<ChatResponseDataModel.ChatUser> getRecentChat(List<ChatResponseDataModel.ChatUser> mList)
+    private List<ChatResponseDataModelother.ChatUser> getRecentChat(List<ChatResponseDataModelother.ChatUser> mList)
     {
-        List<ChatResponseDataModel.ChatUser> chatList=new ArrayList<>();
+        List<ChatResponseDataModelother.ChatUser> chatList=new ArrayList<>();
         HashMap<String,String> chatTimeHistory=new HashMap<>();
         for(int i=0;i<mList.size();i++)
         {

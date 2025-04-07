@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ash.teacheron.AddNewRequirement;
 import com.ash.teacheron.BothBottomAndSideNavigation;
+import com.ash.teacheron.EditPost;
 import com.ash.teacheron.MainActivity;
 import com.ash.teacheron.R;
 import com.ash.teacheron.RecommndedAct;
@@ -76,26 +78,23 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
-        holder.tv1.setText(filteredList.get(position).tutorOption+" | "+filteredList.get(position).tutorType);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
+    {
+        holder.tv1.setText(filteredList.get(position).tutorOption+" "+filteredList.get(position).subject.title+" "+filteredList.get(position).tutorType);
         holder.tv2.setText( filteredList.get(position).requirements);
         holder.tv3.setText( filteredList.get(position).budget+" "+filteredList.get(position).budgetType);
         holder.tv4.setText(filteredList.get(position).location+" | "+filteredList.get(position).requirements);
-
-
         holder.openView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 Intent intent;
                 Context context = holder.itemView.getContext();
-                intent = new Intent(context,  RecommndedAct.class);
+                intent = new Intent(context,  ViewListUp.class);
                 intent.putExtra("reqID",filteredList.get(position).id);
                 intent.putExtra("subjectId",filteredList.get(position).subjectId);
                 context.startActivity(intent);
-              //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,11 +103,27 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
             public void onClick(View view) {
                 Intent intent;
                 Context context = holder.itemView.getContext();
-                intent = new Intent(context,  AddNewRequirement.class);
+                intent = new Intent(context,  EditPost.class);
                 intent.putExtra("reqID",filteredList.get(position).id);
                 intent.putExtra("subjectId",filteredList.get(position).subjectId);
+
+                intent.putExtra("budget",filteredList.get(position).budget);
+                intent.putExtra("budget_currency_id",filteredList.get(position).budgetCurrencyId);
+                intent.putExtra("budget_type",filteredList.get(position).budgetType);
+                intent.putExtra("communicate_language_id",filteredList.get(position).communicateLanguageId);
+                intent.putExtra("gender_preference",filteredList.get(position).genderPreference);
+                intent.putExtra("level_id",filteredList.get(position).levelId);
+                intent.putExtra("location",filteredList.get(position).location);
+                intent.putExtra("requirement_type",filteredList.get(position).requirementType);
+                intent.putExtra("requirements",filteredList.get(position).requirements);
+                intent.putExtra("travel_limit",filteredList.get(position).travelLimit);
+                intent.putExtra("tutor_from_country_id",filteredList.get(position).tutorFromCountryId);
+                intent.putExtra("tutor_option",filteredList.get(position).tutorOption);
+                intent.putExtra("tutor_type",filteredList.get(position).tutorType);
+                intent.putExtra("user_id",filteredList.get(position).userId);
+                intent.putExtra("id",filteredList.get(position).id);
                 context.startActivity(intent);
-                //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "putting ini:"+filteredList.get(position).budget, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -156,7 +171,7 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv1, tv2,tv3,tv4;
 
-         CardView openView,openEdit,openClose;
+        LinearLayout openView,openEdit,openClose;
 
         public MyViewHolder(View itemView) {
             super(itemView);

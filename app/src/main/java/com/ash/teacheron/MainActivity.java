@@ -13,13 +13,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.ash.teacheron.commonComponents.SharedPrefLocal;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 public class MainActivity extends AppCompatActivity {
     private static final int SPLASH_DELAY = 2000;
     int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-//         ;
+
 
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(MainActivity.this);
         userId=sharedPrefLocal.getUserId();
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 if (userId<=0)
                 {
                     startActivity(new Intent(MainActivity.this,Login.class));
+                   // startActivity(new Intent(MainActivity.this,StudentRegisterStep2.class));
                    // finish();
                 }
                 else {
@@ -57,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }, SPLASH_DELAY);
 
+        FirebaseApp.initializeApp(this);
+
+        // Optional: Enable custom logging and crash reporting
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
+        FirebaseCrashlytics.getInstance().log("Crashlytics initialized");
+
+        FirebaseCrashlytics.getInstance().log("Testing crash log");
+        //FirebaseCrashlytics.getInstance().recordException(new Exception("Test non-fatal exception"));
+        // throw new RuntimeException("Test Crash — triggered manually");
 
 
     }

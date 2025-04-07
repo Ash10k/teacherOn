@@ -162,11 +162,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:text="privacy_accepted"
+                            android:text="Privacy Accepted"
                             android:textColor="@color/black" />
 
                         <Spinner
                             android:id="@+id/monthstart"
+                            android:background="@drawable/border_only"
+                            android:layout_margin="5dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

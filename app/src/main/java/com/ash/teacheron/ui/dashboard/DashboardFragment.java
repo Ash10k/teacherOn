@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ import retrofit2.Response;
 public class DashboardFragment extends Fragment {
 
     View fragmentView;
-    AlertDialog detailsDialog,subjectDialog,certiDialog,experDialog;
+    AlertDialog detailsDialog,subjectDialog,certiDialog,experDialog,levelDialog;
     String option = "",userId,token;
     NetworkLoader networkLoader;
     SharedPreferences sharedPreferences;
@@ -82,7 +83,19 @@ public class DashboardFragment extends Fragment {
     TextView tv1,tv2,tv3;
     private List<appOptionsResponse.Subject> subjectsList = new ArrayList<>();
     private List<appOptionsResponse.Level> levelsList = new ArrayList<>();
-    private Spinner subjectSpinner, fromLevelSpinner;
+    private Spinner subjectSpinner, fromLevelSpinner,toLevelSpinner;
+
+    LinearLayout tvopenLevel;
+    CardView resetclose,applylevelfilter;
+    TextView lvlname;
+
+
+    int currentPage = 1;
+    int lastPage = 1;
+    boolean isLoading = false;
+    List<recommendedTeacherResponse.TutorRequest> allData = new ArrayList<>();
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_dashboard, container, false);
@@ -98,9 +111,13 @@ public class DashboardFragment extends Fragment {
 
         subjectSpinner = fragmentView.findViewById(R.id.subjectSpinner);
         fromLevelSpinner = fragmentView.findViewById(R.id.fromLevelSpinner);
+        toLevelSpinner = fragmentView.findViewById(R.id.toLevelSpinner);
         openall=fragmentView.findViewById(R.id.openall);
         onlineopen=fragmentView.findViewById(R.id.onlineopen);
         homeopen=fragmentView.findViewById(R.id.homeopen);
+
+        tvopenLevel=fragmentView.findViewById(R.id.tvopenLevel);
+        lvlname=fragmentView.findViewById(R.id.lvlname);
 
         im1=fragmentView.findViewById(R.id.im1);
         im2=fragmentView.findViewById(R.id.im2);
@@ -129,7 +146,7 @@ public class DashboardFragment extends Fragment {
                 Glide.with(requireContext()).load(R.drawable.baseline_computer_24_blue).into(im2);
                 Glide.with(requireContext()).load(R.drawable.baseline_home_24_blue).into(im3);
 
-
+                searchthisData(1);
             }
         });
 
@@ -150,7 +167,7 @@ public class DashboardFragment extends Fragment {
                 Glide.with(requireContext()).load(R.drawable.baseline_computer_24_white).into(im2);
                 Glide.with(requireContext()).load(R.drawable.baseline_home_24_blue).into(im3);
 
-
+                searchthisData(1);
             }
         });
 
@@ -170,6 +187,7 @@ public class DashboardFragment extends Fragment {
                 Glide.with(requireContext()).load(R.drawable.baseline_computer_24_blue).into(im2);
                 Glide.with(requireContext()).load(R.drawable.baseline_home_24_white).into(im3);
 
+                searchthisData(1);
             }
         });
 
@@ -177,14 +195,52 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                if (toLevelSpinner!=null && fromLevelSpinner!=null)
+                {
+                    int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                    from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                    int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
+                    to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
+                }
                 int subjectIndex = subjectSpinner.getSelectedItemPosition();
-                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
                 subject_id= String.valueOf(subjectsList.get(subjectIndex).id);
-                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
-                searchthisData();
+
+
+
+                searchthisData(1);
             }
         });
-        searchthisData();
+
+        tvopenLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openLevelDialog();
+            }
+        });
+
+        searchthisData(1);
+
+
+        beneficiary_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) { // only when scrolling up
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if (!isLoading && currentPage < lastPage) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                && firstVisibleItemPosition >= 0) {
+                            searchthisData(currentPage + 1);
+                        }
+                    }
+                }
+            }
+        });
+
         return fragmentView;
     }
 
@@ -223,7 +279,7 @@ public class DashboardFragment extends Fragment {
         closeBtn = view.findViewById(R.id.close_btn);
         teacherName.setText(getSafeString(teacherObj.name));
         teacherLocation.setText(getSafeString(teacherObj.location));
-        teacherEmail.setText(getSafeString(teacherObj.email));
+        teacherEmail.setText(maskEmail(getSafeString(teacherObj.email)));
         teacherGender.setText(getSafeString(teacherObj.teacherMeta.gender));
         if (teacherObj.teacherDetail!=null)
         {
@@ -336,7 +392,7 @@ public class DashboardFragment extends Fragment {
         return value != null ? value : "";
     }
 
-    void searchthisData()
+   /* void searchthisData()
     {
         networkLoader.showLoadingDialog(getContext());
         viewModel.searchTeacher( token,  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location).observe(getActivity(), new Observer<recommendedTeacherResponse>() {
@@ -396,7 +452,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-    }
+    }*/
 
     private boolean get_edu_journey() {
         // tried_username_pass(user, pass);
@@ -469,8 +525,124 @@ public class DashboardFragment extends Fragment {
         ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getSubjectNames());
         subjectSpinner.setAdapter(subjectAdapter);
 
-        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getLevelNames());
+       /* ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getLevelNames());
         fromLevelSpinner.setAdapter(levelAdapter);
+        toLevelSpinner.setAdapter(levelAdapter);*/
+    }
+
+
+
+    void openLevelDialog()
+    {
+        AlertDialog.Builder mybuilder = new AlertDialog.Builder(getContext(), R.style.mydialog);
+        final LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_level, null);
+        mybuilder.setView(view);
+        levelDialog = mybuilder.create();
+
+        Window window = levelDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+
+        applylevelfilter = view.findViewById(R.id.applylevelfilter);
+        resetclose=view.findViewById(R.id.resetclose);
+        fromLevelSpinner = view. findViewById(R.id.fromLevelSpinner);
+        toLevelSpinner = view.findViewById(R.id.toLevelSpinner);
+        resetclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                levelDialog.dismiss();
+            }
+        });
+
+        applylevelfilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
+                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
+                lvlname.setText("Level\n"+levelsList.get(fromLevelIndex).title+ levelsList.get(toLevelIndex).title);
+                levelDialog.dismiss();
+                searchthisData(1);
+
+            }
+        });
+
+
+        setupLevelDialogSpinner();
+
+        levelDialog.show();
+
 
     }
+
+    void setupLevelDialogSpinner()
+    {
+        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, getLevelNames());
+        fromLevelSpinner.setAdapter(levelAdapter);
+        toLevelSpinner.setAdapter(levelAdapter);
+    }
+
+
+
+    void searchthisData(int page) {
+        if (isLoading) return; // prevent multiple triggers
+        isLoading = true;
+        networkLoader.showLoadingDialog(getContext());
+
+        viewModel.searchTeacher(token, requirement_id, subject_id, subject, from_level_id, to_level_id, location, page)
+                .observe(getActivity(), new Observer<recommendedTeacherResponse>() {
+                    @Override
+                    public void onChanged(recommendedTeacherResponse response) {
+                        if (response != null) {
+                            lastPage = response.data.last_page;
+                            currentPage = response.data.current_page;
+
+                            if (page == 1) {
+                                allData.clear();
+                            }
+
+                            allData.addAll(response.data.dataList);
+
+                            if (adapter == null) {
+                                adapter = new recommendedTeacherListAdapter(getContext(), allData);
+                                beneficiary_list.setHasFixedSize(true);
+                                beneficiary_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                                beneficiary_list.setAdapter(adapter);
+                                adapter.onclickList(new recommendedTeacherListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(recommendedTeacherResponse.TutorRequest item, int instruction) {
+                                        if (instruction == 1) {
+                                            showDetails(item);
+                                        } else if (instruction == 2) {
+                                            Intent intent = new Intent(getContext(), Single_chat_room.class);
+                                            intent.putExtra("receiver", item.id);
+                                            intent.putExtra("sender", Integer.parseInt(requirement_id));
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+                            } else {
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }
+                        isLoading = false;
+                        networkLoader.dismissLoadingDialog();
+                    }
+                });
+    }
+
+    private String maskEmail(String email) {
+        if (email == null || !email.contains("@")) return "N/A";
+        String[] parts = email.split("@");
+        if (parts[0].length() < 2) return "****@" + parts[1]; // In case of short usernames
+        return parts[0].substring(0, 2) + "****@" + parts[1];
+    }
+
 }

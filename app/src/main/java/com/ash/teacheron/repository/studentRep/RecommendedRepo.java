@@ -25,7 +25,7 @@ public class RecommendedRepo {
 
     public LiveData<recommendedTeacherResponse> saveData( String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location) {
         MutableLiveData<recommendedTeacherResponse> userSessionLiveData = new MutableLiveData<>();
-        Call<recommendedTeacherResponse> myCall = sendData.getRecommendedTeacher(token,new recommendedRequest(  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location));
+        Call<recommendedTeacherResponse> myCall = sendData.getRecommendedTeacher(token,new recommendedRequest(  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location,1));
         myCall.enqueue(new Callback<recommendedTeacherResponse>() {
             @Override
             public void onResponse(Call<recommendedTeacherResponse> call, Response<recommendedTeacherResponse> response) {
@@ -52,9 +52,9 @@ public class RecommendedRepo {
     }
 
 
-    public LiveData<recommendedTeacherResponse> getSearchTeacher( String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location) {
+    public LiveData<recommendedTeacherResponse> getSearchTeacher( String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location,int page) {
         MutableLiveData<recommendedTeacherResponse> userSessionLiveData = new MutableLiveData<>();
-        Call<recommendedTeacherResponse> myCall = sendData.searchTeacher(token,new recommendedRequest(  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location));
+        Call<recommendedTeacherResponse> myCall = sendData.searchTeacher(token,new recommendedRequest(  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location,page));
         myCall.enqueue(new Callback<recommendedTeacherResponse>() {
             @Override
             public void onResponse(Call<recommendedTeacherResponse> call, Response<recommendedTeacherResponse> response) {
@@ -75,9 +75,9 @@ public class RecommendedRepo {
 
         return userSessionLiveData;
     }
-    public LiveData<recommendedTeacherResponse> srchreq( String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location) {
+    public LiveData<recommendedTeacherResponse> srchreq( String token,String requirement_id, String subject_id, String subject, String from_level_id, String to_level_id, String location,int page) {
         MutableLiveData<recommendedTeacherResponse> userSessionLiveData = new MutableLiveData<>();
-        Call<recommendedTeacherResponse> myCall = sendData.srchReqm(token,new recommendedRequest(  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location));
+        Call<recommendedTeacherResponse> myCall = sendData.srchReqm(token,new recommendedRequest(  requirement_id,   subject_id,   subject,   from_level_id,   to_level_id,   location,page));
         myCall.enqueue(new Callback<recommendedTeacherResponse>() {
             @Override
             public void onResponse(Call<recommendedTeacherResponse> call, Response<recommendedTeacherResponse> response) {

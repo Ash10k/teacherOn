@@ -45,11 +45,12 @@
     <!-- Side Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemIconTint="@color/blue"
-        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        android:background="@color/blue"
         app:headerLayout="@layout/nav_header_teacher"
         app:menu="@menu/drawer_menu_teacher" />
 

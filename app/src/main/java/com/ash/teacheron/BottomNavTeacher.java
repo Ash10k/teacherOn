@@ -2,9 +2,13 @@ package com.ash.teacheron;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,8 +32,12 @@ import com.ash.teacheron.ui.dashboard.DashboardFragment;
 import com.ash.teacheron.ui.home.HomeFragment;
 import com.ash.teacheron.ui.message.MessageFragment;
 import com.ash.teacheron.ui.profile.Profile;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BottomNavTeacher extends AppCompatActivity {
 
@@ -37,7 +45,8 @@ public class BottomNavTeacher extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    TextView nav_header_text;
+    TextView nav_header_text,nav_header_location,nav_header_email;
+    CircleImageView nav_header_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +57,13 @@ public class BottomNavTeacher extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_nav);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
-
+        toolbar.setTitleTextColor(Color.WHITE);
 
         View headerView = navigationView.getHeaderView(0);
         nav_header_text = headerView.findViewById(R.id.nav_header_text);
+        nav_header_location = headerView.findViewById(R.id.nav_header_text3);
+        nav_header_email = headerView.findViewById(R.id.nav_header_text2);
+        nav_header_img = headerView.findViewById(R.id.nav_header_image);
 
 
         // Set up Toolbar
@@ -60,6 +72,7 @@ public class BottomNavTeacher extends AppCompatActivity {
                 this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
 
         // Load Default Fragment
         if (savedInstanceState == null) {
@@ -132,8 +145,15 @@ public class BottomNavTeacher extends AppCompatActivity {
                 return true;
             }
             else if (item.getItemId() == R.id.contactus) {
-                Intent intent=new Intent(BottomNavTeacher.this,DemoActivity.class);
+                Intent intent=new Intent(BottomNavTeacher.this,ContactUs.class);
                 intent.putExtra("type",1);
+                startActivity(intent);
+                return true;
+            }
+
+            else if (item.getItemId() == R.id.changepassword) {
+                Intent intent=new Intent(BottomNavTeacher.this,ChangePassword.class);
+                //intent.putExtra("type",1);
                 startActivity(intent);
                 return true;
             }
@@ -145,8 +165,31 @@ public class BottomNavTeacher extends AppCompatActivity {
             }
             return true;
         });
-        SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(BottomNavTeacher.this);
-        nav_header_text.setText(sharedPrefLocal.getUserName());
+        try {
+            SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(BottomNavTeacher.this);
+            nav_header_text.setText(sharedPrefLocal.getUserName());
+            nav_header_location .setText(sharedPrefLocal.getUserLocation());
+            nav_header_email.setText(sharedPrefLocal.getUserEmail());
+
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.baseline_account_circle_24)
+                    .error(R.drawable.baseline_account_circle_24);
+
+            Glide.with(BottomNavTeacher.this)
+                    .load(sharedPrefLocal.getUserProfileImage() != null ? sharedPrefLocal.getUserProfileImage() : "")
+                    .apply(options)
+                    .into(nav_header_img);
+
+
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
     }
 
     // Load Fragment Function
@@ -155,6 +198,37 @@ public class BottomNavTeacher extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.nav_host_fragment, fragment);
         transaction.commit();
+
+        if (fragment instanceof TeacherHomeFrag) {
+            getSupportActionBar().setTitle("Jobs Matched");
+        } else if (fragment instanceof TutorJobs) {
+            getSupportActionBar().setTitle("Tutor Job");
+
+        } else if (fragment instanceof TeacherProfile) {
+            getSupportActionBar().setTitle("Profile");
+        } else if (fragment instanceof MessageFragment) {
+            getSupportActionBar().setTitle("Messages");
+        } else {
+            getSupportActionBar().setTitle("App Name"); // Default Title
+        }
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_image) {
+            //Toast.makeText(this, "Image Clicked!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(BottomNavTeacher.this,Notifications.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

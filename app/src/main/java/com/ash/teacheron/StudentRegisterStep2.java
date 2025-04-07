@@ -74,14 +74,14 @@ public class StudentRegisterStep2 extends AppCompatActivity {
 
     ImageView selectedImg;
     private Spinner degreeTypeSpinner, monthStartSpinner, yearStartSpinner, monthEndSpinner, yearEndSpinner, associationSpinner, gndrpref,typesrates;
-    private TextInputEditText degreeNameInput, budgtinp;
+    private TextInputEditText degreeNameInput, budgtinp,detailsrequi,loctiio;
     private Button savestep2;
     private ChipGroup chipGroup;
 
     private List<step3teacher.Degree> degreeList = new ArrayList<>();
     private Set<String> addedDegreeSet = new HashSet<>(); // Prevent duplicates
     NetworkLoader networkLoader;
-    String token, userId, TAG = "StudentRegisterStep2";
+    String token, TAG = "StudentRegisterStep2";
     AuthAPI SendData;
     RelativeLayout educationlist;
     private List<languageResponse.Lang> subjectsList = new ArrayList<>();
@@ -94,13 +94,12 @@ public class StudentRegisterStep2 extends AppCompatActivity {
     private Uri camuri;
     File imageFile;
     MultipartBody.Part imagePart;
-    String password,  user_id,   requirement_type,   tutor_option,   travel_limit,   budget,   budget_type,   gender_preference,   tutor_type,   budget_currency_id,   communicate_language_id,   tutor_from_country_id;
+    String details,lo,password,  user_id,   requirement_type,   tutor_option,   travel_limit,   budget,   budget_type,   gender_preference,   tutor_type,   budget_currency_id,   communicate_language_id,   tutor_from_country_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_register_step2);
         selectedImg = findViewById(R.id.selectedImg);
-
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(StudentRegisterStep2.this);
         user_id= String.valueOf(sharedPrefLocal.getUserId());
         password=sharedPrefLocal.getUserPassword();
@@ -117,6 +116,10 @@ public class StudentRegisterStep2 extends AppCompatActivity {
         savestep2 = findViewById(R.id.savestep2);
         chipGroup = findViewById(R.id.chipGroup);
         gndrpref = findViewById(R.id.gndrpref);
+
+        detailsrequi=findViewById(R.id.detailsrequi);
+        loctiio=findViewById(R.id.loctiio);
+
         loadDummyData();
         networkLoader = new NetworkLoader();
         getLanguage();
@@ -130,6 +133,8 @@ public class StudentRegisterStep2 extends AppCompatActivity {
             public void onClick(View view) {
 
 
+                details=detailsrequi.getText().toString().trim();
+                lo=loctiio.getText().toString().trim();
 
                 budget = budgtinp.getText().toString().trim();
                 travel_limit = degreeNameInput.getText().toString().trim();
@@ -156,7 +161,7 @@ public class StudentRegisterStep2 extends AppCompatActivity {
                 }  else {
                     step2VModelStudent viewModel = new ViewModelProvider(StudentRegisterStep2.this).get(step2VModelStudent.class);
                     networkLoader.showLoadingDialog(StudentRegisterStep2.this);
-                    viewModel.startLogin(user_id,   requirement_type,   tutor_option,   travel_limit,   budget,   budget_type,   gender_preference,   tutor_type,   budget_currency_id,   communicate_language_id,   tutor_from_country_id,password).observe(StudentRegisterStep2.this, new Observer<registerResponseStep2>() {
+                    viewModel.startLogin(user_id,   requirement_type,   tutor_option,   travel_limit,   budget,   budget_type,   gender_preference,   tutor_type,   budget_currency_id,   communicate_language_id,   tutor_from_country_id,password,details,lo).observe(StudentRegisterStep2.this, new Observer<registerResponseStep2>() {
                         @Override
                         public void onChanged(registerResponseStep2 loginResponse) {
                             if (loginResponse != null) {
@@ -201,7 +206,7 @@ public class StudentRegisterStep2 extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(StudentRegisterStep2.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             Toast.makeText(StudentRegisterStep2.this, "Please give permission", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(StudentRegisterStep2.this, new String[]{Manifest.permission.CAMERA, MANAGE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION}, 101);
-           // Log.d(TAG, "onCreate: request code" + requestCode);
+
         }
     }
 
@@ -394,6 +399,20 @@ public class StudentRegisterStep2 extends AppCompatActivity {
         ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, getCountryNames());
         yearEndSpinner.setAdapter(countryAdapter);
 
+        List<String> countryNames = getCountryNames();
+        int defaultPosition = countryNames.indexOf("India"); // Find index of "India"
+        if (defaultPosition != -1) {
+            yearEndSpinner.setSelection(defaultPosition); // Set selection if found
+        }
+
+
+        List<String> currencyNames = getCurrencyNames();
+        int defaultPositionCurr = currencyNames.indexOf("Indian Rupee"); // Find index of "Indian Rupee"
+        if (defaultPositionCurr != -1) {
+            monthEndSpinner.setSelection(defaultPositionCurr); // Set selection if found
+        }
+
+
     }
 
     private List<String> getSubjectNames() {
@@ -466,8 +485,8 @@ public class StudentRegisterStep2 extends AppCompatActivity {
 
                 RequestOptions options = new RequestOptions()
                         .centerCrop()
-                        .placeholder(R.drawable.baseline_image_24)
-                        .error(R.drawable.baseline_image_24);
+                        .placeholder(R.drawable.baseline_account_circle_24)
+                        .error(R.drawable.baseline_account_circle_24);
                 Glide.with(StudentRegisterStep2.this).load(bitmap).apply(options).into(selectedImg);
 
 
@@ -561,18 +580,19 @@ public class StudentRegisterStep2 extends AppCompatActivity {
 
 
     private void saveforms() {
+        //Toast.makeText(this, ""+user_id, Toast.LENGTH_SHORT).show();
         networkLoader.showLoadingDialog(StudentRegisterStep2.this);
         try {
             if (imageFile != null) {
                 RequestBody imageRequestBody = RequestBody.create(MediaType.parse("image/*"), imageFile);
            //     imagePart = MultipartBody.Part.createFormData("profile_image", imageFile.getName(), imageRequestBody);
-                imagePart = MultipartBody.Part.createFormData("1st_img", imageFile.getName(), imageRequestBody);
+                imagePart = MultipartBody.Part.createFormData("profile_image", imageFile.getName(), imageRequestBody);
             }
 
-            RequestBody user_idRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userId));
+            RequestBody user_idRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(user_id));
             MultipartBody.Part uidPart = MultipartBody.Part.createFormData("user_id", null, user_idRequestBody);
             SendData = RetrofitBuilder.build().create(AuthAPI.class);
-            Call<saveResponse> call = SendData.saveImageStudent(uidPart, imagePart);
+            Call<saveResponse> call = SendData.saveImageStudent("",uidPart, imagePart);
             call.enqueue(new Callback<saveResponse>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override

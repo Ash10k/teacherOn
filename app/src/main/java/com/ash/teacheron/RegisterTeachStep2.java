@@ -110,35 +110,47 @@ public class RegisterTeachStep2 extends AppCompatActivity {
         savestep2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                step2VModel viewModel = new ViewModelProvider(RegisterTeachStep2.this).get(step2VModel.class);
-                networkLoader.showLoadingDialog(RegisterTeachStep2.this);
-                viewModel.startLogin(selectedSubjects, userId, token).observe(RegisterTeachStep2.this, new Observer<saveResponse>() {
-                    @Override
-                    public void onChanged(saveResponse loginResponse) {
-                        if (loginResponse != null) {
-                            Log.d("framg", "" + new Gson().toJson(loginResponse));
 
-                            Toast.makeText(RegisterTeachStep2.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(RegisterTeachStep2.this,Step3Teacher.class);
-                            startActivity(intent);
-                        } else {
-                            // Handle null response here if needed
-                            Toast.makeText(RegisterTeachStep2.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        }
+                if (selectedSubjects!=null)
+                {
+                    if (selectedSubjects.size()>0)
+                    {
+                        step2VModel viewModel = new ViewModelProvider(RegisterTeachStep2.this).get(step2VModel.class);
+                        networkLoader.showLoadingDialog(RegisterTeachStep2.this);
+                        viewModel.startLogin(selectedSubjects, userId, token).observe(RegisterTeachStep2.this, new Observer<saveResponse>() {
+                            @Override
+                            public void onChanged(saveResponse loginResponse) {
+                                if (loginResponse != null) {
+                                    Log.d("framg", "" + new Gson().toJson(loginResponse));
 
-                        networkLoader.dismissLoadingDialog();
+                                    Toast.makeText(RegisterTeachStep2.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(RegisterTeachStep2.this,Step3Teacher.class);
+                                    startActivity(intent);
+                                } else {
+                                    // Handle null response here if needed
+                                    Toast.makeText(RegisterTeachStep2.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                                }
+
+                                networkLoader.dismissLoadingDialog();
+
+                            }
+                        });
+                        viewModel.getErrorMessage().observe(RegisterTeachStep2.this, new Observer<ErrorData>() {
+                            @Override
+                            public void onChanged(ErrorData errorData) {
+                                // Display error message
+                                Toast.makeText(RegisterTeachStep2.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                                Log.d("Error", errorData.getMessage());
+                                networkLoader.dismissLoadingDialog();
+                            }
+                        });
 
                     }
-                });
-                viewModel.getErrorMessage().observe(RegisterTeachStep2.this, new Observer<ErrorData>() {
-                    @Override
-                    public void onChanged(ErrorData errorData) {
-                        // Display error message
-                        Toast.makeText(RegisterTeachStep2.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        Log.d("Error", errorData.getMessage());
-                        networkLoader.dismissLoadingDialog();
+                    else
+                    {
+                        Toast.makeText(RegisterTeachStep2.this, "Please add subjects to continue", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
 
             }
         });

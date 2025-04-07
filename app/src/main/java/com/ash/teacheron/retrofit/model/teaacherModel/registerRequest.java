@@ -41,6 +41,12 @@ public class registerRequest
     @SerializedName("dob")
     String dob;
 
+    @SerializedName("id")
+    int id;
+
+    @SerializedName("old_password")
+    String old_password;
+
     public registerRequest(String name, String email, String password, String phone, String location, String latitude, String longitude, String userType, String postCode, String speciality, String gender, String dob) {
         this.name = name;
         this.email = email;
@@ -54,5 +60,38 @@ public class registerRequest
         this.speciality = speciality;
         this.gender = gender;
         this.dob = dob;
+    }
+
+    public registerRequest(String email,  String name,String phone,
+                           String location, String latitude, String longitude,String userType) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.userType = userType;
+
+    }
+
+    public registerRequest(int uid,String name, String email, String password, String phone, String location, String latitude, String longitude, String userType, String postCode, String speciality, String gender, String dob) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.userType = userType;
+        this.postCode = postCode;
+        this.speciality = speciality;
+        this.gender = gender;
+        this.dob = dob;
+        this.id=uid;
+    }
+
+    public registerRequest(String old_password, String password) {
+        this.old_password = old_password;
+        this.password = password;
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-
+    android:background="@color/blue"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -14,15 +14,15 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/logomain"
+        android:src="@drawable/fm2"
         android:textSize="@dimen/sp20" />
 
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/mains"
-        android:scaleType="centerInside"
+        android:layout_height="200dp"
+        android:src="@drawable/fm1"
+
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"/>
 

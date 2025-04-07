@@ -2,10 +2,14 @@ package com.ash.teacheron;
 
 import static com.ash.teacheron.constants.Contants.SERVER_ERROR;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -34,84 +38,95 @@ import java.util.Set;
 public class Step4Teacher extends AppCompatActivity {
 
     private Spinner degreeTypeSpinner, monthStartSpinner, yearStartSpinner, monthEndSpinner, yearEndSpinner, associationSpinner;
-    private TextInputEditText degreeNameInput,instituteNameInput,jobdes;
-    private Button addButton,savestep2;
+    private TextInputEditText degreeNameInput, instituteNameInput, jobdes;
+    private Button addButton, savestep2;
     private ChipGroup chipGroup;
 
     private List<step4teacher.Degree> degreeList = new ArrayList<>();
     private Set<String> addedDegreeSet = new HashSet<>(); // Prevent duplicates
     NetworkLoader networkLoader;
-    String token,userId;
+    String token, userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+
         setContentView(R.layout.activity_step4_teacher);
-      //   ;
-       // degreeTypeSpinner = findViewById(R.id.degreeTYPESpinner);
+        //   ;
+        // degreeTypeSpinner = findViewById(R.id.degreeTYPESpinner);
         jobdes = findViewById(R.id.jobdes);
         degreeNameInput = findViewById(R.id.degreeName);
-        instituteNameInput=findViewById(R.id.institute);
+        instituteNameInput = findViewById(R.id.institute);
         monthStartSpinner = findViewById(R.id.monthstart);
         yearStartSpinner = findViewById(R.id.yearstart);
         monthEndSpinner = findViewById(R.id.monthend);
         yearEndSpinner = findViewById(R.id.yearend);
         associationSpinner = findViewById(R.id.association);
         addButton = findViewById(R.id.addButton);
-        savestep2=findViewById(R.id.savestep2);
+        savestep2 = findViewById(R.id.savestep2);
         chipGroup = findViewById(R.id.chipGroup);
         loadDummyData();
         networkLoader = new NetworkLoader();
 
         SharedPrefLocal sharedPrefLocal = new SharedPrefLocal(Step4Teacher.this);
-        userId= String.valueOf(sharedPrefLocal.getUserId());
-        token= sharedPrefLocal.getSessionId();
+        userId = String.valueOf(sharedPrefLocal.getUserId());
+        token = sharedPrefLocal.getSessionId();
 
 
         addButton.setOnClickListener(view -> addDegree());
         savestep2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                step4VModel viewModel = new ViewModelProvider(Step4Teacher.this).get(step4VModel.class);
-                networkLoader.showLoadingDialog(Step4Teacher.this);
-                viewModel.startLogin(degreeList, userId, token).observe(Step4Teacher.this, new Observer<saveResponse>() {
-                    @Override
-                    public void onChanged(saveResponse loginResponse) {
-                        if (loginResponse != null) {
-                            Log.d("framg", "" + new Gson().toJson(loginResponse));
+            public void onClick(View view) {
 
-                            Toast.makeText(Step4Teacher.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(Step4Teacher.this,Step5Teacher.class);
-                            startActivity(intent);
-                        } else {
-                            // Handle null response here if needed
-                            Toast.makeText(Step4Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        }
+                if (degreeList != null)
+                {
+                    if (degreeList.size() > 0)
+                    {
+                        step4VModel viewModel = new ViewModelProvider(Step4Teacher.this).get(step4VModel.class);
+                        networkLoader.showLoadingDialog(Step4Teacher.this);
+                        viewModel.startLogin(degreeList, userId, token).observe(Step4Teacher.this, new Observer<saveResponse>() {
+                            @Override
+                            public void onChanged(saveResponse loginResponse) {
+                                if (loginResponse != null) {
+                                    Log.d("framg", "" + new Gson().toJson(loginResponse));
 
-                        networkLoader.dismissLoadingDialog();
+                                    Toast.makeText(Step4Teacher.this, "" + loginResponse.message, Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Step4Teacher.this, Step5Teacher.class);
+                                    startActivity(intent);
+                                } else {
+                                    // Handle null response here if needed
+                                    Toast.makeText(Step4Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                                }
 
+                                networkLoader.dismissLoadingDialog();
+
+                            }
+                        });
+                        viewModel.getErrorMessage().observe(Step4Teacher.this, new Observer<ErrorData>() {
+                            @Override
+                            public void onChanged(ErrorData errorData) {
+
+                                Toast.makeText(Step4Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                                Log.d("Error", errorData.getMessage());
+                                networkLoader.dismissLoadingDialog();
+                            }
+                        });
                     }
-                });
-                viewModel.getErrorMessage().observe(Step4Teacher.this, new Observer<ErrorData>() {
-                    @Override
-                    public void onChanged(ErrorData errorData) {
-
-                        Toast.makeText(Step4Teacher.this, SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        Log.d("Error", errorData.getMessage());
-                        networkLoader.dismissLoadingDialog();
+                    else
+                    {
+                        Toast.makeText(Step4Teacher.this, "Please add experiences to continue", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
             }
         });
 
     }
+
     private void loadDummyData() {
         // Dummy degree types
         String[] degreeTypes = {"B.Tech", "M.Tech", "MBA", "B.Sc"};
         ArrayAdapter<String> degreeTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, degreeTypes);
-       // degreeTypeSpinner.setAdapter(degreeTypeAdapter);
+        // degreeTypeSpinner.setAdapter(degreeTypeAdapter);
 
         // Dummy months
         String[] months = {"January", "February", "March", "April"};
@@ -153,7 +168,7 @@ public class Step4Teacher extends AppCompatActivity {
             return;
         }
 
-        step4teacher.Degree newDegree = new step4teacher.Degree(degreeType, degreeName, monthStart, yearStart, monthEnd, yearEnd, association,instituteName);
+        step4teacher.Degree newDegree = new step4teacher.Degree(degreeType, degreeName, monthStart, yearStart, monthEnd, yearEnd, association, instituteName);
         degreeList.add(newDegree);
         addedDegreeSet.add(degreeKey);
 
@@ -180,7 +195,7 @@ public class Step4Teacher extends AppCompatActivity {
         degreeList.remove(degree);
         addedDegreeSet.remove(degreeKey);
 
-       // Toast.makeText(this, "Removed: " + degree.designation, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "Removed: " + degree.designation, Toast.LENGTH_SHORT).show();
         // Print updated JSON
         printJsonData();
     }
@@ -189,6 +204,26 @@ public class Step4Teacher extends AppCompatActivity {
         Gson gson = new Gson();
         String json = gson.toJson(new step4teacher.DegreeRequestBody(degreeList));
         System.out.println(json);
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof TextInputEditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
 }

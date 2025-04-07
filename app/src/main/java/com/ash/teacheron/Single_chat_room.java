@@ -67,11 +67,13 @@ public class Single_chat_room extends AppCompatActivity {
 
     int receiver,sender;
 
+    TextView usernamem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_single_chat_room);
+        usernamem=findViewById(R.id.usernamem);
         MainList = new ArrayList<>();
         MainList.clear();
 
@@ -81,7 +83,7 @@ public class Single_chat_room extends AppCompatActivity {
         receiver=getIntent().getIntExtra("receiver",-1);
         sender=getIntent().getIntExtra("sender",-1);
 
-      //  Toast.makeText(this, "Receiver: "+receiver+" Sender: "+sender, Toast.LENGTH_SHORT).show();
+      // Toast.makeText(this, "Receiver: "+receiver+" Sender: "+sender, Toast.LENGTH_SHORT).show();
 
 
 
@@ -100,30 +102,8 @@ public class Single_chat_room extends AppCompatActivity {
 
 
         //chat_id=getIntent().getStringExtra("chat_id");
-        show_more = findViewById(R.id.show_more);
-        if (usertype != 1) {
-            show_more.setVisibility(View.GONE);
-        } else {
+        //show_more = findViewById(R.id.show_more);
 
-            if (isprivate == 1)
-                show_more.setVisibility(View.GONE);
-
-            else {
-                show_more.setVisibility(View.VISIBLE);
-                show_more.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*
-                        Intent intent = new Intent(Single_chat_room.this, Participants.class);
-                        intent.putExtra("id", id);
-                        startActivity(intent);
-                        */
-                    }
-                });
-
-            }
-
-        }
 
 
         // Toast.makeText(Single_chat_room.this, String.valueOf( isprivate), Toast.LENGTH_SHORT).show();
@@ -246,7 +226,7 @@ public class Single_chat_room extends AppCompatActivity {
 
     public void get_chat(int cnt) {
 
-        Call<ChatResponseDataModel> myCall = apiInterface.get_chat_message(  Token,new recommendedRequest(String.valueOf(sender))  );
+        Call<ChatResponseDataModel> myCall = apiInterface.get_chat_message(  Token,new recommendedRequest(String.valueOf(receiver),String.valueOf(sender),cnt)  );
 
         myCall.enqueue(new Callback<ChatResponseDataModel>() {
             @Override
@@ -255,7 +235,7 @@ public class Single_chat_room extends AppCompatActivity {
                 Log.d(TAG, "response " + new Gson().toJson(response.body()));
                 if (response.isSuccessful()) {
                     if (response.body().getStatus().equals("success")) {
-                        list = response.body().getData();
+                        list = response.body().Dataout.data;
                         // last_page = response.body().getChats();
 
                         for (int i = 0; i < list.size(); i++) {
@@ -266,6 +246,20 @@ public class Single_chat_room extends AppCompatActivity {
                         if (adapter != null)
                             adapter.notifyDataSetChanged();
                         adapter = new R_Single_chat_adapter(MainList, Single_chat_room.this, String.valueOf(usertype));
+
+                        try{
+                            if (MainList!=null)
+                            {
+                                if (MainList.size()>0)
+                                {
+                                    usernamem.setText(MainList.get(0).receiver_name);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
 
                         layoutManager = new LinearLayoutManager(Single_chat_room.this);
                         layoutManager.setReverseLayout(true);

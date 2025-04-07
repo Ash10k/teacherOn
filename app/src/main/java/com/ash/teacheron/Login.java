@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,11 +34,12 @@ import com.google.gson.Gson;
 public class Login extends AppCompatActivity {
 
     RelativeLayout login;
-    TextInputEditText new_Email, new_Password;
+    TextInputEditText new_Email;
     String pass, mail, fid = "t6735rvv5ssv56";
     Context context;
     NetworkLoader networkLoader;
-    TextView signuplink,loginstudent;
+    TextView signuplink,forgotpagelink;
+    EditText new_Password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,20 +55,17 @@ public class Login extends AppCompatActivity {
         new_Email =  findViewById(R.id.email);
         new_Password =  findViewById(R.id.password);
         signuplink=findViewById(R.id.signuplink);
-       // loginstudent=findViewById(R.id.loginstudent);
+        forgotpagelink=findViewById(R.id.forgotpagelink);
         context =Login.this;
         networkLoader = new NetworkLoader();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 pass = new_Password.getText().toString();
                 mail = new_Email.getText().toString();
-
-                if (pass != null && !pass.isEmpty() && mail != null && !mail.isEmpty()) {
-
+                if (pass != null && !pass.isEmpty() && mail != null && !mail.isEmpty())
+                {
                     LoginVModel viewModel = new ViewModelProvider(Login.this).get(LoginVModel.class);
-
                     networkLoader.showLoadingDialog(Login.this);
                     viewModel.startLogin(mail, pass, fid).observe(Login.this, new Observer<loginResponse>() {
                         @Override
@@ -104,7 +103,7 @@ public class Login extends AppCompatActivity {
                                 //Toast.makeText(context, ""+loginResponse.data.user.name, Toast.LENGTH_SHORT).show();
                                 sharedPrefLocal.setUserId(loginResponse.data.user.id != 0 ? loginResponse.data.user.id : 0);
                                 sharedPrefLocal.setUserName(loginResponse.data.user.name != null ? loginResponse.data.user.name : "");
-                                sharedPrefLocal.setUserEmail(loginResponse.data.user.email != null ? loginResponse.data.user.email : "");
+                                sharedPrefLocal.setUserEmail(mail);
                                 sharedPrefLocal.setUserType(loginResponse.data.user.userType != null ? loginResponse.data.user.userType : "");
                                 sharedPrefLocal.setUserPhone(loginResponse.data.user.phone != null ? loginResponse.data.user.phone : "");
                                 sharedPrefLocal.setProfileImage(loginResponse.data.user.profileImageUrl != null ? loginResponse.data.user.profileImageUrl : "");
@@ -154,8 +153,6 @@ public class Login extends AppCompatActivity {
 
                         }
                     });
-
-
                     viewModel.getErrorMessage().observe(Login.this, new Observer<ErrorData>() {
                         @Override
                         public void onChanged(ErrorData errorData) {
@@ -165,10 +162,7 @@ public class Login extends AppCompatActivity {
                             networkLoader.dismissLoadingDialog();
                         }
                     });
-
                 }
-
-
             }
         });
 
@@ -177,6 +171,17 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
                 Intent intent = new Intent(Login.this, Register.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+
+            }
+        });
+
+        forgotpagelink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //finish();
+                Intent intent = new Intent(Login.this, ForgotPass.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
 
