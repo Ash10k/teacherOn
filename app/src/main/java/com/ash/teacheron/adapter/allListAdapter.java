@@ -57,7 +57,8 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recycler, parent, false);
+        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recycler, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_new_requirement, parent, false);
         final MyViewHolder recyclerViewHolder = new MyViewHolder(view);
 
        /* recyclerViewHolder.card_view.setOnClickListener(new View.OnClickListener() {
@@ -132,9 +133,6 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
         holder.openClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 //showDeleteDialog();
-
-                //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
 
                 new AlertDialog.Builder(holder.itemView.getContext())
                         .setTitle("Delete post requirement")
@@ -153,7 +151,7 @@ public class allListAdapter extends RecyclerView.Adapter<allListAdapter.MyViewHo
 
                             }
                         })
-                        .setNegativeButton("No", null) // Dismiss dialog on "No"
+                        .setNegativeButton("No", null)
                         .show();
 
 

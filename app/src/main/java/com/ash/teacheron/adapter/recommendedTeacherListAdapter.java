@@ -40,7 +40,8 @@ public class recommendedTeacherListAdapter extends RecyclerView.Adapter<recommen
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recycler2, parent, false);
+       // View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recycler2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_requirmentreq2, parent, false);
         final MyViewHolder recyclerViewHolder = new MyViewHolder(view);
 
 
@@ -69,7 +70,7 @@ public class recommendedTeacherListAdapter extends RecyclerView.Adapter<recommen
             }
             if (filteredList.get(position).teacherMeta!=null)
             {
-                holder.tv_description.setText(filteredList.get(position).teacherMeta.speciality);
+//                holder.tv_description.setText(filteredList.get(position).teacherMeta.speciality);
             }
 
 
@@ -121,7 +122,7 @@ public class recommendedTeacherListAdapter extends RecyclerView.Adapter<recommen
             openView=itemView.findViewById(R.id.openView);
             openEdit=itemView.findViewById(R.id.openEdit);
 
-            tv_description=itemView.findViewById(R.id.tv_description);
+         //   tv_description=itemView.findViewById(R.id.tv_description);
         }
     }
     public interface OnItemClickListener {

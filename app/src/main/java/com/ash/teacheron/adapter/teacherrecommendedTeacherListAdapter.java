@@ -40,7 +40,8 @@ public class teacherrecommendedTeacherListAdapter extends RecyclerView.Adapter<t
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recycler2, parent, false);
+       // View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recycler2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_requirmentreq2, parent, false);
         final MyViewHolder recyclerViewHolder = new MyViewHolder(view);
 
 

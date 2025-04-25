@@ -239,7 +239,8 @@ public class RecommndedAct extends AppCompatActivity {
     {
         AlertDialog.Builder mybuilder = new AlertDialog.Builder(RecommndedAct.this, R.style.mydialog);
         final LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_view_details, null);
+        //View view = inflater.inflate(R.layout.dialog_view_details, null);
+        View view = inflater.inflate(R.layout.dialog_view_details_new, null);
         mybuilder.setView(view);
         detailsDialog = mybuilder.create();
 

@@ -12,11 +12,18 @@ android {
         applicationId "com.ash.teacheron"
         minSdk 24
         targetSdk 35
-        versionCode 13
-        versionName "13.0"
+        versionCode 16
+        versionName "16.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword '@avilash23!'
+            storeFile file('/Documents/mng/.jks')
+            storePassword '@avilash23!'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

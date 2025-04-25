@@ -85,7 +85,7 @@ public class DashboardFragment extends Fragment {
     private List<appOptionsResponse.Level> levelsList = new ArrayList<>();
     private Spinner subjectSpinner, fromLevelSpinner,toLevelSpinner;
 
-    LinearLayout tvopenLevel;
+    ImageView tvopenLevel;
     CardView resetclose,applylevelfilter;
     TextView lvlname;
 
@@ -109,7 +109,7 @@ public class DashboardFragment extends Fragment {
         token=  sharedPrefLocal.getSessionId();
         viewModel = new ViewModelProvider(getActivity()).get(RecommendedRequirement.class);
 
-        subjectSpinner = fragmentView.findViewById(R.id.subjectSpinner);
+
         fromLevelSpinner = fragmentView.findViewById(R.id.fromLevelSpinner);
         toLevelSpinner = fragmentView.findViewById(R.id.toLevelSpinner);
         openall=fragmentView.findViewById(R.id.openall);
@@ -127,7 +127,7 @@ public class DashboardFragment extends Fragment {
         tv2=fragmentView.findViewById(R.id.txt2);
         tv3=fragmentView.findViewById(R.id.txt3);
 
-        searchv=fragmentView.findViewById(R.id.searchv);
+        //searchv=fragmentView.findViewById(R.id.searchv);
 
         get_edu_journey();
         openall.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +135,8 @@ public class DashboardFragment extends Fragment {
             public void onClick(View view) {
 
                 openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue)));
-                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
-                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white)));
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white)));
 
                 tv1.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
                 tv2.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
@@ -155,8 +155,8 @@ public class DashboardFragment extends Fragment {
             public void onClick(View view) {
 
                 onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue)));
-                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
-                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white)));
+                homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white)));
 
                 tv2.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
                 tv3.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
@@ -176,8 +176,8 @@ public class DashboardFragment extends Fragment {
             public void onClick(View view) {
 
                 homeopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue)));
-                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
-                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.lightBlue)));
+                openall.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white)));
+                onlineopen.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white)));
 
                 tv3.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
                 tv2.setTextColor(ContextCompat.getColor(requireContext(), R.color.greydark));
@@ -191,7 +191,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        searchv.setOnClickListener(new View.OnClickListener() {
+        /*searchv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -209,7 +209,7 @@ public class DashboardFragment extends Fragment {
 
                 searchthisData(1);
             }
-        });
+        });*/
 
         tvopenLevel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +248,7 @@ public class DashboardFragment extends Fragment {
     {
         AlertDialog.Builder mybuilder = new AlertDialog.Builder(getContext(), R.style.mydialog);
         final LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_view_details, null);
+        View view = inflater.inflate(R.layout.dialog_view_details_new, null);
         mybuilder.setView(view);
         detailsDialog = mybuilder.create();
 
@@ -473,7 +473,7 @@ public class DashboardFragment extends Fragment {
                             networkLoader.dismissLoadingDialog();
                             subjectsList = response.body().data.subjects;
                             levelsList = response.body().data.levels;
-                            setupSpinners();
+                          //  setupSpinners();
 
                         } else {
 
@@ -552,6 +552,9 @@ public class DashboardFragment extends Fragment {
         resetclose=view.findViewById(R.id.resetclose);
         fromLevelSpinner = view. findViewById(R.id.fromLevelSpinner);
         toLevelSpinner = view.findViewById(R.id.toLevelSpinner);
+        subjectSpinner = view.findViewById(R.id.subjectSpinner);
+        setupSpinners();
+
         resetclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -568,6 +571,21 @@ public class DashboardFragment extends Fragment {
                 to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
                 lvlname.setText("Level\n"+levelsList.get(fromLevelIndex).title+ levelsList.get(toLevelIndex).title);
                 levelDialog.dismiss();
+                //searchthisData(1);
+
+
+                /*if (toLevelSpinner!=null && fromLevelSpinner!=null)
+                {
+                    int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                    int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
+                    from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                    to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
+                }*/
+                int subjectIndex = subjectSpinner.getSelectedItemPosition();
+                subject_id= String.valueOf(subjectsList.get(subjectIndex).id);
+
+
+
                 searchthisData(1);
 
             }

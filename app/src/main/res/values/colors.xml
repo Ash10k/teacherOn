@@ -27,4 +27,7 @@
     <color name="seekbarcolor">#E0E0E0</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="lightBlue">#D0E8FF</color>
+    <color name="green">#90C10E</color>
+    <color name="red">#EF4444</color>
+    <color name="morelightBlue">#f2f7ff</color>
 </resources>
