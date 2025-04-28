@@ -1,5 +1,6 @@
 package com.ash.teacheron.teacherui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ash.teacheron.R;
+import com.ash.teacheron.Single_chat_room;
 import com.ash.teacheron.adapter.allListAdapterTeacher;
 import com.ash.teacheron.adapter.allListAdapterTeacherconnected;
 import com.ash.teacheron.commonComponents.NetworkLoader;
@@ -47,7 +49,7 @@ public class TeacherHomeFrag extends Fragment {
     allListAdapterTeacher adapter;
     allListAdapterTeacherconnected adapter2;
     listRequirement viewModel;
-    CardView openconnectedjb, openmatchingjb;
+    CardView openconnectedjb, openmatchingjb,sendmsg;
     TextView matchedj, connj,nodatashow;
     AlertDialog detailsDialog;
 
@@ -134,6 +136,9 @@ public class TeacherHomeFrag extends Fragment {
                         if (instruction == 1) {
                             showDetails(item);
                         }
+                        /*else if (instruction == 28) {
+                             showDetails(item);
+                        }*/
                     }
                 });
                 try {
@@ -144,8 +149,6 @@ public class TeacherHomeFrag extends Fragment {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-
-
             }
             networkLoader.dismissLoadingDialog();
         });
@@ -186,7 +189,10 @@ public class TeacherHomeFrag extends Fragment {
     void showDetails(requirementResponse.TutorRequest teacherObj) {
         AlertDialog.Builder mybuilder = new AlertDialog.Builder(getContext(), R.style.mydialog);
         final LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_view_details_student, null);
+       // View view = inflater.inflate(R.layout.dialog_view_details_student, null);
+        View view = inflater.inflate(R.layout.dialog_view_details_new_student, null);
+
+
         mybuilder.setView(view);
         detailsDialog = mybuilder.create();
 
@@ -209,7 +215,7 @@ public class TeacherHomeFrag extends Fragment {
         // teacherDOB = view.findViewById(R.id.teacher_dob);
         teacherTravel = view.findViewById(R.id.teacher_travel);
         teacherAvailability = view.findViewById(R.id.teacher_availability);
-
+        sendmsg=view.findViewById(R.id.sendmsg);
 
         // Toast.makeText(getContext(), ""+teacherObj.userinobj.name, Toast.LENGTH_SHORT).show();
         closeBtn = view.findViewById(R.id.close_btn);
@@ -235,6 +241,24 @@ public class TeacherHomeFrag extends Fragment {
             }
         });
 
+        sendmsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+
+                intent = new Intent(getContext(),  Single_chat_room.class);
+                intent.putExtra("receiver",teacherObj.id);
+                intent.putExtra("sender",teacherObj.userId);
+                getActivity().startActivity(intent);
+
+
+            }
+        });
+
+
+
+
+
         detailsDialog.show();
 
     }
@@ -242,7 +266,8 @@ public class TeacherHomeFrag extends Fragment {
     void showDetails2(requirementResponseconnected.TutorRequest teacherObj) {
         AlertDialog.Builder mybuilder = new AlertDialog.Builder(getContext(), R.style.mydialog);
         final LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_view_details_student, null);
+        // View view = inflater.inflate(R.layout.dialog_view_details_student, null);
+        View view = inflater.inflate(R.layout.dialog_view_details_new_student, null);
         mybuilder.setView(view);
         detailsDialog = mybuilder.create();
 

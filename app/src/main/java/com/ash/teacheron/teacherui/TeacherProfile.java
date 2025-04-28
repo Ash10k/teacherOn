@@ -69,7 +69,7 @@ public class TeacherProfile extends Fragment {
     CircleImageView profile_image;
     TextView teacher_name, teacher_location, teacher_email, teacher_phone, fee_details, experi, ptti, teacher_role, teacher_dob, feedet;
     private TextView teacherName, teacherLocation, teacherExperience, teacherFee, teacherEmail,
-            teacherPhone, teacherGender, teacherRole, teacherDOB, teacherTravel, teacherAvailability;
+            teacherPhone, teacherGender, teacherRole, teacherDOB, teacherTravel, teacherAvailability,teacher_name2;
     private EditText feeDetailsInput;
     private CircleImageView profileImage;
     private ImageView closeBtn;
@@ -90,7 +90,8 @@ public class TeacherProfile extends Fragment {
     File imageFile;
     MultipartBody.Part imagePart;
     AuthAPI SendData;
-    ImageView openEdit;
+  //  ImageView openEdit;
+    CardView editdata;
     public TeacherProfile() {
         // Required empty public constructor
     }
@@ -109,7 +110,7 @@ public class TeacherProfile extends Fragment {
         feedet = fragmentView.findViewById(R.id.feedet);
         experi = fragmentView.findViewById(R.id.exp);
         ptti = fragmentView.findViewById(R.id.ptti);
-        openEdit=fragmentView.findViewById(R.id.openEdit);
+        editdata=fragmentView.findViewById(R.id.editdata);
         educt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,6 +136,7 @@ public class TeacherProfile extends Fragment {
 
         profileImage = fragmentView.findViewById(R.id.profile_image);
         teacherName = fragmentView.findViewById(R.id.teacher_name);
+        teacher_name2=fragmentView.findViewById(R.id.teacher_name2);
         teacherLocation = fragmentView.findViewById(R.id.teacher_location);
        // teacherExperience = fragmentView.findViewById(R.id.teacher_gender);
         teacherFee = fragmentView.findViewById(R.id.fee_details);
@@ -154,7 +156,7 @@ public class TeacherProfile extends Fragment {
                 selectImage(21);
             }
         });
-        openEdit.setOnClickListener(new View.OnClickListener() {
+        editdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //selectImage(21);
@@ -340,6 +342,7 @@ public class TeacherProfile extends Fragment {
                                         .into(profileImage);
 
                                 teacherName.setText(response.body().data.name != null ? response.body().data.name : "N/A");
+                                teacher_name2.setText(response.body().data.name != null ? response.body().data.name : "N/A");
                                 teacherLocation.setText(response.body().data.location != null ? response.body().data.location : "N/A");
                                 // teacher_email.setText(response.body().data.email != null ? response.body().data.email : "N/A");
                                 // teacher_phone.setText(response.body().data.phone != null ? response.body().data.phone : "N/A");

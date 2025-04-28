@@ -23,7 +23,184 @@
                 android:textSize="14sp" />
            -->
 
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:backgroundTint="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:gravity="center_vertical">
+
+                <!-- Search Icon -->
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/search"
+                    app:tint="#A0A0A0" />
+
+                <!-- EditText -->
+                <EditText
+                    android:id="@+id/search_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Search tutors or subjects"
+                    android:fontFamily="@font/roboto_flex"
+                    android:textSize="14sp"
+                    android:background="@null"
+                    android:paddingStart="8dp"
+
+                    android:textColor="#000000"
+                    android:textColorHint="#A0A0A0"
+                    android:inputType="text" />
+
+                <!-- Filter Icon -->
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/tvopenLevel"
+                    android:src="@drawable/baseline_filter_list_24"
+                    app:tint="#A0A0A0" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Categories"
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto_flex"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/openall"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/blue"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/im1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/studentnew_icon"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/roboto_flex"
+                        android:text="All"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/onlineopen"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/im2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/cmpnew_icon" />
+
+                    <TextView
+                        android:id="@+id/txt2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/roboto_flex"
+                        android:text="Online" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/homeopen"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/im3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/mjcmp" />
+
+                    <TextView
+                        android:id="@+id/txt3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/roboto_flex"
+                        android:text="Home" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+
+        <!-- <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -129,8 +306,8 @@
 
 
         </LinearLayout>
-        <!-- Location Input -->
-        <EditText
+
+       <EditText
             android:id="@+id/et_location"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -144,110 +321,6 @@
 
 
 
-
-       <!-- <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-
-                <Spinner
-                    android:id="@+id/subjectSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/border_only" />
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:id="@+id/toLevelSpinner"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/border_only"
-                    />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                    >
-
-                <Spinner
-                    android:id="@+id/fromLevelSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/border_only"
-                    android:layout_weight="1"
-                  />
-            </RelativeLayout>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/searchv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/blue"
-                app:cardCornerRadius="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/baseline_search_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Search"
-                        android:textColor="@color/white" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-
-        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -286,7 +359,7 @@
             android:weightSum="2">
 
 
-            <!-- <RelativeLayout
+            &lt;!&ndash; <RelativeLayout
                  android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_weight="1">
@@ -298,7 +371,7 @@
                      android:layout_marginStart="8dp"
                      android:layout_weight="1"
                      android:background="@drawable/border_only" />
-             </RelativeLayout>-->
+             </RelativeLayout>&ndash;&gt;
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -339,13 +412,13 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- <Spinner
+                &lt;!&ndash; <Spinner
                      android:layout_width="match_parent"
                      android:id="@+id/toLevelSpinner"
                      android:layout_height="50dp"
                      android:layout_marginStart="8dp"
                      android:background="@drawable/border_only"
-                      />-->
+                      />&ndash;&gt;
 
             </RelativeLayout>
 
@@ -381,7 +454,7 @@
             </androidx.cardview.widget.CardView>
 
 
-        </LinearLayout>
+        </LinearLayout>-->
 
 
 

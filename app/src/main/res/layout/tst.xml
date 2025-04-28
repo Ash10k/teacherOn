@@ -1,182 +1,473 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="vertical">
 
-            <!-- Title -->
-            <TextView
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Post Your Requirement"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:gravity="center"
-                android:layout_marginBottom="20dp" />
+                android:layout_height="200dp">
 
-            <!-- Your Location -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Your Location">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Subject -->
-            <TextView android:text="Subject" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/subjectSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
-
-            <!-- Your Level -->
-            <TextView android:text="Your Level" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/fromLevelSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
-
-            <!-- I Want -->
-            <TextView android:text="I Want" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/degreeTYPESpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- Tutor Option -->
-            <TextView android:text="Tutor Option" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/monthstart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- Communicate Language -->
-            <TextView android:text="I can communicate with the tutor in" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/yearstart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- Travel KM -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="How Much Can You Travel to Tutor (KM)?">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/degreeName"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="Account Details"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp" />
 
-            <!-- Budget -->
-            <TextView android:text="Budget" style="@style/FormLabel" />
+                <RelativeLayout
+                    android:layout_width="120dp"
+                    android:layout_centerInParent="true"
+                    android:layout_height="100dp">
+
+                    <ImageView
+                        android:id="@+id/close_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/baseline_camera_alt_24"
+                        android:layout_alignParentRight="true"
+                        />
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/baseline_account_circle_24"
+                        android:scaleType="centerCrop"
+
+                        />
+                </RelativeLayout>
+
+
+                <ImageView
+                    android:id="@+id/openEdit"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/baseline_edit_square_24"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
 
-                <Spinner
-                    android:id="@+id/monthend"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <TextView
+                    android:id="@+id/teacher_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp" />
+                    android:text="Teacher q"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
 
-                <Spinner
-                    android:id="@+id/typesrates"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <TextView
+                    android:id="@+id/teacher_location"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp" />
+                    android:text="Chandigarh"
+                    android:textSize="16sp"
+                    android:textColor="@color/greydark" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/greydark"
+                    android:layout_marginTop="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Part Time"
+                        android:textSize="14sp"
+                        android:id="@+id/ptti"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total experience: 7 yr."
+                        android:textSize="14sp"
+                        android:id="@+id/exp"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fee_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5000.00 / Weekly"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp" />
             </LinearLayout>
 
-            <!-- Amount -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="Enter Amount">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/budget"
+                <TextView
+                    android:text="Email"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/border_only">
 
-            <!-- Gender Preference -->
-            <TextView android:text="Gender Preference" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/gndrpref"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/baseline_email_24" />
 
-            <!-- I need someone -->
-            <TextView android:text="I Need Someone" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/association"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/teacher_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:padding="10dp"
+                        android:text=" "
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
-            <!-- Get Tutors From -->
-            <TextView android:text="Get Tutors From" style="@style/FormLabel" />
-            <Spinner
-                android:id="@+id/yearend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
-            <!-- Requirement Details -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Details of your requirement"
-                android:layout_marginTop="10dp">
+                </RelativeLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+
+
+                <TextView
+                    android:text="Phone"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+
+
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:gravity="top"
-                    android:inputType="textMultiLine" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/border_only">
 
-            <!-- Submit Button -->
-            <Button
-                android:id="@+id/savestep2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="#1976D2"
-                android:text="POST REQUIREMENT"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:padding="12dp"
-                android:background="@drawable/rounded_button" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/baseline_call_24" />
+
+                    <TextView
+                        android:id="@+id/teacher_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+
+                </RelativeLayout>
+
+
+
+                <!--  <TextView
+                      android:text="Gender"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:textSize="14sp" />
+
+                  <TextView
+                      android:id="@+id/teacher_gender"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Not Available"
+                      android:textSize="16sp"
+                      android:textColor="@color/black"
+                      android:layout_marginBottom="10dp" />-->
+
+                <TextView
+                    android:text="I am"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="14sp" />
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/border_only">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/baseline_space_dashboard_24" />
+
+                    <TextView
+                        android:id="@+id/teacher_role"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:padding="10dp"
+                        android:text=" "
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+
+                </RelativeLayout>
+
+
+                <!-- <TextView
+                     android:text="DOB"
+                     android:textStyle="bold"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="14sp" />
+
+                 <TextView
+                     android:id="@+id/teacher_dob"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Not Available"
+                     android:textSize="16sp"
+                     android:textColor="@color/black"
+                     android:layout_marginBottom="10dp" />-->
+
+                <TextView
+                    android:text="Fee Details"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/border_only">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/baseline_crop_16_9_24" />
+
+                    <TextView
+                        android:id="@+id/feedet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:padding="10dp"
+                        android:text=" "
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/openViewSub"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="6dp"
+                                android:orientation="horizontal"
+                                android:padding="10dp">
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:textAlignment="center"
+                                    android:text="Subject Details"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/baseline_chevron_right_24_grey" />
+
+
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/educt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="10dp">
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:textAlignment="center"
+                                    android:text="Education &amp; Certifications" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/baseline_chevron_right_24_grey" />
+
+
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/tchingpr"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+
+                                android:orientation="horizontal"
+                                android:padding="10dp">
+
+                                <!--<ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/baseline_developer_board_24_blue" />
+-->
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:textAlignment="center"
+                                    android:text="Teaching &amp; Professional Experience"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/baseline_chevron_right_24_grey" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+
 
 
 </LinearLayout>

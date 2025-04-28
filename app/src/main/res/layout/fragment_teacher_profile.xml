@@ -7,7 +7,7 @@
     tools:context=".teacherui.TeacherProfile">
 
 
-    <ScrollView
+   <!-- <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -225,7 +225,7 @@
 
 
 
-              <!--  <TextView
+              &lt;!&ndash;  <TextView
                     android:text="Gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -239,7 +239,7 @@
                     android:text="Not Available"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:layout_marginBottom="10dp" />-->
+                    android:layout_marginBottom="10dp" />&ndash;&gt;
 
                 <TextView
                     android:text="I am"
@@ -279,7 +279,7 @@
                 </RelativeLayout>
 
 
-               <!-- <TextView
+               &lt;!&ndash; <TextView
                     android:text="DOB"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -293,7 +293,7 @@
                     android:text="Not Available"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:layout_marginBottom="10dp" />-->
+                    android:layout_marginBottom="10dp" />&ndash;&gt;
 
                 <TextView
                     android:text="Fee Details"
@@ -445,11 +445,11 @@
                                 android:orientation="horizontal"
                                 android:padding="10dp">
 
-                                <!--<ImageView
+                                &lt;!&ndash;<ImageView
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/baseline_developer_board_24_blue" />
--->
+&ndash;&gt;
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -480,6 +480,791 @@
 
 
             </LinearLayout>
+        </LinearLayout>
+    </ScrollView>-->
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="250dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bottomleftright_corner" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto_flex"
+                    android:text="Account Details"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:id="@+id/innercir"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_centerInParent="true"
+                    >
+
+                    <!-- Profile Image (Circular) -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/user_details_image"
+                        android:scaleType="centerCrop" />
+
+                    <!-- Camera Button Overlay -->
+                    <RelativeLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignBottom="@id/profile_image"
+                        android:layout_alignEnd="@id/profile_image"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/circle_background">
+
+                        <ImageView
+                            android:id="@+id/close_btn"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/cambackg" /> <!-- Blue camera icon -->
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+
+
+                <TextView
+                    android:id="@+id/teacher_name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/innercir"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/roboto_flex"
+                    android:text="Teacher q"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/teacher_name2"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/shielddone" />
+
+                    <TextView
+                        android:id="@+id/teacher_name3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/roboto_flex"
+                        android:text="Premium member"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+                <!--<ImageView
+                    android:id="@+id/openEdit"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/baseline_edit_square_24" />-->
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:background="@drawable/border_only"
+                        android:layout_height="wrap_content">
+
+
+
+                        <!-- Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/baseline_account_circle_24" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Name"
+                                    android:textColor="#888888"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/teacher_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Teacher q"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Email -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/baseline_email_24" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Email"
+                                    android:textColor="#888888"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/teacher_email"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text=" "
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Phone -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/baseline_call_24" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Phone"
+                                    android:textColor="#888888"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/teacher_phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="#DDDDDD" />
+
+                        <!-- Location -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/baseline_location_pin_24" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Location"
+                                    android:textColor="#888888"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/teacher_location"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Location"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Role -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/baseline_space_dashboard_24" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Professional Role"
+                                    android:textColor="#888888"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/teacher_role"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text=" "
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/baseline_space_dashboard_24" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Fee Details"
+                                    android:textColor="#888888"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/feedet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text=" "
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/baseline_space_dashboard_24" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text="Type"
+                                    android:textColor="#888888"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/ptti"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:text=" "
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+
+                    <TextView
+                        android:id="@+id/fee_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_flex"
+                        android:gravity="center"
+                        android:text="5000.00 / Weekly"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/editdata"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/border_only_blue"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:padding="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+
+                                    android:gravity="center_horizontal"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:id="@+id/openEdit"
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/editlagh"
+                                        app:tint="@color/blue" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:text="Edit"
+
+                                        android:textColor="@color/blue" />
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+
+                                android:padding="10dp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:text="Delete Account"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/red" />
+
+
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/openViewSub"
+                                android:layout_width="0dp"
+                                android:layout_height="45dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/white"
+                                app:cardCornerRadius="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginTop="6dp"
+                                    android:orientation="horizontal"
+                                    android:padding="10dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:textAlignment="center"
+                                        android:text="Subject Details"
+                                        />
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@drawable/baseline_chevron_right_24_grey" />
+
+
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/educt"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/white"
+                                app:cardCornerRadius="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:padding="10dp">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:textAlignment="center"
+                                        android:text="Education &amp; Certifications" />
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@drawable/baseline_chevron_right_24_grey" />
+
+
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/tchingpr"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/white"
+                                app:cardCornerRadius="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+
+                                    android:orientation="horizontal"
+                                    android:padding="10dp">
+
+                                    <!--<ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@drawable/baseline_developer_board_24_blue" />
+    -->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:textAlignment="center"
+                                        android:text="Teaching &amp; Professional Experience"
+                                        />
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@drawable/baseline_chevron_right_24_grey" />
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!-- <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+                 android:padding="16dp">
+
+                 <TextView
+                     android:text="Email"
+                     android:textStyle="bold"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="14sp" />
+
+                 <TextView
+                     android:id="@+id/teacher_email"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="teacher1@test.com"
+                     android:textSize="16sp"
+                     android:textColor="@color/black"
+                     android:layout_marginBottom="10dp" />
+
+                 <TextView
+                     android:text="Phone"
+                     android:textStyle="bold"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="14sp" />
+
+
+                 <TextView
+                     android:id="@+id/teacher_phone"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Not Available"
+                     android:textSize="16sp"
+                     android:textColor="@color/black"
+                     android:layout_marginBottom="10dp" />
+
+                 <TextView
+                     android:text="Gender"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textStyle="bold"
+                     android:textSize="14sp" />
+
+                 <TextView
+                     android:id="@+id/teacher_gender"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Not Available"
+                     android:textSize="16sp"
+                     android:textColor="@color/black"
+                     android:layout_marginBottom="10dp" />
+
+                 <TextView
+                     android:text="I am"
+                     android:textStyle="bold"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="14sp" />
+
+                 <TextView
+                     android:id="@+id/teacher_role"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Teacher"
+                     android:textSize="16sp"
+                     android:textColor="@color/black"
+                     android:layout_marginBottom="10dp" />
+
+                 <TextView
+                     android:text="DOB"
+                     android:textStyle="bold"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="14sp" />
+
+                 <TextView
+                     android:id="@+id/teacher_dob"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Not Available"
+                     android:textSize="16sp"
+                     android:textColor="@color/black"
+                     android:layout_marginBottom="10dp" />
+
+                 <TextView
+                     android:text="Fee Details"
+                     android:textStyle="bold"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="14sp" />
+
+                 <TextView
+                     android:id="@+id/feedet"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Not Available"
+                     android:textSize="16sp"
+                     android:textColor="@color/black"
+                     android:layout_marginBottom="10dp" />
+
+
+
+
+             </LinearLayout>-->
         </LinearLayout>
     </ScrollView>
 

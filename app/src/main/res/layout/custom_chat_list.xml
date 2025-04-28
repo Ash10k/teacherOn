@@ -27,8 +27,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_img"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/circle_insert_img">
 
@@ -39,13 +39,13 @@
                     android:id="@+id/date_joined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:fontFamily="@font/roboto_flex"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/profile_img"
 
                     android:text="10 Oct. 2021"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/sp18" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp17" />
 
                 <!--  <TextView
                     android:id="@+id/time_received"
@@ -66,23 +66,25 @@
                     android:layout_below="@id/date_joined"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:text="123"
 
-                    android:textSize="@dimen/sp18" />
+                    android:text="123"
+                    android:fontFamily="@font/roboto_flex"
+                    android:textSize="@dimen/sp12" />
 
                 <TextView
                     android:id="@+id/description"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="23dp"
-                    android:layout_below="@id/sender"
+                    android:layout_toLeftOf="@id/sender"
+                    android:layout_below="@id/date_joined"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/profile_img"
-
+                    android:fontFamily="@font/roboto_flex"
                     android:text=""
                     android:singleLine="true"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp18" />
+                    android:textSize="@dimen/sp16" />
 
 
             </RelativeLayout>

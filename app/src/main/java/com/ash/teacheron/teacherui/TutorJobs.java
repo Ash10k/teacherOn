@@ -83,7 +83,7 @@ public class TutorJobs extends Fragment {
     CardView openall,onlineopen,homeopen,searchv;
     ImageView im1,im2,im3;
     TextView tv1,tv2,tv3;
-    LinearLayout tvopenLevel;
+    ImageView tvopenLevel;
     CardView resetclose,applylevelfilter;
     TextView lvlname;
     RecommendedRequirement viewModel;
@@ -111,7 +111,7 @@ public class TutorJobs extends Fragment {
       //  subject_id= String.valueOf(getActivity().getIntent().getIntExtra("subjectId",0));
 
         lvlname=fragmentView.findViewById(R.id.lvlname);
-        subjectSpinner = fragmentView.findViewById(R.id.subjectSpinner);
+     //   subjectSpinner = fragmentView.findViewById(R.id.subjectSpinner);
         tvopenLevel=fragmentView.findViewById(R.id.tvopenLevel);
        // fromLevelSpinner = fragmentView.findViewById(R.id.fromLevelSpinner);
         //toLevelSpinner = fragmentView.findViewById(R.id.toLevelSpinner);
@@ -136,7 +136,7 @@ public class TutorJobs extends Fragment {
         tv2=fragmentView.findViewById(R.id.txt2);
         tv3=fragmentView.findViewById(R.id.txt3);
 
-        searchv=fragmentView.findViewById(R.id.searchv);
+      //  searchv=fragmentView.findViewById(R.id.searchv);
 
 
         openall.setOnClickListener(new View.OnClickListener() {
@@ -201,19 +201,23 @@ public class TutorJobs extends Fragment {
             }
         });
 
-        searchv.setOnClickListener(new View.OnClickListener() {
+        /* searchv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 int subjectIndex = subjectSpinner.getSelectedItemPosition();
                 subject_id= String.valueOf(subjectsList.get(subjectIndex).id);
-                /*int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
-                from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
-                int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
-                to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);*/
+
+                //prev removed
+                //int fromLevelIndex = fromLevelSpinner.getSelectedItemPosition();
+                //from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
+                //int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
+                //to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
+                // prev removed
+
                 searchthisData(1);
             }
-        });
+        }); */
 
         tvopenLevel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +254,8 @@ public class TutorJobs extends Fragment {
     {
         AlertDialog.Builder mybuilder = new AlertDialog.Builder(getContext(), R.style.mydialog);
         final LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_view_details_student, null);
+        //View view = inflater.inflate(R.layout.dialog_view_details_student, null);
+        View view = inflater.inflate(R.layout.dialog_view_details_new_updt, null);
         mybuilder.setView(view);
         detailsDialog = mybuilder.create();
 
@@ -388,7 +393,7 @@ public class TutorJobs extends Fragment {
                             networkLoader.dismissLoadingDialog();
                             subjectsList = response.body().data.subjects;
                             levelsList = response.body().data.levels;
-                            setupSpinners();
+                         //   setupSpinners();
 
                         } else {
 
@@ -504,6 +509,7 @@ public class TutorJobs extends Fragment {
 
     void openLevelDialog()
     {
+
         AlertDialog.Builder mybuilder = new AlertDialog.Builder(getContext(), R.style.mydialog);
         final LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_level, null);
@@ -521,6 +527,7 @@ public class TutorJobs extends Fragment {
         applylevelfilter = view.findViewById(R.id.applylevelfilter);
         resetclose=view.findViewById(R.id.resetclose);
         fromLevelSpinner = view. findViewById(R.id.fromLevelSpinner);
+        subjectSpinner = view.findViewById(R.id.subjectSpinner);
         toLevelSpinner = view.findViewById(R.id.toLevelSpinner);
         resetclose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -536,7 +543,7 @@ public class TutorJobs extends Fragment {
                 int toLevelIndex = toLevelSpinner.getSelectedItemPosition();
                 from_level_id= String.valueOf(levelsList.get(fromLevelIndex).id);
                 to_level_id=String.valueOf(levelsList.get(toLevelIndex).id);
-                lvlname.setText("Level\n"+levelsList.get(fromLevelIndex).title+ levelsList.get(toLevelIndex).title);
+             //   lvlname.setText("Level\n"+levelsList.get(fromLevelIndex).title+ levelsList.get(toLevelIndex).title);
                 levelDialog.dismiss();
                 searchthisData(1);
 
@@ -545,7 +552,7 @@ public class TutorJobs extends Fragment {
 
 
         setupLevelDialogSpinner();
-
+        setupSpinners();
         levelDialog.show();
 
 

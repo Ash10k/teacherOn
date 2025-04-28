@@ -79,7 +79,7 @@ public class BottomNavTeacher extends AppCompatActivity {
             loadFragment(new TeacherHomeFrag());
         }
 
-        // Bottom Navigation Click Listener
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             if (item.getItemId() == R.id.navigation_home) {

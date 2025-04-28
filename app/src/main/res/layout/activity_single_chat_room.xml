@@ -17,9 +17,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:id="@+id/umk"
-            android:background="@color/blue">
+            android:background="@drawable/toolbar_gradient">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -29,6 +29,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/sp16"
+                android:fontFamily="@font/roboto_flex"
                 android:padding="10dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"/>
@@ -105,6 +106,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/roboto_flex"
                 android:layout_toLeftOf="@id/send"
                 android:background="@drawable/border_only"
 
@@ -119,6 +121,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/rounded_buttonblue"
                 android:padding="10dp"
+                android:fontFamily="@font/roboto_flex"
                 android:text="Send"
                 android:layout_marginRight="4dp"
                 android:textColor="@color/white"

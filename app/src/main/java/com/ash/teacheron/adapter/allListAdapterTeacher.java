@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -46,7 +47,8 @@ public class allListAdapterTeacher extends RecyclerView.Adapter<allListAdapterTe
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recyclerteacher, parent, false);
+       // View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requiment_main_recyclerteacher, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_new_requirement_teacher, parent, false);
         final MyViewHolder recyclerViewHolder = new MyViewHolder(view);
 
        /* recyclerViewHolder.card_view.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +74,11 @@ public class allListAdapterTeacher extends RecyclerView.Adapter<allListAdapterTe
         holder.tv1.setText(filteredList.get(position).tutorOption+" | "+filteredList.get(position).tutorType);
         holder.tv2.setText( filteredList.get(position).requirements);
         holder.tv3.setText( filteredList.get(position).budget+" "+filteredList.get(position).budgetType);
-        holder.tv4.setText(filteredList.get(position).location+" | "+filteredList.get(position).requirements);
+        //holder.tv4.setText(filteredList.get(position).location+" | "+filteredList.get(position).requirements);
+
+        String location = filteredList.get(position).location != null ? filteredList.get(position).location : "";
+        String requirements = filteredList.get(position).requirements != null ? filteredList.get(position).requirements : "";
+        holder.tv4.setText(location + " | " + requirements);
 
 
         holder.openView.setOnClickListener(new View.OnClickListener() {
@@ -89,19 +95,19 @@ public class allListAdapterTeacher extends RecyclerView.Adapter<allListAdapterTe
             }
         });
 
-        holder.openEdit.setOnClickListener(new View.OnClickListener() {
+        /* holder.openEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent;
+               Intent intent;
                 Context context = holder.itemView.getContext();
                 intent = new Intent(context,  Single_chat_room.class);
                 intent.putExtra("receiver",filteredList.get(position).id);
                 intent.putExtra("sender",filteredList.get(position).userId);
                 context.startActivity(intent);
-                //  Toast.makeText(context, "putting ini:"+filteredList.get(position).id, Toast.LENGTH_SHORT).show();
+                listener.onItemClick(filteredList.get(position), 28);
 
             }
-        });
+        });*/
     }
 
     @Override
@@ -113,8 +119,9 @@ public class allListAdapterTeacher extends RecyclerView.Adapter<allListAdapterTe
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv1, tv2,tv3,tv4;
 
-         CardView openView,openEdit,openClose;
+         CardView openEdit,openClose;
 
+         LinearLayout openView;
         public MyViewHolder(View itemView) {
             super(itemView);
             tv1 = itemView.findViewById(R.id.tv1);
@@ -122,7 +129,7 @@ public class allListAdapterTeacher extends RecyclerView.Adapter<allListAdapterTe
             tv3 = itemView.findViewById(R.id.tv3);
             tv4 = itemView.findViewById(R.id.tv4);
             openView=itemView.findViewById(R.id.openView);
-            openEdit=itemView.findViewById(R.id.openEdit);
+           // openEdit=itemView.findViewById(R.id.openEdit);
 
 
         }
