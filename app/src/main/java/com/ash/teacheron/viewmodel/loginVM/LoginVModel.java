@@ -20,8 +20,8 @@ public class LoginVModel extends AndroidViewModel {
         repository = new loginRepo();
     }
 
-    public LiveData<loginResponse> startLogin(String email, String pass, String fid) {
-        return repository.performLogin(email, pass, fid);
+    public LiveData<loginResponse> startLogin(String email, String pass, String fid,String deviceType,String deviceId) {
+        return repository.performLogin(email, pass, fid,deviceType,deviceId);
     }
 
     public LiveData<ErrorData> getErrorMessage() {

@@ -31,8 +31,8 @@ public class RegisterVModel extends AndroidViewModel {
 
     public LiveData<registerResponse> startRegisterStep1( String email, String password, String dob,String name,String phone,
                                                           String location, String latitude, String longitude,String user_type,String post_code,
-                                                          String speciality, String gender) {
-        return repository_teach.performLogin(  email,   password,   dob,  name,  phone, location, latitude,   longitude,  user_type,  post_code,speciality,   gender);
+                                                          String speciality, String gender,String devtype, String devid) {
+        return repository_teach.performLogin(  email,   password,   dob,  name,  phone, location, latitude,   longitude,  user_type,  post_code,speciality,   gender,devtype,devid);
     }
 
 

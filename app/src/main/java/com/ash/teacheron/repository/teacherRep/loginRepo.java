@@ -23,9 +23,9 @@ public class loginRepo {
         sendData = RetrofitBuilder.build().create(AuthAPI.class);
     }
 
-    public LiveData<loginResponse> performLogin(String email, String password, String firebaseId) {
+    public LiveData<loginResponse> performLogin(String email, String password, String firebaseId,String deviceType,String deviceId) {
         MutableLiveData<loginResponse> userSessionLiveData = new MutableLiveData<>();
-        Call<loginResponse> myCall = sendData.performLogin(new loginRequest(email, password, firebaseId));
+        Call<loginResponse> myCall = sendData.performLogin(new loginRequest(email, password, firebaseId,deviceType,deviceId));
 
         myCall.enqueue(new Callback<loginResponse>() {
             @Override
@@ -53,9 +53,9 @@ public class loginRepo {
     }
 
 
-    public LiveData<loginResponse> performStudentLogin(String email, String password, String firebaseId) {
+    public LiveData<loginResponse> performStudentLogin(String email, String password, String firebaseId,String deviceType, String deviceId) {
         MutableLiveData<loginResponse> userSessionLiveData = new MutableLiveData<>();
-        Call<loginResponse> myCall = sendData.performLogin(new loginRequest(email, password, firebaseId));
+        Call<loginResponse> myCall = sendData.performLogin(new loginRequest(email, password, firebaseId,  deviceType,   deviceId));
 
         myCall.enqueue(new Callback<loginResponse>() {
             @Override

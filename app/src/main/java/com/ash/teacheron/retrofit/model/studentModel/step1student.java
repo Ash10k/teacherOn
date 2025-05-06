@@ -15,7 +15,13 @@ public class step1student {
     @SerializedName("latitude") public String latitude;
     @SerializedName("longitude") public String longitude;
 
-    public step1student(String email, String name, String phone, String location, String subject_id, String level_id, String user_type, String requirements, String password, String latitude, String longitude) {
+    @SerializedName("device_type")
+    String device_type;
+
+    @SerializedName("udid")
+    String deviceId;
+
+    public step1student(String email, String name, String phone, String location, String subject_id, String level_id, String user_type, String requirements, String password, String latitude, String longitude,String deviceType, String deviceId) {
         this.email = email;
         this.name = name;
         this.phone = phone;
@@ -27,5 +33,8 @@ public class step1student {
         this.password = password;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.device_type=deviceType;
+        this.deviceId=deviceId;
+
     }
 }

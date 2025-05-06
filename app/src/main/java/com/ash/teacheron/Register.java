@@ -44,8 +44,11 @@ import com.ash.teacheron.commonComponents.SharedPrefLocal;
 import com.ash.teacheron.retrofit.model.ErrorData;
 import com.ash.teacheron.retrofit.model.teaacherModel.registerResponse;
 import com.ash.teacheron.viewmodel.registerVM.RegisterVModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,7 +69,7 @@ public class Register extends AppCompatActivity {
 
     Button login;
     TextInputEditText new_Email, new_Password,phone,fname,speciality,confm_Password,postalcode;
-    String pass, mail, selectedGender ,dname,fnm,lnme,cnf,path,TAG="Register",pstcode;
+    String pass, mail, selectedGender ,dname,fnm,lnme,cnf,path,TAG="Register",pstcode,deviceType="android",deviceId;
 
     NetworkLoader networkLoader;
     CircleImageView profilePhoto;
@@ -82,7 +85,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register);
-
+        getFirebaseMessagingToken();
         login =  findViewById(R.id.registerbtn);
         new_Email =  findViewById(R.id.new_Email);
         new_Password =  findViewById(R.id.new_Password);
@@ -126,8 +129,6 @@ public class Register extends AppCompatActivity {
                 fnm = fname.getText().toString();
                 lnme = date_choosen.getText().toString();
 
-
-
                 if (pass != null && !pass.isEmpty() && mail != null && !mail.isEmpty() &&
                         fnm != null && !fnm.isEmpty() &&
                         lnme != null && !lnme.isEmpty()
@@ -139,7 +140,7 @@ public class Register extends AppCompatActivity {
                     else {
                         RegisterVModel viewModel = new ViewModelProvider( Register.this).get(RegisterVModel.class);
                         networkLoader.showLoadingDialog(Register.this);
-                        viewModel.startRegisterStep1( mail,   pass,   lnme,  fnm,  phone.getText().toString(), "India", "0",   "0",  "teacher",  pstcode,speciality.getText().toString(),   selectedGender).observe( Register.this, new Observer<registerResponse>()
+                        viewModel.startRegisterStep1( mail,   pass,   lnme,  fnm,  phone.getText().toString(), "India", "0",   "0",  "teacher",  pstcode,speciality.getText().toString(),   selectedGender,deviceType,deviceId).observe( Register.this, new Observer<registerResponse>()
                         {
                             @Override
                             public void onChanged(registerResponse reResponse) {
@@ -422,6 +423,25 @@ public class Register extends AppCompatActivity {
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    private void getFirebaseMessagingToken() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Token", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        deviceId = task.getResult();
+                        Log.d("Token is : ", deviceId);
+
+                    }
+                });
     }
 
 }

@@ -11,11 +11,22 @@ public class loginRequest
 
     @SerializedName("firebase_id") String firebase_id;
 
+    @SerializedName("device_type")
+    String device_type;
 
-    public loginRequest(String email, String password, String firebase_id) {
+    @SerializedName("udid")
+    String deviceId;
+
+
+
+    public loginRequest(String email, String password, String firebase_id,String deviceType, String deviceId) {
         this.email = email;
         this.password = password;
         this.firebase_id = firebase_id;
+        this.device_type=deviceType;
+        this.deviceId=deviceId;
+
+
     }
 
 

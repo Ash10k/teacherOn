@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "449073869176",
-    "project_id": "a5h-1-65263",
-    "storage_bucket": "a5h-1-65263.firebasestorage.app"
+    "project_number": "732792923585",
+    "project_id": "teacheron-f51b3",
+    "storage_bucket": "teacheron-f51b3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:449073869176:android:f6df6c2921f681e245988d",
+        "mobilesdk_app_id": "1:732792923585:android:b3b0917c06273fd1e5bb40",
         "android_client_info": {
           "package_name": "com.ash.teacheron"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBn_JwC4N0ohi72RbxCUQ-uNMUwHucJEIk"
+          "current_key": "AIzaSyDYN3M_unpXnLJbo_V0CArIsWQYFy9VQOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732792923585:android:9c0e9a80b4f6939ce5bb40",
+        "android_client_info": {
+          "package_name": "com.teacheron.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYN3M_unpXnLJbo_V0CArIsWQYFy9VQOU"
         }
       ],
       "services": {

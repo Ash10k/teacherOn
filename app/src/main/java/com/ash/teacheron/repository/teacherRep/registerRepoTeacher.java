@@ -24,10 +24,10 @@ public class registerRepoTeacher {
 
     public LiveData<registerResponse> performLogin(String email, String password, String dob,String name,String phone,
                                                 String location, String latitude, String longitude,String user_type,String post_code,
-                                                String speciality, String gender
+                                                String speciality, String gender,String devtyp,String devid
                                                 ) {
         MutableLiveData<registerResponse> userSessionLiveData = new MutableLiveData<>();
-        Call<registerResponse> myCall = sendData.performRegister(new registerRequest(  name,   email,   password,   phone,   location,   latitude,   longitude,   user_type,   post_code,   speciality,   gender,   dob));
+        Call<registerResponse> myCall = sendData.performRegister(new registerRequest(  name,   email,   password,   phone,   location,   latitude,   longitude,   user_type,   post_code,   speciality,   gender,   dob,devtyp,devid));
 
         myCall.enqueue(new Callback<registerResponse>() {
             @Override

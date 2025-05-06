@@ -23,9 +23,9 @@ public class step1VModelStudent extends AndroidViewModel
         super(application);
         repository = new saveStudentStep1Repo();
     }
-    public LiveData<registerResponseStud> startLogin(String email, String name, String phone, String location, String subject_id, String level_id, String user_type, String requirements, String password, String latitude, String longitude)
+    public LiveData<registerResponseStud> startLogin(String email, String name, String phone, String location, String subject_id, String level_id, String user_type, String requirements, String password, String latitude, String longitude,String deviceType,String deviceId)
     {
-        return repository.saveData(   email,   name,   phone,   location,   subject_id,   level_id,   user_type,   requirements,   password,   latitude,   longitude);
+        return repository.saveData(   email,   name,   phone,   location,   subject_id,   level_id,   user_type,   requirements,   password,   latitude,   longitude,deviceType,deviceId);
     }
     public LiveData<ErrorData> getErrorMessage() {
         // Assuming you have implemented error handling in the repository

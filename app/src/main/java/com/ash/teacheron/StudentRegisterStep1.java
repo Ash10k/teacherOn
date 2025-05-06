@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,10 +35,13 @@ import com.ash.teacheron.retrofit.model.saveResponse;
 import com.ash.teacheron.retrofit.model.teaacherModel.step2teacher;
 import com.ash.teacheron.viewmodel.studentVM.step1VModelStudent;
 import com.ash.teacheron.viewmodel.teacherVM.step2VModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -78,11 +82,14 @@ public class StudentRegisterStep1 extends AppCompatActivity {
     TextInputEditText detailsof,new_Email,new_Password,fname,phone;
 
     String email,   name,   phonem,   location,   subject_id,   level_id,   user_type,   requirements,   password,   latitude,   longitude;
+    String deviceType="android",deviceId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_student_register_step1);
+
+        getFirebaseMessagingToken();
         asateacher=findViewById(R.id.asateacher);
         openstudlogin=findViewById(R.id.openstudlogin);
         detailsof=findViewById(R.id.detailsof);
@@ -175,7 +182,7 @@ public class StudentRegisterStep1 extends AppCompatActivity {
                 }else {
                     step1VModelStudent viewModel = new ViewModelProvider(StudentRegisterStep1.this).get(step1VModelStudent.class);
                     networkLoader.showLoadingDialog(StudentRegisterStep1.this);
-                    viewModel.startLogin( email,   name,   phonem,   location,   subject_id,   level_id,   user_type,   requirements,   password,   latitude,   longitude).observe(StudentRegisterStep1.this, new Observer<registerResponseStud>() {
+                    viewModel.startLogin( email,   name,   phonem,   location,   subject_id,   level_id,   user_type,   requirements,   password,   latitude,   longitude,deviceType,deviceId).observe(StudentRegisterStep1.this, new Observer<registerResponseStud>() {
                         @Override
                         public void onChanged(registerResponseStud loginResponse) {
                             if (loginResponse != null) {
@@ -342,6 +349,24 @@ public class StudentRegisterStep1 extends AppCompatActivity {
     }
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+    private void getFirebaseMessagingToken() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Token", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        deviceId = task.getResult();
+                        Log.d("Token is : ", deviceId);
+
+                    }
+                });
     }
 
 }

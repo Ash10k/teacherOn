@@ -200,7 +200,7 @@ public class ProfileEdit extends AppCompatActivity {
         try {
             networkLoader.showLoadingDialog(ProfileEdit.this);
             AuthAPI SendData = RetrofitBuilder.build().create(AuthAPI.class);
-            Call<saveResponse> myCall = SendData.updateTeacherPro(token,new registerRequest(mail,fnm,pstcode,location,"0","0",userTpe,"","","","",""));
+            Call<saveResponse> myCall = SendData.updateTeacherPro(token,new registerRequest(mail,fnm,pstcode,location,"0","0",userTpe,"","","","","","",""));
             myCall.enqueue(new Callback<saveResponse>() {
                 @Override
                 public void onResponse(Call<saveResponse> call, Response<saveResponse> response) {

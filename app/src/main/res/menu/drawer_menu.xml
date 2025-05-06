@@ -1,9 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-   <item
+    <item
         android:id="@+id/changepassword"
         android:icon="@drawable/baseline_password_24"
         android:title="Change Password" />
-
 
 
     <item
@@ -25,6 +24,11 @@
         android:id="@+id/privacypol"
         android:icon="@drawable/baseline_comment_bank_24"
         android:title="Privacy Policy" />
+
+    <item
+        android:id="@+id/nav_subscription"
+        android:icon="@drawable/baseline_monetization_on_24"
+        android:title="Subscription" />
 
 
     <item

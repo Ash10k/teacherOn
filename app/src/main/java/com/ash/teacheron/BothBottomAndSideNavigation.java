@@ -129,6 +129,16 @@ public class BothBottomAndSideNavigation extends AppCompatActivity {
 
                 return true;
             }
+            else if (item.getItemId() == R.id.nav_subscription) {
+
+                Intent intent=new Intent(BothBottomAndSideNavigation.this, Subscriptionact.class);
+               // intent.putExtra("type",3);
+                startActivity(intent);
+
+                return true;
+            }
+
+
             else if (item.getItemId() == R.id.privacypol) {
 
                 Intent intent=new Intent(BothBottomAndSideNavigation.this,DemoActivity.class);

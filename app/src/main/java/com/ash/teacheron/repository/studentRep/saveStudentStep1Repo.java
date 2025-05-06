@@ -26,9 +26,9 @@ public class saveStudentStep1Repo {
         sendData = RetrofitBuilder.build().create(AuthAPI.class);
     }
 
-    public LiveData<registerResponseStud> saveData(String email, String name, String phone, String location, String subject_id, String level_id, String user_type, String requirements, String password, String latitude, String longitude) {
+    public LiveData<registerResponseStud> saveData(String email, String name, String phone, String location, String subject_id, String level_id, String user_type, String requirements, String password, String latitude, String longitude,String deviceType,String deviceId) {
         MutableLiveData<registerResponseStud> userSessionLiveData = new MutableLiveData<>();
-        Call<registerResponseStud> myCall = sendData.saveStep1Student(new step1student(  email,   name,   phone,   location,   subject_id,   level_id,   user_type,   requirements,   password,   latitude,   longitude));
+        Call<registerResponseStud> myCall = sendData.saveStep1Student(new step1student(  email,   name,   phone,   location,   subject_id,   level_id,   user_type,   requirements,   password,   latitude,   longitude,deviceType,deviceId));
         myCall.enqueue(new Callback<registerResponseStud>() {
             @Override
             public void onResponse(Call<registerResponseStud> call, Response<registerResponseStud> response) {

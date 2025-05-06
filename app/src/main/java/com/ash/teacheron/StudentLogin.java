@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,7 +27,10 @@ import com.ash.teacheron.commonComponents.SharedPrefLocal;
 import com.ash.teacheron.retrofit.model.ErrorData;
 import com.ash.teacheron.retrofit.model.loginResponse;
 import com.ash.teacheron.viewmodel.loginVM.LoginVModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 public class StudentLogin extends AppCompatActivity {
@@ -37,6 +41,7 @@ public class StudentLogin extends AppCompatActivity {
     Context context;
     NetworkLoader networkLoader;
     TextView signuplink;
+    String deviceType="android", deviceId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,7 @@ public class StudentLogin extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        getFirebaseMessagingToken();
         login =  findViewById(R.id.loginpage);
         new_Email =  findViewById(R.id.email);
         new_Password =  findViewById(R.id.password);
@@ -65,7 +71,7 @@ public class StudentLogin extends AppCompatActivity {
                     LoginVModel viewModel = new ViewModelProvider(StudentLogin.this).get(LoginVModel.class);
 
                     networkLoader.showLoadingDialog(StudentLogin.this);
-                    viewModel.startLogin(mail, pass, fid).observe(StudentLogin.this, new Observer<loginResponse>() {
+                    viewModel.startLogin(mail, pass, fid,  deviceType,   deviceId).observe(StudentLogin.this, new Observer<loginResponse>() {
                         @Override
                         public void onChanged(loginResponse loginResponse) {
                             if (loginResponse != null) {
@@ -115,5 +121,24 @@ public class StudentLogin extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void getFirebaseMessagingToken() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Token", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        deviceId = task.getResult();
+                        Log.d("Token is : ", deviceId);
+
+                    }
+                });
     }
 }

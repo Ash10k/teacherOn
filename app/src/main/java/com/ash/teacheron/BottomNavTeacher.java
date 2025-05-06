@@ -157,6 +157,15 @@ public class BottomNavTeacher extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
+            else if (item.getItemId() == R.id.nav_subscription) {
+
+                Intent intent=new Intent(BottomNavTeacher.this, Subscriptionact.class);
+                // intent.putExtra("type",3);
+                startActivity(intent);
+
+                return true;
+            }
+
 
 
             if (selectedFragment != null) {
